@@ -65,16 +65,16 @@ jobs:
         continue-on-error: true
         env:
           WEREAD_TOKEN: ${{ secrets.WEREAD_TOKEN }}
-        run: python3 scripts/fetch_weread.py --mapping weread_mps.json --out wechat_items.json --state wechat_state.json --days 7
+        run: python3 scripts/fetch_weread.py --mapping weread_mps.json --covered-out weread_covered.json --out wechat_items.json --state wechat_state.json --days 7
 
-      - name: 抓取公众号文章（搜狗兜底，仅未映射账号）
+      - name: 抓取公众号文章（搜狗兜底，仅未覆盖账号）
         # 公众号源失败不阻断快照发布（静默降级，仅 aihot 数据）；
         # 连续 2 天全部失败时由下方告警步骤创建 Issue
         id: wechat
         continue-on-error: true
         env:
           SOGOU_COOKIE: ${{ secrets.SOGOU_COOKIE }}
-        run: python3 scripts/fetch_wechat.py --accounts accounts.json --out wechat_items.json --state wechat_state.json --per-account 5 --days 7 --skip-mapped weread_mps.json
+        run: python3 scripts/fetch_wechat.py --accounts accounts.json --out wechat_items.json --state wechat_state.json --per-account 5 --days 7 --skip-mapped weread_covered.json
 
       - name: 生成静态快照（aihot API + 公众号合并）
         run: python3 scripts/build_snapshot.py --out public/index.html --wechat-json wechat_items.json
@@ -96,7 +96,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/index.html wechat_state.json wechat_items.json weread_mps.json
+          git add public/index.html wechat_state.json wechat_items.json weread_mps.json weread_covered.json
           if git diff --cached --quiet; then
             echo "快照无变化，跳过提交"
           else

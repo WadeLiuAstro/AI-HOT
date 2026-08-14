@@ -180,6 +180,7 @@ def cmd_fetch(args) -> int:
         return 0
     if not mapping:
         print(f"映射表为空或不可读（{args.mapping}），跳过微信读书抓取（搜狗路线兜底）")
+        _write_covered(args.covered_out, [])
         return 0
 
     token = args.token or os.environ.get("WEREAD_TOKEN", "")
@@ -188,11 +189,13 @@ def cmd_fetch(args) -> int:
     if not token:
         print("缺少 WEREAD_TOKEN，跳过微信读书抓取（搜狗路线兜底）")
         _patch_state(args.state, state_patch)
+        _write_covered(args.covered_out, [])
         return 0
 
     base = args.platform.rstrip("/")
     since_ts = int(time.time()) - args.days * 86400
     items: list[dict] = []
+    covered: list[str] = []  # 本次实际拉到文章的账号，搜狗兜底只跳过这些
     for acc in mapping:
         name, mp_id = acc["name"], acc["mpId"]
         try:
@@ -206,6 +209,8 @@ def cmd_fetch(args) -> int:
                 items.append(build_item(raw, name))
                 picked += 1
             state_patch["weread_ok_accounts"] += 1
+            if picked > 0:
+                covered.append(name)
             print(f"  [OK] {name}: {picked} 篇")
         except WeReadError as exc:
             if exc.status == 401:
@@ -226,9 +231,19 @@ def cmd_fetch(args) -> int:
         json.dump({"fetchedAt": now, "ok": len(merged) > 0, "items": merged},
                   f, ensure_ascii=False, indent=1)
     _patch_state(args.state, state_patch)
+    _write_covered(args.covered_out, covered)
     print(f"微信读书源完成：成功 {state_patch['weread_ok_accounts']}/{len(mapping)} 账号，"
           f"抓取 {len(items)} 篇，合并后共 {len(merged)} 条")
     return 0
+
+
+def _write_covered(path: str, names: list[str]) -> None:
+    """写入本次实际覆盖的账号名列表（搜狗兜底只跳过这些账号，防两头落空）。"""
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"accounts": names}, f, ensure_ascii=False, indent=1)
+    except OSError as exc:
+        print(f"覆盖清单写入失败（不影响抓取）: {exc}", file=sys.stderr)
 
 
 def _keep_old(out_path: str, since_ts: int) -> list[dict]:
@@ -272,6 +287,8 @@ def main() -> int:
     parser.add_argument("--days", type=int, default=7, help="只保留近 N 天文章（默认 7）")
     parser.add_argument("--per-account", type=int, default=10, help="每账号最多保留篇数（默认 10）")
     parser.add_argument("--platform", default=PLATFORM_URL, help="中转服务基地址")
+    parser.add_argument("--covered-out", default="weread_covered.json",
+                        help="本次实际覆盖账号清单输出路径（搜狗兜底只跳过这些账号）")
     parser.add_argument("--resolve", default="", help="解析公众号文章分享链接并写入映射表（本地用）")
     parser.add_argument("--dry-run", action="store_true", help="只解析映射表不发请求")
     args = parser.parse_args()

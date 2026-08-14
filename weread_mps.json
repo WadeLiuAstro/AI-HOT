@@ -4,6 +4,11 @@
   { "name": "数字生命卡兹克", "mpId": "MP_WXS_3223096120" },
   { "name": "卡尔的AI沃茨", "mpId": "MP_WXS_3871977637" },
   { "name": "智谱AI", "mpId": "MP_WXS_3923277442" },
-  { "name": "小红书技术", "mpId": "MP_WXS_3889763736" }
+  { "name": "小红书技术", "mpId": "MP_WXS_3889763736" },
+  { "name": "机器之心", "mpId": "MP_WXS_3073282833" },
+  { "name": "腾讯混元", "mpId": "MP_WXS_3908569425" },
+  { "name": "晚点LatePost", "mpId": "MP_WXS_3572959446" },
+  { "name": "智东西", "mpId": "MP_WXS_3081486433" },
+  { "name": "36氪", "mpId": "MP_WXS_3264997043" }
  ]
 }

@@ -5,7 +5,7 @@
     python3 scripts/fetch_wechat.py [--accounts accounts.json]
         [--out wechat_items.json] [--state wechat_state.json]
         [--per-account 3] [--days 7] [--no-merge]
-        [--skip-mapped weread_mps.json]
+        [--skip-mapped weread_covered.json]
 
 流程:
     1. 读取公众号清单（accounts.json）
@@ -244,8 +244,8 @@ def main() -> int:
     parser.add_argument("--per-account", type=int, default=3)
     parser.add_argument("--days", type=int, default=7, help="只保留近 N 天文章（默认 7）")
     parser.add_argument("--no-merge", action="store_true", help="不与上次结果增量合并，强制全量覆盖")
-    parser.add_argument("--skip-mapped", default="", metavar="WEREAD_MPS_JSON",
-                        help="跳过已有微信读书映射的账号（仅对未映射账号走搜狗兜底）")
+    parser.add_argument("--skip-mapped", default="", metavar="WEREAD_COVERED_JSON",
+                        help="跳过已由微信读书本次实际覆盖的账号（仅对未覆盖账号走搜狗兜底）")
     args = parser.parse_args()
 
     try:
@@ -257,13 +257,14 @@ def main() -> int:
 
     if args.skip_mapped:
         try:
-            with open(args.skip_mapped, "r", encoding="utf-8") as f:
-                mapped = {a["name"] for a in json.load(f).get("accounts") or [] if a.get("mpId")}
+            raw = json.load(open(args.skip_mapped, encoding="utf-8")).get("accounts") or []
+            # 兼容两种格式：纯名单 ["号名"] 或映射表 [{"name":..., "mpId":...}]
+            mapped = {a if isinstance(a, str) else a.get("name") for a in raw if a}
         except (OSError, json.JSONDecodeError):
             mapped = set()
         before = len(accounts)
         accounts = [n for n in accounts if n not in mapped]
-        print(f"微信读书映射已启用：跳过 {before - len(accounts)} 个已覆盖账号，剩余 {len(accounts)} 个走搜狗兜底")
+        print(f"微信读书覆盖清单已启用：跳过 {before - len(accounts)} 个已覆盖账号，剩余 {len(accounts)} 个走搜狗兜底")
 
     cookie = os.environ.get("SOGOU_COOKIE", "")
     build_session(cookie)  # 无 SOGOU_COOKIE 时自动用匿名会话 Cookie（首页预热获取）
