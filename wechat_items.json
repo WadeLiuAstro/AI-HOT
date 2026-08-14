@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-08-13T09:41:45Z",
+ "fetchedAt": "2026-08-14T04:05:43Z",
  "ok": true,
  "items": [
   {
@@ -55,6 +55,15 @@
    "publishedAt": "2026-08-11T13:23:48.000Z",
    "url": "https://mp.weixin.qq.com/s?src=11&timestamp=1786613638&ver=6902&signature=hOsJJ0eHEqtI1e1kqOEbsMP9qSdWHV64mXhH1J0nZkvxcobsSLnsVOxRp*P*GmNqXnoQGc9IAvTHkttOhuzlu*U0SNW1t6rsay*ZCGCqb4m2EqTy2mC-Lev7I*RvWag7&new=1",
    "id": "wechat:60df9ebfd04e"
+  },
+  {
+   "title": "MiniMax校园大使招募正式启动!",
+   "summary": "",
+   "sogouLink": "https://weixin.sogou.com/link?url=dn9a_-gY295K0Rci_xozVXfdMkSQTLW6cwJThYulHEtVjXrGTiVgS0wJUuXmWDUZ7yx2VKQXfzM7QsJE5Dg-71qXa8Fplpd92Fn-iPRAWzfHBXFvURfqastzJnrtlAunoY8ca5HkMgb5op_ZzoWqYzW3Ix59qBwoDAYcEHH2QRykrDOGdL0MPnP1CqWOyZ5AVXm60y1Sxnrsfo4LTKLtd0V4HOPGUE4enbyEQ6Efa0-mf63gnsQfm25Wgihc1HL0pee_NOVoley00NVofL2iDw..&%3Btype=2&%3Bquery=MiniMax&%3Btoken=3E8F11497138700C9F99C7667D6D0100A079F0256A7E9376",
+   "source": "公众号：MiniMax 招聘",
+   "publishedAt": "2026-08-13T10:49:51.000Z",
+   "url": "https://mp.weixin.qq.com/s?src=11&timestamp=1786680183&ver=6903&signature=BqoSOZ2I6BGmtdUiNyqzabqx*VLyyonLQDzL*a-E9deZ2ifCeJmj*9p3DCcmpSC62Ubaer2RWPVqfybmZGgZmxnXi4oXtV4Lx9xErqnb*q9P04*91blhwvLOFx4FUnn9&new=1",
+   "id": "wechat:9ebc54de0ede"
   }
  ]
 }
