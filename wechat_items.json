@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-08-14T07:22:40Z",
+ "fetchedAt": "2026-08-14T10:08:32Z",
  "ok": true,
  "items": [
   {
@@ -152,14 +152,6 @@
    "publishedAt": "2026-08-13T09:59:58.000Z",
    "url": "https://mp.weixin.qq.com/s/zMarF6Xl4M2xPWxkv7m-Sg",
    "id": "wechat:f4a7efb0b3f0"
-  },
-  {
-   "title": "AI 翻译看得懂字，却读不懂「梗」？小红书联合浙大、复旦提出首个「文化有效性」评测标准，入选 ICML 2026",
-   "summary": "",
-   "source": "公众号：小红书技术",
-   "publishedAt": "2026-08-07T10:00:06.000Z",
-   "url": "https://mp.weixin.qq.com/s/Ayr38W0wseOMKG4Nuzn7pw",
-   "id": "wechat:9289e65243d3"
   }
  ]
 }
