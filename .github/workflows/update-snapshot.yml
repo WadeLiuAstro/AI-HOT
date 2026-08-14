@@ -4,14 +4,15 @@
 #   1. 定时：每天北京时间 08:00 / 13:00 / 20:00（cron 使用 UTC，0/5/12 = 北京 8/13/20 点）
 #   2. 手动：仓库 Actions 页 → 选中本工作流 → "Run workflow" 按钮
 #
-# 流程：
-#   checkout → 抓取公众号文章（搜狗微信搜索，可失败降级）
+# 流程:
+#   checkout → 抓取公众号文章（微信读书订阅式主信源 + 搜狗兜底，均可失败降级）
 #   → 生成静态快照（aihot API + 公众号数据合并 → public/index.html）
 #   → 校验数据 → 提交回仓库（contents: write）→ 断流告警检查 → 部署到 GitHub Pages
 #
 # 固定访问链接：https://wadeliuastro.github.io/AI-HOT/
 # 前置条件：仓库 Settings → Pages → Source 选择 "GitHub Actions"
 # 可选 Secret：SOGOU_COOKIE（搜狗 Cookie，降低公众号抓取被风控概率，约 2-4 周需更新）
+# 可选 Secret：WEREAD_TOKEN（微信读书 token，公众号主信源；失效时告警 Issue 提示重新扫码）
 
 name: 定时更新静态快照并部署
 
@@ -57,14 +58,23 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 抓取公众号文章（搜狗微信搜索）
+      - name: 抓取公众号文章（微信读书订阅式，主信源）
+        # 订阅式时间线：完整性/及时性优于搜狗；token 失效或接口异常不阻断发布
+        # （搜狗兜底 + aihot 自带公众号内容）；token 失效时由告警步骤创建 Issue
+        id: weread
+        continue-on-error: true
+        env:
+          WEREAD_TOKEN: ${{ secrets.WEREAD_TOKEN }}
+        run: python3 scripts/fetch_weread.py --mapping weread_mps.json --out wechat_items.json --state wechat_state.json --days 7
+
+      - name: 抓取公众号文章（搜狗兜底，仅未映射账号）
         # 公众号源失败不阻断快照发布（静默降级，仅 aihot 数据）；
         # 连续 2 天全部失败时由下方告警步骤创建 Issue
         id: wechat
         continue-on-error: true
         env:
           SOGOU_COOKIE: ${{ secrets.SOGOU_COOKIE }}
-        run: python3 scripts/fetch_wechat.py --accounts accounts.json --out wechat_items.json --state wechat_state.json --per-account 5 --days 7
+        run: python3 scripts/fetch_wechat.py --accounts accounts.json --out wechat_items.json --state wechat_state.json --per-account 5 --days 7 --skip-mapped weread_mps.json
 
       - name: 生成静态快照（aihot API + 公众号合并）
         run: python3 scripts/build_snapshot.py --out public/index.html --wechat-json wechat_items.json
@@ -86,7 +96,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/index.html wechat_state.json wechat_items.json
+          git add public/index.html wechat_state.json wechat_items.json weread_mps.json
           if git diff --cached --quiet; then
             echo "快照无变化，跳过提交"
           else
@@ -96,10 +106,29 @@ jobs:
             git push
           fi
 
-      - name: 公众号源断流告警（连续 2 天失败时创建 Issue）
+      - name: 公众号源断流告警（连续 2 天失败 / 微信读书 token 失效时创建 Issue）
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          expired=$(python3 -c "import json;print(bool(json.load(open('wechat_state.json')).get('weread_token_expired')))" 2>/dev/null || echo False)
+          echo "微信读书 token 失效标记: $expired"
+          if [ "$expired" = "True" ]; then
+            existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "微信读书 token 失效 in:title" --json number -q length)
+            if [ "$existing" -eq 0 ]; then
+              gh issue create --repo "$GITHUB_REPOSITORY" \
+                --title "⚠️ 微信读书 token 失效，请重新扫码更新 WEREAD_TOKEN" \
+                --body "公众号主信源（微信读书）token 已失效（接口返回 401），已降级为搜狗兜底。
+
+          处理步骤：
+          1. 本地运行 python3 scripts/weread_login.py
+          2. 用备用微信扫码，拿到新 token
+          3. 仓库 Settings → Secrets and variables → Actions → 更新 WEREAD_TOKEN
+          4. 手动 Run workflow 验证"
+              echo "已创建 token 失效告警 Issue"
+            else
+              echo "已存在 token 失效告警 Issue，跳过重复创建"
+            fi
+          fi
           fails=$(python3 -c "import json;print(json.load(open('wechat_state.json')).get('consecutive_failures',0))" 2>/dev/null || echo 0)
           echo "公众号源连续失败计数: $fails"
           if [ "$fails" -ge 2 ]; then
