@@ -1,4 +1,9 @@
 {
  "_comment": "微信读书公众号映射表。fetch_weread.py 按 mpId 拉取文章时间线；未映射（无 mpId 或不在此表）的账号由 fetch_wechat.py 搜狗路线兜底。新增映射：python3 scripts/fetch_weread.py --resolve \"<该号任一文章分享链接>\"",
- "accounts": []
+ "accounts": [
+  { "name": "数字生命卡兹克", "mpId": "MP_WXS_3223096120" },
+  { "name": "卡尔的AI沃茨", "mpId": "MP_WXS_3871977637" },
+  { "name": "智谱AI", "mpId": "MP_WXS_3923277442" },
+  { "name": "小红书技术", "mpId": "MP_WXS_3889763736" }
+ ]
 }
