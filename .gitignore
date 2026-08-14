@@ -24,7 +24,7 @@
 __pycache__/
 *.pyc
 /_site/
-wechat_items.json
+# wechat_items.json 需提交回仓库：增量合并依赖上次结果，防搜狗排序波动丢文章
 .sogou_cookie
 
 # debug

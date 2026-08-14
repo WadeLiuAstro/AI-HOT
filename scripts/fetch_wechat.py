@@ -4,7 +4,7 @@
 用法:
     python3 scripts/fetch_wechat.py [--accounts accounts.json]
         [--out wechat_items.json] [--state wechat_state.json]
-        [--per-account 3] [--max-pages 1]
+        [--per-account 3] [--days 7] [--no-merge]
 
 流程:
     1. 读取公众号清单（accounts.json）
@@ -42,7 +42,8 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 RE_ITEM_BLOCK = re.compile(r'<div class="txt-box">.*?</div>\s*</div>', re.S)
 RE_TITLE_LINK = re.compile(r'<h3>.*?<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', re.S)
 RE_SUMMARY = re.compile(r'<p class="txt-info">(.*?)</p>', re.S)
-RE_ACCOUNT = re.compile(r'<a class="account"[^>]*>(.*?)</a>', re.S)
+# 归属账号：兼容新旧两代结构（旧: <a class="account">；新: <span class="all-time-y2">）
+RE_ACCOUNT = re.compile(r'(?:<a class="account"[^>]*>|<span class="all-time-y2">)(.*?)(?:</a>|</span>)', re.S)
 RE_TIMESTAMP = re.compile(r"timeConvert\('(\d+)'\)")
 RE_STRIP_TAG = re.compile(r"<[^>]+>")
 
@@ -88,6 +89,9 @@ def http_get(url: str, cookie: str = "", referer: str = "", timeout: int = 25) -
 
 
 def is_antispider(page: str) -> bool:
+    # supFlash/setTimeout(location.replace 是搜狗风控 JS 挑战页（Flash cookie 植入后自动刷新）
+    if "supFlash" in page or 'setTimeout("location.replace' in page:
+        return True
     return ("antispider" in page) or ("请输入验证码" in page) or ("验证码" in page and "txt-box" not in page)
 
 
@@ -122,6 +126,8 @@ def parse_results(page: str, account: str, per_account: int, since_ts: int) -> l
             link = "https:" + link
         elif link.startswith("/"):
             link = "https://weixin.sogou.com" + link
+        # 账号名含空格（如 AGI Hunt）时 query 里会带裸空格，需补编码否则后续请求报错
+        link = urllib.parse.quote(link, safe=":/?&=%#")
         out.append({
             "title": title,
             "summary": summary,
@@ -173,6 +179,38 @@ def resolve_real_url(sogou_link: str, cookie: str = "") -> str:
     return sogou_link
 
 
+def merge_items(new_items: list[dict], out_path: str, since_ts: int, no_merge: bool = False) -> list[dict]:
+    """与上次抓取结果做窗口内增量合并，防搜狗相关度排序波动导致已抓文章丢失。
+
+    去重键 = （账号，标题）；同文两版本时优先保留微信直链（搜狗兜底链有时效）。
+    超过时间窗口的旧条目自然淘汰。
+    """
+    if no_merge:
+        return new_items
+    try:
+        with open(out_path, "r", encoding="utf-8") as f:
+            old = json.load(f).get("items") or []
+    except (OSError, json.JSONDecodeError):
+        old = []
+
+    def published_ts(it: dict) -> float:
+        try:
+            return datetime.fromisoformat((it.get("publishedAt") or "").replace("Z", "+00:00")).timestamp()
+        except ValueError:
+            return 0.0
+
+    key = lambda it: ((it.get("source") or ""), (it.get("title") or "").strip())
+    result: dict[tuple, dict] = {key(it): it for it in old if published_ts(it) >= since_ts}
+    for it in new_items:
+        k = key(it)
+        cur = result.get(k)
+        if cur is None or ("sogou.com" in (cur.get("url") or "") and "mp.weixin.qq.com" in (it.get("url") or "")):
+            result[k] = it
+    kept = len([1 for it in old if published_ts(it) >= since_ts])
+    print(f"增量合并：旧窗口内 {kept} 条 + 本次 {len(new_items)} 条 → 共 {len(result)} 条")
+    return list(result.values())
+
+
 def fetch_all(accounts: list[str], cookie: str, per_account: int, days: int) -> tuple[list[dict], int, int]:
     items, ok_count, fail_count = [], 0, 0
     since_ts = int(time.time()) - days * 86400
@@ -204,6 +242,7 @@ def main() -> int:
     parser.add_argument("--state", default="wechat_state.json")
     parser.add_argument("--per-account", type=int, default=3)
     parser.add_argument("--days", type=int, default=7, help="只保留近 N 天文章（默认 7）")
+    parser.add_argument("--no-merge", action="store_true", help="不与上次结果增量合并，强制全量覆盖")
     args = parser.parse_args()
 
     try:
@@ -217,6 +256,7 @@ def main() -> int:
     build_session(cookie)  # 无 SOGOU_COOKIE 时自动用匿名会话 Cookie（首页预热获取）
     print(f"开始抓取 {len(accounts)} 个公众号（Cookie: {'登录态' if cookie else '匿名会话'}，窗口: 近 {args.days} 天）")
     items, ok_count, fail_count = fetch_all(accounts, cookie, args.per_account, args.days)
+    items = merge_items(items, args.out, int(time.time()) - args.days * 86400, no_merge=args.no_merge)
 
     now = datetime.now(timezone.utc)
     # 读取既有 state，更新连续失败计数

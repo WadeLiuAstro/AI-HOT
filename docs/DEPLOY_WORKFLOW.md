@@ -173,7 +173,7 @@ python3 scripts/build_snapshot.py --out public/index.html
 ```
 
 工作方式：分页抓取 `GET /api/public/items`（翻页参数用 `cursor`，**不是** `nextCursor`——
-后者会重复返回第一页，这是实战踩过的坑）→ 按北京时间组装日报（最近有内容的日期）/ 周报（近 7 天）
+后者会重复返回第一页，这是实战踩过的坑）→ 按北京时间组装日报（昨天 00:00 至生成时刻）/ 周报（以最新数据日期收尾的近 7 个完整自然日）
 → 六版块分组、全局编号、北京时间人话时间 → 用模板渲染出单文件 HTML（数据内嵌 `const DATA = {...}`）。
 
 ### 3.2 在 Ubuntu runner 上运行的注意事项

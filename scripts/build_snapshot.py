@@ -11,7 +11,7 @@
 流程:
     1. 分页抓取 /api/public/items（扁平条目流，天然去重）
     2. 合并公众号抓取结果（wechat_items.json，可选）：URL 归一化去重 + 关键词分类
-    3. 日报 = 最近有内容的北京日期当天条目；周报 = 该日期前 N 天
+    3. 日报 = 昨天 00:00 至今（以真实今天为基准，不再跟随最新数据日期）；周报 = 最新数据日期前 N 天
     4. 按六版块分组、全局连续编号、北京时间人话时间
     5. 用模板渲染出单文件 HTML（DATA 内嵌）
 
@@ -61,8 +61,16 @@ def classify_wechat(item: dict) -> str:
 
 
 def norm_url(url: str) -> str:
-    """URL 归一化（去 query 参数），用于跨源去重。"""
-    return (url or "").split("?")[0].rstrip("/").lower()
+    """URL 归一化（去 query 参数），用于跨源去重。
+
+    例外：mp.weixin.qq.com 链接不剥 query —— 微信文章的唯一标识在 query 里
+    （__biz/mid/sn 或 signature），剥掉后所有文章都变成 "mp.weixin.qq.com/s"，
+    任意一条微信链接存在就会误伤拦截全部公众号文章（实测 bug）。
+    """
+    url = (url or "").rstrip("/").lower()
+    if "mp.weixin.qq.com" in url:
+        return url
+    return url.split("?")[0]
 
 
 def load_wechat(path: str) -> list[dict]:
@@ -155,6 +163,7 @@ def build_item(raw: dict, num: int, today: datetime) -> dict:
         "sourceType": source_type,
         "category": category,
         "publishedAt": raw.get("publishedAt") or "",
+        "score": raw.get("score") if isinstance(raw.get("score"), (int, float)) else None,
         "mpName": raw.get("mpName") if "mpName" in raw else None,
         "num": num,
         "timeText": fmt_time_text(published, today),
@@ -172,23 +181,33 @@ def group_sections(items: list[dict]) -> list[dict]:
     ]
 
 
-def build_view(view: str, items: list[dict], day: datetime, days: int, generated_at: datetime, mp_status: dict) -> dict:
-    """组装 daily / weekly 视图。items 需已按 publishedAt 降序。"""
+def build_view(view: str, items: list[dict], day: datetime, days: int, generated_at: datetime, mp_status: dict,
+               time_ref: datetime | None = None, end: datetime | None = None) -> dict:
+    """组装 daily / weekly 视图。items 需已按 publishedAt 降序。
+
+    day: 视图锚点日（当天 00:00 北京时间）；窗口起点 = day - (days-1) 天
+    end: 窗口右边界，默认 day+1 天（完整自然日）；日报传生成时刻实现「昨天 00:00 至今」
+    time_ref: 「今天/昨天」标签参照时刻，默认锚点日；传生成时刻让标签相对真实今天
+    """
     start = day - timedelta(days=days - 1)
-    end = day + timedelta(days=1)
+    end = end or (day + timedelta(days=1))
+    ref = time_ref or day
     raw = [i for i in items if start <= to_bj(i.get("publishedAt") or "") < end]
     raw.sort(key=lambda i: to_bj(i.get("publishedAt") or ""), reverse=True)
-    converted = [build_item(it, idx + 1, day) for idx, it in enumerate(raw)]
+    converted = [build_item(it, idx + 1, ref) for idx, it in enumerate(raw)]
     sections = group_sections(converted)
+    # 今日头条：日报取评分最高的一条（公众号文章无评分，不参与竞争）
+    scored = [it for it in converted if isinstance(it.get("score"), (int, float))]
+    lead = max(scored, key=lambda it: it["score"])["title"] if view == "daily" and scored else None
     return {
         "view": view,
         "range": {
             "start": start.date().isoformat(),
             "end": day.date().isoformat(),
-            "label": f"{fmt_date(start)} 至 {fmt_date(day)}" if view == "weekly" else fmt_date(day),
+            "label": f"{fmt_date(start)} 至 {fmt_date(day)}" if start.date() != day.date() else fmt_date(day),
         },
         "total": len(converted),
-        "lead": None,
+        "lead": lead,
         "sections": sections,
         "stats": [{"label": s["label"], "count": s["count"]} for s in sections],
         "mpStatus": mp_status,
@@ -266,9 +285,14 @@ def main() -> int:
 
     latest_day = to_bj(items[0].get("publishedAt") or "").date()
     generated_at = datetime.now(timezone.utc)
+    today_start = datetime.combine(now_bj.date(), datetime.min.time(), tzinfo=BJ)
     data = {
-        "daily": build_view("daily", items, datetime.combine(latest_day, datetime.min.time(), tzinfo=BJ), 1, generated_at, mp_status),
-        "weekly": build_view("weekly", items, datetime.combine(latest_day, datetime.min.time(), tzinfo=BJ), args.days, generated_at, mp_status),
+        # 日报：昨天 00:00 至今（今天没新文章时自然退化为昨日视图，标签相对真实今天）
+        "daily": build_view("daily", items, today_start, 2, generated_at, mp_status,
+                             time_ref=now_bj, end=now_bj),
+        # 周报：窗口仍以最新数据日期为锚点（保持不变），标签相对真实今天
+        "weekly": build_view("weekly", items, datetime.combine(latest_day, datetime.min.time(), tzinfo=BJ),
+                              args.days, generated_at, mp_status, time_ref=now_bj),
     }
     render(args.template, args.out, data)
     return 0
