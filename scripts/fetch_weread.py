@@ -24,8 +24,10 @@
 """
 import argparse
 import hashlib
+import html as html_mod
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -35,6 +37,14 @@ from datetime import datetime, timezone
 PLATFORM_URL = "https://weread.111965.xyz"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120.0 Safari/537.36")
+
+# 文章公开页正文提取
+RE_CONTENT_DIV = re.compile(r'<div[^>]*class="[^"]*rich_media_content[^"]*"[^>]*>(.*?)</div>', re.S)
+RE_SCRIPT_STYLE = re.compile(r'<script.*?</script>|<style.*?</style>', re.S)
+RE_TAG = re.compile(r'<[^>]+>')
+# 风控/失效页特征：命中即跳过，不静默返空
+BLOCK_HINTS = ["环境异常", "访问过于频繁", "验证码", "请在微信客户端打开",
+               "该内容已被发布者删除", "此内容被投诉", "此内容因违规无法查看", "参数错误"]
 
 
 class WeReadError(Exception):
@@ -94,12 +104,37 @@ def build_item(raw: dict, mp_name: str) -> dict:
     published_iso = datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z") if ts else ""
     return {
         "title": raw.get("title") or "",
-        "summary": "",  # 接口无摘要字段；不逐篇抓正文，避免放大请求量
+        "summary": "",  # 接口无摘要字段；启用 --with-content 时由抓正文回填
         "source": f"公众号：{mp_name}",
         "publishedAt": published_iso,
         "url": url,
         "id": "wechat:" + hashlib.md5(url.encode("utf-8")).hexdigest()[:12],
     }
+
+
+def fetch_content(url: str, timeout: int = 15, limit: int = 400) -> str | None:
+    """抓取微信文章公开页正文，返回截断后的纯文本摘要；风控/失效/失败返回 None。
+
+    与中转服务接口是两套限流；命中风控页特征时直接跳过（不静默返空）。
+    """
+    req = urllib.request.Request(url, headers={
+        "User-Agent": UA,
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        "Referer": "https://mp.weixin.qq.com/",
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            html = resp.read().decode("utf-8", errors="replace")
+    except Exception:  # noqa: BLE001 - 单篇失败不影响整体
+        return None
+    if any(hint in html for hint in BLOCK_HINTS):
+        return None
+    m = RE_CONTENT_DIV.search(html)
+    if not m:
+        return None
+    text = RE_TAG.sub(" ", RE_SCRIPT_STYLE.sub("", m.group(1)))
+    text = re.sub(r"\s+", " ", html_mod.unescape(text)).strip()
+    return text[:limit] or None
 
 
 def merge_items(new_items: list[dict], out_path: str, since_ts: int) -> list[dict]:
@@ -185,7 +220,8 @@ def cmd_fetch(args) -> int:
 
     token = args.token or os.environ.get("WEREAD_TOKEN", "")
     state_patch = {"weread_token_expired": False, "weread_ok_accounts": 0,
-                   "weread_fail_accounts": 0, "weread_items": 0}
+                   "weread_fail_accounts": 0, "weread_items": 0,
+                   "weread_content_ok": 0, "weread_content_fail": 0}
     if not token:
         print("缺少 WEREAD_TOKEN，跳过微信读书抓取（搜狗路线兜底）")
         _patch_state(args.state, state_patch)
@@ -206,12 +242,21 @@ def cmd_fetch(args) -> int:
                     continue  # 时间倒序，早于窗口即可停止
                 if picked >= args.per_account:
                     break
-                items.append(build_item(raw, name))
+                it = build_item(raw, name)
+                if args.with_content:
+                    content = fetch_content(it["url"], limit=args.content_limit)
+                    if content:
+                        it["summary"] = content
+                        state_patch["weread_content_ok"] += 1
+                    else:
+                        state_patch["weread_content_fail"] += 1
+                    time.sleep(args.content_interval)
+                items.append(it)
                 picked += 1
             state_patch["weread_ok_accounts"] += 1
             if picked > 0:
                 covered.append(name)
-            print(f"  [OK] {name}: {picked} 篇")
+            print(f"  [OK] {name}: {picked} 篇" + (f"（正文 {state_patch['weread_content_ok']} 篇）" if args.with_content else ""))
         except WeReadError as exc:
             if exc.status == 401:
                 print("token 已失效（401），终止本次微信读书抓取，请重新扫码更新 WEREAD_TOKEN", file=sys.stderr)
@@ -289,6 +334,10 @@ def main() -> int:
     parser.add_argument("--platform", default=PLATFORM_URL, help="中转服务基地址")
     parser.add_argument("--covered-out", default="weread_covered.json",
                         help="本次实际覆盖账号清单输出路径（搜狗兜底只跳过这些账号）")
+    parser.add_argument("--with-content", action="store_true",
+                        help="抓取文章公开页正文回填 summary（与中转接口两套限流，逐篇间隔 1.5s）")
+    parser.add_argument("--content-limit", type=int, default=400, help="正文摘要截断字符数（默认 400）")
+    parser.add_argument("--content-interval", type=float, default=1.5, help="逐篇抓正文间隔秒数（默认 1.5）")
     parser.add_argument("--resolve", default="", help="解析公众号文章分享链接并写入映射表（本地用）")
     parser.add_argument("--dry-run", action="store_true", help="只解析映射表不发请求")
     args = parser.parse_args()

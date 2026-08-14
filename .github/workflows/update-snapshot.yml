@@ -65,7 +65,7 @@ jobs:
         continue-on-error: true
         env:
           WEREAD_TOKEN: ${{ secrets.WEREAD_TOKEN }}
-        run: python3 scripts/fetch_weread.py --mapping weread_mps.json --covered-out weread_covered.json --out wechat_items.json --state wechat_state.json --days 7
+        run: python3 scripts/fetch_weread.py --mapping weread_mps.json --covered-out weread_covered.json --out wechat_items.json --state wechat_state.json --days 7 --with-content
 
       - name: 抓取公众号文章（搜狗兜底，仅未覆盖账号）
         # 公众号源失败不阻断快照发布（静默降级，仅 aihot 数据）；
