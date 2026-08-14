@@ -5,14 +5,14 @@
 #   2. 手动：仓库 Actions 页 → 选中本工作流 → "Run workflow" 按钮
 #
 # 流程:
-#   checkout → 抓取公众号文章（微信读书订阅式主信源 + 搜狗兜底，均可失败降级）
+#   checkout → 抓取公众号文章（微信读书订阅式主信源 + 公开页正文回填，可失败降级）
 #   → 生成静态快照（aihot API + 公众号数据合并 → public/index.html）
 #   → 校验数据 → 提交回仓库（contents: write）→ 断流告警检查 → 部署到 GitHub Pages
 #
 # 固定访问链接：https://wadeliuastro.github.io/AI-HOT/
 # 前置条件：仓库 Settings → Pages → Source 选择 "GitHub Actions"
-# 可选 Secret：SOGOU_COOKIE（搜狗 Cookie，降低公众号抓取被风控概率，约 2-4 周需更新）
-# 可选 Secret：WEREAD_TOKEN（微信读书 token，公众号主信源；失效时告警 Issue 提示重新扫码）
+# 可选 Secret：WEREAD_TOKEN（微信读书 token，公众号信源；失效时告警 Issue 提示重新扫码）
+# 注：搜狗兜底路线已于 2026-08-14 移除（fetch_wechat.py 停用）；未映射账号待后续通过微信读书映射补齐
 
 name: 定时更新静态快照并部署
 
@@ -58,23 +58,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 抓取公众号文章（微信读书订阅式，主信源）
+      - name: 抓取公众号文章（微信读书订阅式 + 正文回填）
         # 订阅式时间线：完整性/及时性优于搜狗；token 失效或接口异常不阻断发布
-        # （搜狗兜底 + aihot 自带公众号内容）；token 失效时由告警步骤创建 Issue
+        # （降级为仅 aihot 数据）；token 失效时由告警步骤创建 Issue
+        # 未映射账号暂不抓取，后续通过 weread_mps.json 映射补齐
         id: weread
         continue-on-error: true
         env:
           WEREAD_TOKEN: ${{ secrets.WEREAD_TOKEN }}
         run: python3 scripts/fetch_weread.py --mapping weread_mps.json --covered-out weread_covered.json --out wechat_items.json --state wechat_state.json --days 7 --with-content
-
-      - name: 抓取公众号文章（搜狗兜底，仅未覆盖账号）
-        # 公众号源失败不阻断快照发布（静默降级，仅 aihot 数据）；
-        # 连续 2 天全部失败时由下方告警步骤创建 Issue
-        id: wechat
-        continue-on-error: true
-        env:
-          SOGOU_COOKIE: ${{ secrets.SOGOU_COOKIE }}
-        run: python3 scripts/fetch_wechat.py --accounts accounts.json --out wechat_items.json --state wechat_state.json --per-account 5 --days 7 --skip-mapped weread_covered.json
 
       - name: 生成静态快照（aihot API + 公众号合并）
         run: python3 scripts/build_snapshot.py --out public/index.html --wechat-json wechat_items.json
@@ -106,7 +98,7 @@ jobs:
             git push
           fi
 
-      - name: 公众号源断流告警（连续 2 天失败 / 微信读书 token 失效时创建 Issue）
+      - name: 公众号源断流告警（微信读书 token 失效时创建 Issue）
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -117,7 +109,7 @@ jobs:
             if [ "$existing" -eq 0 ]; then
               gh issue create --repo "$GITHUB_REPOSITORY" \
                 --title "⚠️ 微信读书 token 失效，请重新扫码更新 WEREAD_TOKEN" \
-                --body "公众号主信源（微信读书）token 已失效（接口返回 401），已降级为搜狗兜底。
+                --body "公众号信源（微信读书）token 已失效（接口返回 401）。
 
           处理步骤：
           1. 本地运行 python3 scripts/weread_login.py
@@ -127,27 +119,6 @@ jobs:
               echo "已创建 token 失效告警 Issue"
             else
               echo "已存在 token 失效告警 Issue，跳过重复创建"
-            fi
-          fi
-          fails=$(python3 -c "import json;print(json.load(open('wechat_state.json')).get('consecutive_failures',0))" 2>/dev/null || echo 0)
-          echo "公众号源连续失败计数: $fails"
-          if [ "$fails" -ge 2 ]; then
-            # 去重：已有同类未关闭 Issue 时不再重复创建
-            existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "公众号源连续断流 in:title" --json number -q length)
-            if [ "$existing" -eq 0 ]; then
-              gh issue create --repo "$GITHUB_REPOSITORY" \
-                --title "⚠️ 公众号源连续断流（$fails 次连续失败）" \
-                --body "公众号抓取源已连续 $fails 次运行全部失败。
-
-          常见原因与处理：
-          1. **SOGOU_COOKIE 过期**（最常见，约 2-4 周过期）：浏览器登录 weixin.sogou.com → F12 → Network → 任意请求的 Cookie 头整段复制 → 更新仓库 Settings → Secrets → SOGOU_COOKIE
-          2. **搜狗反爬升级**：降低抓取频率（改 workflow cron）或改用付费 RSS 中转服务（见 docs/DEPLOY_WORKFLOW.md 退路章节）
-          3. **Actions IP 被风控**：配置 Cookie 后通常可恢复
-
-          查看最近运行日志：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions"
-              echo "已创建断流告警 Issue"
-            else
-              echo "已存在断流告警 Issue，跳过重复创建"
             fi
           fi
 
