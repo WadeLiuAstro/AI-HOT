@@ -2,7 +2,7 @@
  "date": "2026-08-17",
  "finalized": false,
  "finalizedAt": null,
- "updatedAt": "2026-08-17T15:46:13.857529+08:00",
+ "updatedAt": "2026-08-17T20:41:46.827902+08:00",
  "items": [
   {
    "id": "cmswesk6a0r2hrovml2edcl2c",
@@ -20,6 +20,24 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmswesk6a0r2hrovml2edcl2c"
+   }
+  },
+  {
+   "id": "cmsx7ffrz049uromm6en3if02",
+   "title": "OpenRouter 推出 Activity 仪表盘与 Analytics API：按智能体、模型、请求追踪 AI 使用成本",
+   "title_en": "Understand your AI usage： every agent， model， and request",
+   "url": "https://openrouter.ai/blog/announcements/activity-dashboard",
+   "permalink": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02",
+   "source": "OpenRouter：Announcements（RSS）",
+   "publishedAt": "2026-08-17T00:00:00.000Z",
+   "discoveredAt": "2026-08-17T12:22:55.595Z",
+   "summary": "OpenRouter 发布 Activity 仪表盘和 beta Analytics API，可按智能体、模型、请求维度查看支出、token 量、缓存命中率等指标，并支持下钻至单条请求日志。",
+   "category": "ai-products",
+   "score": 63,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02"
    }
   }
  ]
