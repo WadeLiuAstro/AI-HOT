@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "source_group": "group_c",
+  "target_date": "2026-08-16",
+  "source_audits": [
+    {"account_name": "十字路口Crossing", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "投资界", "source_status": "complete", "article_count": 2, "note": null},
+    {"account_name": "赛博禅心", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "elsewhere别处发生", "source_status": "complete", "article_count": 0, "note": "当天无文章"}
+  ],
+  "articles": [
+    {
+      "account_name": "十字路口Crossing",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QIf3nxc74IbsT%2Fa5gc%3D",
+      "article_url": "https://news.qq.com/rain/a/20260816A01CROSS00",
+      "title": "当 AI 开始写代码之后",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "投资界",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMf13pd74EYuT7Q",
+      "article_url": "https://news.qq.com/rain/a/20260816A01VC00000",
+      "title": "AI 视频生成赛道再获数亿元融资",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "投资界",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMf13pd74EYuT7Q",
+      "article_url": "https://news.qq.com/rain/a/20260816A02VC00000",
+      "title": "一线 VC 怎么看具身智能泡沫",
+      "published_date": "2026-08-16",
+      "author": "投资界编辑部",
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "赛博禅心",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QIf3n9U5I0buzbd4wc%3D",
+      "article_url": "https://news.qq.com/rain/a/20260816A01CYBER00",
+      "title": "大模型时代的心智模型",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "source_group": "group_a",
+  "target_date": "2026-08-16",
+  "source_audits": [
+    {"account_name": "游戏葡萄", "source_status": "complete", "article_count": 2, "note": null},
+    {"account_name": "白鲸出海", "source_status": "complete", "article_count": 0, "note": "当天无文章"},
+    {"account_name": "机器之心", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "ZFinance", "source_status": "failed", "article_count": 0, "note": "详情页无法打开，重试 5 次后仍失败"},
+    {"account_name": "极客公园", "source_status": "complete", "article_count": 1, "note": null}
+  ],
+  "articles": [
+    {
+      "account_name": "游戏葡萄",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMc3npU5YQZujvd?tab=om_article",
+      "article_url": "https://news.qq.com/rain/a/20260816A01GRAPE00",
+      "title": "AI 游戏 NPC 对话系统落地案例复盘",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "游戏葡萄",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMc3npU5YQZujvd?tab=om_article",
+      "article_url": "https://news.qq.com/rain/a/20260816A02GRAPE00",
+      "title": "出海厂商 Q2 收入观察",
+      "published_date": "2026-08-16",
+      "author": "葡萄君",
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "机器之心",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMc3XlV5YcauTjR",
+      "article_url": "https://news.qq.com/rain/a/20260816A01JIQI000",
+      "title": "大模型推理优化全解析",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "ZFinance",
+      "source_platform": "NetEase",
+      "source_home_url": "https://www.163.com/dy/media/T1751873060579.html",
+      "article_url": null,
+      "title": null,
+      "published_date": null,
+      "author": null,
+      "extraction_status": "failed",
+      "note": "详情页无法打开，逐卡片顺序审计失败"
+    },
+    {
+      "account_name": "极客公园",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMX2ndU7oYcuTc%3D?tab=om_index",
+      "article_url": "https://news.qq.com/rain/a/20260816A01GEEK000",
+      "title": "AI 硬件的下一站",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Manus 唯一公众号信源的规范化数据目录
+# current.json  - 最近一次成功的规范化 feed（快照工作流只读消费）
+# state.json    - 最近一次运行状态（晋升结果/失败原因/最近成功日期）
+# archive/      - 按日规范化副本（审计与回滚）
+# enrichment_cache.json - 正文加工结果缓存（键含正文哈希/taxonomy/prompt/模型版本）

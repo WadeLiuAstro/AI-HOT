@@ -1,0 +1,171 @@
+# Manus 公众号采集工作流（唯一公众号信源 · 独立生产者）
+#
+# 与快照工作流（update-snapshot.yml）完全解耦：
+#   - 本工作流只写 data/manus/current.json + state.json + archive/ + enrichment cache
+#   - 快照工作流只读取最近一次成功的 current.json，不调用、不等待 Manus
+#
+# 触发方式：
+#   1. 定时：每天北京时间 01:00（UTC 前一日 17:00），目标日期 = 北京时间昨天，
+#      给 08:00 快照预留约 7 小时
+#   2. 手动：可指定 date / groups / promote，用于低成本冒烟（如 group_a + promote=false）
+#
+# Secrets：MANUS_API_KEY（必需）、DEEPSEEK_API_KEY（正文加工；缺失时摘要降级为确定性截断）
+
+name: Manus 公众号采集并晋升 feed
+
+on:
+  schedule:
+    # 北京时间 01:00 = UTC 前一日 17:00
+    - cron: "0 17 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "目标日期 YYYY-MM-DD（留空 = 北京时间昨天）"
+        type: string
+        default: ""
+      groups:
+        description: "采集分组（空格分隔）"
+        type: string
+        default: "group_a group_b group_c"
+      promote:
+        description: "是否晋升 data/manus/current.json（调试运行可关闭）"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+
+# 独立并发组：与快照工作流互不阻塞，同类运行排队不取消
+concurrency:
+  group: ai-hot-manus-source
+  cancel-in-progress: false
+
+jobs:
+  collect-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 确定目标日期与分组
+        id: params
+        run: |
+          DATE="${{ inputs.date }}"
+          if [ -z "$DATE" ]; then
+            DATE=$(TZ=Asia/Shanghai date -d "yesterday" +%F)
+          fi
+          GROUPS="${{ inputs.groups }}"
+          if [ -z "$GROUPS" ]; then
+            GROUPS="group_a group_b group_c"
+          fi
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "groups=$GROUPS" >> "$GITHUB_OUTPUT"
+          echo "目标日期：$DATE；分组：$GROUPS"
+
+      - name: 契约自检（离线）
+        run: python3 -m unittest tests.test_manus_contract -v
+
+      - name: 阶段 A：Manus URL 发现
+        env:
+          MANUS_API_KEY: ${{ secrets.MANUS_API_KEY }}
+        run: python3 scripts/manus_source/runner.py --date "${{ steps.params.outputs.date }}" --groups ${{ steps.params.outputs.groups }}
+
+      - name: 阶段 B：Manus 正文提取（按批，断点续跑）
+        env:
+          MANUS_API_KEY: ${{ secrets.MANUS_API_KEY }}
+        run: python3 scripts/manus_source/content_phase.py --date "${{ steps.params.outputs.date }}"
+
+      - name: 阶段 C：harness 加工并晋升 feed
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          LLM_API_BASE: ${{ vars.LLM_API_BASE }}
+        run: |
+          if [ "${{ inputs.promote }}" = "false" ]; then
+            python3 scripts/build_manus_feed.py --date "${{ steps.params.outputs.date }}" --no-promote
+          else
+            python3 scripts/build_manus_feed.py --date "${{ steps.params.outputs.date }}"
+          fi
+
+      - name: 防泄漏断言（诊断目录不得含正文/密钥）
+        env:
+          MANUS_KEY: ${{ secrets.MANUS_API_KEY }}
+        run: |
+          DIAG="work/manus/diagnostics/${{ steps.params.outputs.date }}"
+          if [ -d "$DIAG" ]; then
+            if grep -rq "content_text" "$DIAG" || grep -rq "x-manus-api-key" "$DIAG"; then
+              echo "诊断目录检测到正文或密钥字段，拒绝上传" >&2
+              exit 1
+            fi
+            if [ -n "$MANUS_KEY" ] && grep -rqF "$MANUS_KEY" "$DIAG"; then
+              echo "诊断目录检测到 API key 明文，拒绝上传" >&2
+              exit 1
+            fi
+            echo "防泄漏断言通过"
+          fi
+
+      - name: 上传去正文诊断 Artifact（保留 7 天）
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: manus-diagnostics-${{ steps.params.outputs.date }}
+          path: work/manus/diagnostics/${{ steps.params.outputs.date }}
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: 提交 feed 与状态回仓库（若内容有变化）
+        if: inputs.promote != false
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/manus/current.json data/manus/state.json data/manus/archive data/manus/enrichment_cache.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Manus feed 无变化，跳过提交"
+          else
+            git commit -m "chore: 更新 Manus feed ${{ steps.params.outputs.date }} [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: 信源告警管理（失败建 Issue，恢复关闭）
+        if: ${{ !cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="⚠️ Manus 信源采集告警"
+          if [ "${{ job.status }}" = "success" ]; then
+            existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "$TITLE in:title" --json number -q '.[0].number' || true)
+            if [ -n "$existing" ]; then
+              gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body "运行 ${{ github.run_id }} 已恢复成功（${{ steps.params.outputs.date }}），自动关闭。"
+              gh issue close "$existing" --repo "$GITHUB_REPOSITORY"
+            fi
+          else
+            existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "$TITLE in:title" --json number -q '.[0].number' || true)
+            if [ -z "$existing" ]; then
+              gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" \
+                --body "Manus 采集工作流运行失败或 feed 未晋升（目标日期 ${{ steps.params.outputs.date }}）。
+          查看运行：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          最近成功 feed 不受影响，快照工作流会继续使用上一次成功的 data/manus/current.json 并在页面显示降级状态。"
+            fi
+          fi
+
+      - name: Action summary
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "### Manus 采集结果（${{ steps.params.outputs.date }}）"
+            echo ""
+            if [ -f data/manus/state.json ]; then
+              echo '```json'
+              cat data/manus/state.json
+              echo '```'
+            fi
+            echo "诊断 Artifact：manus-diagnostics-${{ steps.params.outputs.date }}"
+          } >> "$GITHUB_STEP_SUMMARY"

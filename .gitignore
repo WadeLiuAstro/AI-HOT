@@ -35,6 +35,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# local verification artifacts
+/_verify_tmp*/
 
 # vercel
 .vercel

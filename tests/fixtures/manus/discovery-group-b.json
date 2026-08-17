@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "source_group": "group_b",
+  "target_date": "2026-08-16",
+  "source_audits": [
+    {"account_name": "FounderPark", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "瑞恩资本", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "DeepTech深科技", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "ZPotential", "source_status": "complete", "article_count": 1, "note": null},
+    {"account_name": "华尔街见闻", "source_status": "complete", "article_count": 0, "note": "当天无文章"}
+  ],
+  "articles": [
+    {
+      "account_name": "FounderPark",
+      "source_platform": "NetEase",
+      "source_home_url": "https://www.163.com/dy/media/T1705485947430.html",
+      "article_url": "https://www.163.com/dy/article/K1FOUNDER0001.html",
+      "title": "AI Agent 创业公司的融资寒冬与破局",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "瑞恩资本",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMY33Zd7YwduQ%3D%3D",
+      "article_url": "https://news.qq.com/rain/a/20260816A01RYAN000",
+      "title": "港股 AI 新股观察",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "DeepTech深科技",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QMd2Hpe7owfuTk%3D",
+      "article_url": "https://news.qq.com/rain/a/20260816A01DEEP000",
+      "title": "具身智能进入工厂车间",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": null
+    },
+    {
+      "account_name": "ZPotential",
+      "source_platform": "Tencent News",
+      "source_home_url": "https://news.qq.com/omn/author/8QIf3nxd5YwYvz%2Fc5wM%3D",
+      "article_url": "https://www.163.com/dy/article/K1FOUNDER0001.html",
+      "title": "AI Agent 创业公司的融资寒冬与破局",
+      "published_date": "2026-08-16",
+      "author": null,
+      "extraction_status": "complete",
+      "note": "与 FounderPark 同日同 URL 的镜像转载（重复 URL 测试案例）"
+    }
+  ]
+}

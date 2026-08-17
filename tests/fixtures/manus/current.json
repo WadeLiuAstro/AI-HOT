@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "targetDate": "2026-08-16",
+  "generatedAt": "2026-08-17T03:40:00+08:00",
+  "collector": "manus",
+  "ok": true,
+  "degraded": true,
+  "stats": {
+    "configuredAccounts": 14,
+    "completeAccounts": 13,
+    "failedAccounts": 1,
+    "discoveredArticles": 12,
+    "publishedArticles": 9,
+    "fallbackArticles": 1
+  },
+  "items": [
+    {
+      "id": "manus:a1f0c9d2e3b40516",
+      "title": "AI 游戏 NPC 对话系统落地案例复盘",
+      "summary": "某头部 MMO 项目复盘大模型 NPC 对话系统落地：采用意图识别小模型、生成大模型与高频回复预缓存的三级架构，将 P95 延迟压至 900 毫秒，并通过提示词与输出过滤双层约束保障内容安全。上线三个月后支线任务完成率提升 23%，下一步将深化 NPC 长期记忆。",
+      "url": "https://news.qq.com/rain/a/20260816A01GRAPE00",
+      "source": "公众号：游戏葡萄",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "游戏葡萄",
+      "sourcePlatform": "Tencent News",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "3f6b1c9d4e7a8f02b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "general",
+        "tags": {},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:b2e1d8c3f4a50627",
+      "title": "出海厂商 Q2 收入观察",
+      "summary": "文章梳理 2026 年第二季度中国游戏出海厂商收入格局：头部厂商在东南亚与日韩市场保持增长，AI 驱动的本地化与买量素材生产成为降本关键。作者判断下半年竞争焦点将从品类红利转向运营效率。",
+      "url": "https://news.qq.com/rain/a/20260816A02GRAPE00",
+      "source": "公众号：游戏葡萄",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "游戏葡萄",
+      "sourcePlatform": "Tencent News",
+      "author": "葡萄君",
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "4a7c2d0e5f8b9013c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "general",
+        "tags": {},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:c3f2e9d4a5b60738",
+      "title": "大模型推理优化全解析",
+      "summary": "系统梳理 2026 年上半年大模型推理优化三大方向：KV Cache 压缩缓解百万级上下文显存压力；投机解码配合多头结构实现 2 至 3 倍无损加速；FP8 全面铺开后 INT4 量化方案逼近无损。推理成本仍是落地最大瓶颈。",
+      "url": "https://news.qq.com/rain/a/20260816A01JIQI000",
+      "source": "公众号：机器之心",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "机器之心",
+      "sourcePlatform": "Tencent News",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "5b8d3e1f6a9c0124d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "paper",
+        "tags": {},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:d4a3f0e5b6c70849",
+      "title": "AI Agent 创业公司的融资寒冬与破局",
+      "summary": "AI Agent 赛道融资明显降温，文章采访了多家创业公司与投资机构：通用型 Agent 难以证明单位经济模型，垂直场景与私有化部署成为拿单主力。投资人建议创业者以现金流优先，等待下一轮基础设施成熟。",
+      "url": "https://www.163.com/dy/article/K1FOUNDER0001.html",
+      "source": "公众号：FounderPark",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "FounderPark",
+      "sourcePlatform": "NetEase",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "6c9e4f2a7b0d1235e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "interview",
+        "tags": {"industry": "ai_other", "interviewee": "investor"},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:e5b4a1f6c7d80950",
+      "title": "港股 AI 新股观察",
+      "summary": "近期多只 AI 概念股登陆港股，文章对比发行估值与首日表现，指出市场定价开始区分基础设施层与应用层：算力与模型公司获得溢价，应用层普遍破发。作者提醒关注解禁期与基石投资者结构。",
+      "url": "https://news.qq.com/rain/a/20260816A01RYAN000",
+      "source": "公众号：瑞恩资本",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "瑞恩资本",
+      "sourcePlatform": "Tencent News",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "7d0f5a3b8c1e2346f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "general",
+        "tags": {},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:f6c5b2a7d8e91061",
+      "title": "具身智能进入工厂车间",
+      "summary": "多家具身智能公司开始在汽车与 3C 产线部署人形机器人试点。文章分析当前落地以搬运、上下料等结构化工位为主，泛化操作仍依赖真机数据闭环；头部车企以联合研发方式切入，设备租赁模式降低了试用门槛。",
+      "url": "https://news.qq.com/rain/a/20260816A01DEEP000",
+      "source": "公众号：DeepTech深科技",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "DeepTech深科技",
+      "sourcePlatform": "Tencent News",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "8e1a6b4c9d2f3457a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "general",
+        "tags": {},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:a7d6c3b8e9f01172",
+      "title": "当 AI 开始写代码之后",
+      "summary": "文章讨论 AI 编程工具普及后开发者角色的变化：代码审查与问题定义能力的重要性上升，初级岗位的筛选标准随之调整。作者结合自身团队实践，给出三条与 AI 协作的工程习惯建议。",
+      "url": "https://news.qq.com/rain/a/20260816A01CROSS00",
+      "source": "公众号：十字路口Crossing",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "十字路口Crossing",
+      "sourcePlatform": "Tencent News",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "9f2b7c5d0e3a4568b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "general",
+        "tags": {},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:b8e7d4c9f0a11283",
+      "title": "一线 VC 怎么看具身智能泡沫",
+      "summary": "投资界编辑部对话多位一线投资人：具身智能估值存在结构性泡沫，但头部公司在数据与硬件上的壁垒正在形成。受访者普遍认为 2027 年是商业化的关键验证窗口。",
+      "url": "https://news.qq.com/rain/a/20260816A02VC00000",
+      "source": "公众号：投资界",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "投资界",
+      "sourcePlatform": "Tencent News",
+      "author": "投资界编辑部",
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "1b4d9e7f2a5c6780d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "enrichmentStatus": "complete",
+      "classification": {
+        "category": "interview",
+        "tags": {"industry": "ai_other", "interviewee": "investor"},
+        "autoFallback": false,
+        "autoFilled": []
+      }
+    },
+    {
+      "id": "manus:d0a9f6e1b2c31405",
+      "title": "大模型时代的心智模型",
+      "summary": "大模型正在改变人们理解软件的方式。本文从认知角度讨论了从确定性程序到概率性系统的思维转变：过去我们假设系统行为可完全推演，现在必须接受输出分布的存在。",
+      "url": "https://news.qq.com/rain/a/20260816A01CYBER00",
+      "source": "公众号：赛博禅心",
+      "sourceType": "wechat",
+      "collector": "manus",
+      "mpName": "赛博禅心",
+      "sourcePlatform": "Tencent News",
+      "author": null,
+      "publishedAt": "2026-08-16T12:00:00+08:00",
+      "publishedPrecision": "date",
+      "contentSha256": "2c5e0f8a3b6d7891e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7",
+      "enrichmentStatus": "fallback",
+      "classification": {
+        "category": "general",
+        "tags": {},
+        "autoFallback": true,
+        "autoFilled": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "target_date": "2026-08-16",
+  "articles": [
+    {
+      "account_name": "游戏葡萄",
+      "article_url": "https://news.qq.com/rain/a/20260816A01GRAPE00",
+      "title": "AI 游戏 NPC 对话系统落地案例复盘",
+      "published_date": "2026-08-16",
+      "content_text": "过去一年，越来越多的游戏团队开始把大模型接入 NPC 对话系统。本文复盘了某头部 MMO 项目的完整落地过程。\n\n项目团队首先面临的问题是延迟。玩家对 NPC 回复的容忍时间大约在 1.5 秒以内，而通用大模型的首 token 延迟普遍在 2 秒以上。团队最终采用了小模型意图识别 + 大模型生成 + 预缓存高频回复的三级架构，把 P95 延迟压到了 900 毫秒。\n\n第二个问题是内容安全。NPC 不能输出与游戏世界观冲突的内容，也不能被玩家诱导说出不当言论。团队在提示词层和输出过滤层做了双重约束，并保留了人工抽审流程。\n\n上线三个月后，带有大模型 NPC 的支线任务完成率提升了 23%，玩家平均停留时长也有明显提升。团队认为，下一步的关键是把记忆系统做深，让 NPC 能够记住与玩家的长期互动。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "游戏葡萄",
+      "article_url": "https://news.qq.com/rain/a/20260816A02GRAPE00",
+      "title": "出海厂商 Q2 收入观察",
+      "published_date": "2026-08-16",
+      "content_text": "2026 年第二季度，中国游戏出海厂商的收入格局出现明显分化。头部厂商在东南亚与日韩市场保持增长，AI 驱动的本地化翻译与买量素材生产成为降本的关键变量。\n\n从品类看，SLG 与休闲游戏仍是收入主力，但增速放缓；二次元与开放世界品类的海外收入占比继续提升。多家厂商在财报中提及 AI 工具链对研发效率的贡献。\n\n作者判断，下半年的竞争焦点将从品类红利转向运营效率：谁能用更小的团队维持内容更新节奏，谁就能在买量成本上行周期里活得更久。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "机器之心",
+      "article_url": "https://news.qq.com/rain/a/20260816A01JIQI000",
+      "title": "大模型推理优化全解析",
+      "published_date": "2026-08-16",
+      "content_text": "推理成本已经成为大模型落地的最大瓶颈之一。本文系统梳理了 2026 年上半年的主流优化方向。\n\n第一是 KV Cache 压缩。随着上下文窗口扩展到百万 token 级别，KV Cache 的显存占用常常超过模型权重本身。PagedAttention 之后，业界又出现了多种按重要性淘汰 token 的策略。\n\n第二是投机解码。小模型起草、大模型校验的范式已经成为标配，配合 Medusa 类多头结构，可以在不损失输出质量的前提下获得 2 到 3 倍的加速。\n\n第三是量化。FP8 训练与推理已在新一代硬件上全面铺开，INT4 权重配合激活重建的方案也在部分场景逼近无损。[内容已按配置上限截断]",
+      "content_status": "complete",
+      "content_truncated": true,
+      "note": "正文超过上限，已保留头尾并截断"
+    },
+    {
+      "account_name": "极客公园",
+      "article_url": "https://news.qq.com/rain/a/20260816A01GEEK000",
+      "title": "AI 硬件的下一站",
+      "published_date": "2026-08-16",
+      "content_text": "环境异常，请完成安全验证。当前访问人数过多，请稍后重试。",
+      "content_status": "failed",
+      "content_truncated": false,
+      "note": "页面返回验证码/风控页，未获得正文"
+    },
+    {
+      "account_name": "FounderPark",
+      "article_url": "https://www.163.com/dy/article/K1FOUNDER0001.html",
+      "title": "AI Agent 创业公司的融资寒冬与破局",
+      "published_date": "2026-08-16",
+      "content_text": "AI Agent 赛道的融资热度明显降温。本文采访了多家创业公司创始人与一线投资人：通用型 Agent 难以证明单位经济模型，垂直场景与私有化部署成为拿单主力。\n\n一位受访者提到，客户不再为“可能性”付费，而是要求按节约的人力成本计价。投资人则建议创业者以现金流优先，控制算力开销，等待下一轮基础设施成熟后再扩张。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "瑞恩资本",
+      "article_url": "https://news.qq.com/rain/a/20260816A01RYAN000",
+      "title": "港股 AI 新股观察",
+      "published_date": "2026-08-16",
+      "content_text": "近期多只 AI 概念股登陆港股。文章对比了各家公司的发行估值与首日表现，指出市场定价开始区分基础设施层与应用层：算力与模型公司获得溢价，应用层公司普遍破发。\n\n作者提醒投资者关注解禁期安排与基石投资者结构，并认为二级市场的分化将反过来影响一级市场的估值锚。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "DeepTech深科技",
+      "article_url": "https://news.qq.com/rain/a/20260816A01DEEP000",
+      "title": "具身智能进入工厂车间",
+      "published_date": "2026-08-16",
+      "content_text": "多家具身智能公司开始在汽车与 3C 产线部署人形机器人试点。当前落地以搬运、上下料等结构化工位为主，泛化操作仍依赖真机数据闭环。\n\n头部车企以联合研发方式切入，设备租赁模式降低了工厂的试用门槛。业内普遍认为，未来两年的关键是积累高质量操作数据并把单台成本打下来。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "十字路口Crossing",
+      "article_url": "https://news.qq.com/rain/a/20260816A01CROSS00",
+      "title": "当 AI 开始写代码之后",
+      "published_date": "2026-08-16",
+      "content_text": "AI 编程工具普及之后，开发者的角色正在发生变化。本文讨论了三个观察：代码审查与问题定义能力的重要性上升；初级岗位的筛选标准从语法熟练度转向系统设计直觉；团队开始把“会不会给 AI 下需求”纳入绩效评估。\n\n作者结合自身团队实践，给出三条与 AI 协作的工程习惯：先写验收标准再让模型实现、保留小步提交、对模型输出保持可编译即怀疑的态度。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "投资界",
+      "article_url": "https://news.qq.com/rain/a/20260816A01VC00000",
+      "title": "另一篇不相干的文章标题",
+      "published_date": "2026-08-16",
+      "content_text": "这是 URL 跳转后实际打开的另一篇文章的正文内容，与发现阶段记录的标题不一致，属于跳转漂移案例。这类情况通常发生在平台将旧链接重定向到编辑推荐页，或者文章被删除后同名入口被复用的场景，应当判定为失败而不是进入模型加工。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": "Manus 回报的标题与请求不一致（本地一致性核验应判失败）"
+    },
+    {
+      "account_name": "投资界",
+      "article_url": "https://news.qq.com/rain/a/20260816A02VC00000",
+      "title": "一线 VC 怎么看具身智能泡沫",
+      "published_date": "2026-08-16",
+      "content_text": "投资界编辑部对话多位一线投资人，讨论具身智能是否存在泡沫。受访者认为估值存在结构性泡沫，但头部公司在数据与硬件上的壁垒正在形成。\n\n多位投资人提到，2027 年将是商业化的关键验证窗口：届时如果头部公司仍无法证明单台经济性，赛道估值将整体重定价。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    },
+    {
+      "account_name": "赛博禅心",
+      "article_url": "https://news.qq.com/rain/a/20260816A01CYBER00",
+      "title": "大模型时代的心智模型",
+      "published_date": "2026-08-16",
+      "content_text": "大模型正在改变人们理解软件的方式。本文从认知角度讨论了从确定性程序到概率性系统的思维转变：过去我们假设系统行为可完全推演，现在必须接受输出分布的存在。\n\n作者给出三条与模型协作的实用原则：把期望写成可检验的断言、为错误保留可回滚的边界、用统计而不是个案评估效果。",
+      "content_status": "complete",
+      "content_truncated": false,
+      "note": null
+    }
+  ]
+}
