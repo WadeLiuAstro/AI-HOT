@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-08-16T12:37:19Z",
+ "fetchedAt": "2026-08-17T01:13:11Z",
  "ok": true,
  "items": [
   {
@@ -88,14 +88,6 @@
    "publishedAt": "2026-08-12T00:09:11.000Z",
    "url": "https://mp.weixin.qq.com/s/62xZggROULpk34p2P7_TnA",
    "id": "wechat:87f4945948ec"
-  },
-  {
-   "title": "我花了54个小时，做了一个可能更公平的AI大模型排行榜。",
-   "summary": "",
-   "source": "公众号：数字生命卡兹克",
-   "publishedAt": "2026-08-10T00:52:19.000Z",
-   "url": "https://mp.weixin.qq.com/s/8FYDOX15UKOHPkbHjRpnbg",
-   "id": "wechat:7586cd146509"
   },
   {
    "title": "这个封装了我3年实测经验的AI提示词案例网站，今天正式免费开放",
