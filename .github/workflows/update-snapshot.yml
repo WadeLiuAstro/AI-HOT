@@ -5,14 +5,17 @@
 #   2. 手动：仓库 Actions 页 → 选中本工作流 → "Run workflow" 按钮
 #
 # 流程:
-#   checkout → 抓取公众号文章（微信读书订阅式主信源 + 公开页正文回填，可失败降级）
-#   → 生成静态快照（aihot API + 公众号数据合并 → public/index.html）
-#   → 校验数据 → 提交回仓库（contents: write）→ 断流告警检查 → 部署到 GitHub Pages
+#   checkout → 生成静态快照（aihot API + 只读消费 data/manus/current.json → 历史归档
+#     upsert/定稿/滚动清理 → public/index.html + public/history/ + public/weekly/）
+#   → 校验数据 → 提交回仓库（contents: write，含 archive/ 归档数据）→ 部署到 GitHub Pages
+#
+# 公众号信源：由独立的 fetch-manus.yml 工作流生产 data/manus/current.json；
+# 本工作流不调用、不等待 Manus；feed 缺失/损坏/过期时降级为仅 aihot 数据，页面显示降级状态。
 #
 # 固定访问链接：https://wadeliuastro.github.io/AI-HOT/
 # 前置条件：仓库 Settings → Pages → Source 选择 "GitHub Actions"
-# 可选 Secret：WEREAD_TOKEN（微信读书 token，公众号信源；失效时告警 Issue 提示重新扫码）
-# 注：搜狗兜底路线已于 2026-08-14 移除（fetch_wechat.py 停用）；未映射账号待后续通过微信读书映射补齐
+# 可选 Secret：DEEPSEEK_API_KEY（AI 打标签；缺失时静默降级为无标签，不阻断发布）
+# 注：WeRead/搜狗路线已于 2026-08-17 迁移为 Manus 唯一信源（见 fetch-manus.yml）
 
 name: 定时更新静态快照并部署
 
@@ -58,18 +61,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 抓取公众号文章（微信读书订阅式 + 正文回填）
-        # 订阅式时间线：完整性/及时性优于搜狗；token 失效或接口异常不阻断发布
-        # （降级为仅 aihot 数据）；token 失效时由告警步骤创建 Issue
-        # 未映射账号暂不抓取，后续通过 weread_mps.json 映射补齐
-        id: weread
-        continue-on-error: true
-        env:
-          WEREAD_TOKEN: ${{ secrets.WEREAD_TOKEN }}
-        run: python3 scripts/fetch_weread.py --mapping weread_mps.json --covered-out weread_covered.json --out wechat_items.json --state wechat_state.json --days 7 --with-content
-
-      - name: 生成静态快照（aihot API + 公众号合并）
-        run: python3 scripts/build_snapshot.py --out public/index.html --wechat-json wechat_items.json
+      - name: 生成静态快照（aihot API + Manus feed 合并 + 历史归档）
+        # 只读消费最近一次成功的 data/manus/current.json；feed 缺失/损坏/过期时
+        # build_snapshot.py 自动降级为仅 aihot 数据，页面 mpStatus 显示降级状态
+        run: python3 scripts/build_snapshot.py --out public/index.html --manus-json data/manus/current.json
 
       - name: 校验快照（日报/周报均有数据且 JSON 合法）
         run: |
@@ -84,49 +79,28 @@ jobs:
               print(f"{view}: total={p['total']} range={p['range']['label']} mpStatus={p['mpStatus']['connected']}")
           EOF
 
-      - name: 提交快照与抓取状态回仓库（若内容有变化）
+      - name: 提交快照回仓库（若内容有变化）
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/index.html wechat_state.json wechat_items.json weread_mps.json weread_covered.json
+          git add public/index.html public/history public/weekly archive
+          # 打标签产物存在时才入库（配置 DEEPSEEK_API_KEY / 完成 golden 标注后自动生效）
+          if [ -f tag_cache.json ]; then git add tag_cache.json; fi
+          if [ -f eval/golden.json ]; then git add eval/golden.json; fi
           if git diff --cached --quiet; then
             echo "快照无变化，跳过提交"
           else
             git commit -m "chore: 更新 AI HOT 静态快照 [skip ci]"
-            # 先拉取远端（避免与他人/并发运行的提交冲突），再推送
+            # 先拉取远端（避免与他人/并发运行/Manus 工作流的提交冲突），再推送
             git pull --rebase origin main
             git push
           fi
 
-      - name: 公众号源断流告警（微信读书 token 失效时创建 Issue）
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          expired=$(python3 -c "import json;print(bool(json.load(open('wechat_state.json')).get('weread_token_expired')))" 2>/dev/null || echo False)
-          echo "微信读书 token 失效标记: $expired"
-          if [ "$expired" = "True" ]; then
-            existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "微信读书 token 失效 in:title" --json number -q length)
-            if [ "$existing" -eq 0 ]; then
-              gh issue create --repo "$GITHUB_REPOSITORY" \
-                --title "⚠️ 微信读书 token 失效，请重新扫码更新 WEREAD_TOKEN" \
-                --body "公众号信源（微信读书）token 已失效（接口返回 401）。
-
-          处理步骤：
-          1. 本地运行 python3 scripts/weread_login.py
-          2. 用备用微信扫码，拿到新 token
-          3. 仓库 Settings → Secrets and variables → Actions → 更新 WEREAD_TOKEN
-          4. 手动 Run workflow 验证"
-              echo "已创建 token 失效告警 Issue"
-            else
-              echo "已存在 token 失效告警 Issue，跳过重复创建"
-            fi
-          fi
-
-      - name: 准备 Pages 产物（站点根目录）
+      - name: 准备 Pages 产物（站点根目录，含历史归档页）
         if: ${{ !cancelled() && (github.event_name == 'schedule' || inputs.deploy != 'false') }}
         run: |
           mkdir -p _site
-          cp public/index.html _site/index.html
+          cp -r public/. _site/
 
       - name: 上传 Pages 产物
         if: ${{ !cancelled() && (github.event_name == 'schedule' || inputs.deploy != 'false') }}

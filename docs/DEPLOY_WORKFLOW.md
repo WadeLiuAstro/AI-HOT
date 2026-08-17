@@ -259,7 +259,13 @@ python3 scripts/build_snapshot.py --out public/index.html
 | 文件 | 作用 |
 |---|---|
 | `.github/workflows/update-snapshot.yml` | 定时 + 手动触发，生成快照并部署到 Pages |
-| `scripts/build_snapshot.py` | 纯 Python 快照生成器（抓 API → 渲染 HTML） |
+| `.github/workflows/fetch-manus.yml` | Manus 公众号采集（独立生产者，cron 北京 01:00，Secrets：`MANUS_API_KEY`/`DEEPSEEK_API_KEY`） |
+| `scripts/build_snapshot.py` | 纯 Python 快照生成器（抓 API + 只读消费 Manus feed → 渲染 HTML） |
 | `templates/index.template.html` | 页面模板（含 `const DATA = __DATA__;` 占位符） |
 | `public/index.html` | 生成的最终快照（提交回仓库，供部署与归档） |
+| `data/manus/current.json` | Manus 规范化 feed（快照工作流唯一公众号输入，缺失/过期自动降级） |
 | `DEPLOY.md` | 部署说明（含 CloudBase 历史存档） |
+
+> 双工作流注意事项（2026-08-17 起）：两个工作流都会向 main 提交，各自 `git pull --rebase`
+> 后再 push；并发组互相独立（`ai-hot-snapshot` / `ai-hot-manus-source`），极端撞车时重跑即可。
+> Manus 工作流运维见 `MANUS_SOURCE_RUNBOOK.md`。
