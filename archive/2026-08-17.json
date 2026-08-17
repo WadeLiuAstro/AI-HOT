@@ -1,0 +1,26 @@
+{
+ "date": "2026-08-17",
+ "finalized": false,
+ "finalizedAt": null,
+ "updatedAt": "2026-08-17T15:46:13.857529+08:00",
+ "items": [
+  {
+   "id": "cmswesk6a0r2hrovml2edcl2c",
+   "title": "Qwen 3.8 27B 表现出色，但默认推理强度过高导致过度思考",
+   "title_en": "Qwen 3.8 27B is excellent， but it defaults to wildly overthinking things",
+   "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b",
+   "permalink": "https://aihot.virxact.com/items/cmswesk6a0r2hrovml2edcl2c",
+   "source": "Simon Willison 博客",
+   "publishedAt": "2026-08-16T22:00:39.000Z",
+   "discoveredAt": "2026-08-16T23:01:19.206Z",
+   "summary": "阿里 Qwen 实验室发布 Apache 2 许可的 27B 参数视觉大模型 Qwen 3.8 27B，官方基准显示其超越前代 Qwen 3.6 27B 及闭源 Qwen 3.7-Plus。",
+   "category": "tip",
+   "score": 73,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmswesk6a0r2hrovml2edcl2c"
+   }
+  }
+ ]
+}

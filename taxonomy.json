@@ -1,0 +1,141 @@
+{
+ "_comment": "新闻打标签分类体系（harness 固定清单）。categories 按 priority 从高到低排列；维度均为单选；模型只能从枚举取值。",
+ "version": 1,
+ "promptVersion": 2,
+ "priority": ["financing", "release", "bigtech", "paper", "interview", "general"],
+ "fallbackCategoryId": "general",
+ "model": {
+  "api_key_env": "DEEPSEEK_API_KEY",
+  "api_base_env": "LLM_API_BASE",
+  "default_base": "https://api.deepseek.com",
+  "model": "deepseek-chat",
+  "temperature": 0,
+  "timeout_seconds": 20,
+  "concurrency": 8,
+  "budget_seconds": 120
+ },
+ "enrich": {
+  "_comment": "正文加工（摘要+分类+标签一次调用）独立预算；长正文单次耗时远高于 800 字符轻调用，不得沿用 model.budget_seconds。",
+  "content_input_chars": 16000,
+  "summary_min_chars": 100,
+  "summary_max_chars": 220,
+  "timeout_seconds": 90,
+  "concurrency": 3,
+  "budget_seconds": 900
+ },
+ "thresholds": null,
+ "dimensions": {
+  "industry": {
+   "label": "行业",
+   "values": [
+    { "id": "game_engine", "label": "游戏引擎" },
+    { "id": "ai_social", "label": "AI社交/陪伴" },
+    { "id": "ai_game_content", "label": "AI游戏内容" },
+    { "id": "ai_interactive", "label": "AI互动内容/社区" },
+    { "id": "ai_model", "label": "AI模型" },
+    { "id": "ai_other", "label": "其他AI应用" }
+   ],
+   "fallbackValueId": "ai_other"
+  },
+  "region": {
+   "label": "国家/地区",
+   "values": [
+    { "id": "cn", "label": "中国" },
+    { "id": "us", "label": "美国" },
+    { "id": "eu", "label": "欧洲" },
+    { "id": "sea", "label": "东南亚" },
+    { "id": "jp_kr", "label": "日韩" },
+    { "id": "other", "label": "其他" }
+   ],
+   "fallbackValueId": "other"
+  },
+  "interviewee": {
+   "label": "访谈对象",
+   "values": [
+    { "id": "founder_ceo", "label": "创始人/CEO" },
+    { "id": "pm", "label": "产品经理" },
+    { "id": "tech", "label": "算法/泛技术" },
+    { "id": "investor", "label": "投资人" },
+    { "id": "other", "label": "其他" }
+   ],
+   "fallbackValueId": "other"
+  },
+  "issuer": {
+   "label": "发布主体",
+   "values": [
+    { "id": "startup", "label": "创业公司" },
+    { "id": "bigcorp", "label": "大厂/非创业公司" },
+    { "id": "other", "label": "其他" }
+   ],
+   "fallbackValueId": "other"
+  },
+  "change_type": {
+   "label": "类型",
+   "values": [
+    { "id": "personnel", "label": "人事变动" },
+    { "id": "business_line", "label": "业务线变化" },
+    { "id": "other", "label": "其他" }
+   ],
+   "fallbackValueId": "other"
+  },
+  "company": {
+   "label": "公司",
+   "values": [
+    { "id": "bytedance", "label": "字节跳动" },
+    { "id": "alibaba", "label": "阿里巴巴" },
+    { "id": "meituan", "label": "美团" },
+    { "id": "tencent", "label": "腾讯" },
+    { "id": "openai", "label": "OpenAI" },
+    { "id": "anthropic", "label": "Anthropic" },
+    { "id": "google", "label": "Google" },
+    { "id": "meta", "label": "Meta" },
+    { "id": "other", "label": "其他" }
+   ],
+   "fallbackValueId": "other"
+  }
+ },
+ "categories": [
+  {
+   "id": "financing",
+   "label": "融资动态",
+   "display": "table",
+   "criteria": "新闻内容涉及公司获得融资、投资、估值变动等事件",
+   "dims": ["industry", "region"]
+  },
+  {
+   "id": "release",
+   "label": "产品和模型发布",
+   "display": "card",
+   "criteria": "新闻内容涉及新产品发布、新模型发布、重大版本更新等事件",
+   "dims": ["industry", "issuer"]
+  },
+  {
+   "id": "bigtech",
+   "label": "大厂动态",
+   "display": "card",
+   "criteria": "新闻内容涉及大型科技公司的组织架构调整、人事变动、业务战略变化等非产品发布类事件",
+   "dims": ["change_type", "company"]
+  },
+  {
+   "id": "paper",
+   "label": "论文研究",
+   "display": "card",
+   "criteria": "新闻内容为学术论文发布、研究成果、技术报告等",
+   "dims": []
+  },
+  {
+   "id": "interview",
+   "label": "深度访谈",
+   "display": "card",
+   "criteria": "新闻内容为对行业相关人物的深度采访、对话、专访类内容",
+   "dims": ["industry", "interviewee"]
+  },
+  {
+   "id": "general",
+   "label": "泛行业新闻",
+   "display": "card",
+   "criteria": "不属于前 5 类的所有内容归入此类（兜底类别）",
+   "dims": []
+  }
+ ]
+}

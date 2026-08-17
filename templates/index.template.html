@@ -8,38 +8,66 @@
   :root{--bg:#0b0e14;--bg2:#11151f;--card:#161b27;--card2:#1b2230;--txt:#e6e9ef;--mut:#9aa4b2;--line:#222a38;--accent:#6366f1;--wx:#07c160;--up:#f97316;--fav:#fcd34d;}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(1200px 600px at 80% -10%,#1a2138 0%,var(--bg) 55%) fixed;color:var(--txt);line-height:1.6;padding-bottom:64px}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-  .hero{padding:40px 0 22px}
-  .kicker{color:var(--mut);font-size:13px;letter-spacing:.18em;text-transform:uppercase}
-  .hero h1{font-size:clamp(26px,5vw,42px);font-weight:800;margin:8px 0 4px;background:linear-gradient(90deg,#a5b4fc,#67e8f9,#fcd34d);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .meta{color:var(--mut);font-size:14px;margin-top:4px}.meta b{color:var(--txt)}
-  .lead{margin-top:10px;font-size:14px;color:#cbd5e1;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:10px 14px}
-  .lead .tag{color:var(--accent);font-weight:700;margin-right:6px}
-  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:20px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;border-top:3px solid var(--c);transition:.18s}
-  .stat-n{display:block;font-size:24px;font-weight:800;color:var(--c)}
-  .stat-l{display:block;font-size:12px;color:var(--mut);margin-top:3px}
-  /* 功能1：可点击的统计卡片（count>0），count=0 置灰不可点 */
-  .stat.clickable{cursor:pointer}
-  .stat.clickable:hover{transform:translateY(-2px);border-color:var(--c);box-shadow:0 8px 24px -12px var(--c)}
-  .stat.disabled{opacity:.45;cursor:default}
-  /* 功能1：版块跳转高亮闪烁 */
-  .block.flash{animation:secflash 1.6s ease}
-  @keyframes secflash{0%,100%{box-shadow:none}15%,45%{box-shadow:0 0 0 3px var(--c),0 0 40px -8px var(--c);border-radius:14px}}
-  .bar{position:sticky;top:0;z-index:30;background:rgba(11,14,20,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin:14px 0 24px}
-  .bar-in{display:flex;gap:8px;flex-wrap:wrap;align-items:center;max-width:1180px;margin:0 auto;padding:10px 20px}
-  .tab{font-weight:700;font-size:14px;padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer;transition:.18s}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 20px}
+  /* P3：三栏期刊布局（侧栏导航 + 日期归档 + 正文） */
+  .layout{display:grid;grid-template-columns:216px 236px minmax(0,1fr);gap:26px;align-items:start}
+  .side,.dates{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto}
+  /* 侧栏：品牌 + tab + 筛选 + 版块统计 */
+  .brand{margin-bottom:16px}
+  .brand .kicker{color:var(--mut);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase}
+  .brand h2{font-size:19px;font-weight:800;margin:4px 0 2px;background:linear-gradient(90deg,#a5b4fc,#67e8f9,#fcd34d);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .brand p{font-size:11.5px;color:var(--mut)}
+  .tab{display:block;font-weight:700;font-size:14px;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer;transition:.18s;margin-bottom:7px;text-align:left}
+  .tab:hover{border-color:var(--accent)}
   .tab.active{color:#0b0e14;background:linear-gradient(90deg,#a5b4fc,#67e8f9);border-color:transparent}
-  /* 功能2：收藏 tab */
   .tab.fav{border-color:rgba(252,211,77,.4);color:var(--fav)}
   .tab.fav.active{color:#0b0e14;background:linear-gradient(90deg,#fcd34d,#f59e0b)}
-  .tab.fav .fav-n{font-size:11px;background:rgba(252,211,77,.18);border-radius:999px;padding:1px 7px;margin-left:5px}
-  .filters{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
-  .fchip{font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card2);color:var(--mut);cursor:pointer;transition:.18s}
+  .tab.fav .fav-n{font-size:11px;background:rgba(252,211,77,.18);border-radius:999px;padding:1px 7px;margin-left:5px;float:right}
+  .side-h{font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.1em;margin:16px 0 8px}
+  .filters{display:flex;gap:6px;flex-wrap:wrap}
+  .fchip{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card2);color:var(--mut);cursor:pointer;transition:.18s}
   .fchip.on{color:var(--txt);border-color:var(--accent);background:#1e2436}
   .fchip.wx.on{color:#062; border-color:var(--wx);background:#0c2a18}
-  #q{background:var(--card2);border:1px solid var(--line);border-radius:999px;color:var(--txt);padding:6px 12px;font-size:12.5px;outline:none}
-  .block{margin-bottom:36px;scroll-margin-top:64px}
+  #q{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:999px;color:var(--txt);padding:6px 12px;font-size:12.5px;outline:none;margin-bottom:6px}
+  .sstat{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:6px;cursor:pointer;transition:.15s;border-left:3px solid var(--c)}
+  .sstat:hover{transform:translateX(2px);border-color:var(--c)}
+  .sstat.disabled{opacity:.4;cursor:default}
+  .sstat .n{font-size:14px;font-weight:800;color:var(--c);min-width:22px}
+  .sstat .l{font-size:12px;color:var(--mut)}
+  /* 中栏：历史归档 + 周期刊 */
+  .rail-h{font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.1em;margin:0 0 8px}
+  .rail-h.gap{margin-top:18px}
+  .dlink{display:block;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 12px;margin-bottom:7px;text-decoration:none;transition:.15s}
+  .dlink:hover{border-color:var(--accent);transform:translateX(2px)}
+  .d-top{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--txt)}
+  .d-title{display:block;font-size:11.5px;color:var(--mut);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .badge{font-size:10px;font-weight:700;border-radius:999px;padding:1px 7px;margin-left:auto}
+  .badge.lock{color:#a5b4fc;background:rgba(165,180,252,.12);border:1px solid rgba(165,180,252,.35)}
+  .badge.live{color:#6ee7b7;background:rgba(110,231,183,.1);border:1px solid rgba(6,95,70,.6)}
+  .jchip{display:block;font-size:12px;color:var(--mut);border:1px solid var(--line);background:var(--card2);border-radius:10px;padding:7px 12px;text-decoration:none;transition:.15s;margin-bottom:6px}
+  .jchip:hover{color:var(--txt);border-color:var(--fav)}
+  .jchip b{color:var(--fav)}
+  /* 主栏：VOL 期刊头 */
+  .hero{padding:26px 0 18px;border-bottom:1px solid var(--line)}
+  .vol{color:var(--mut);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase}
+  .hero h1{font-size:clamp(24px,4vw,38px);font-weight:800;margin:8px 0 4px;background:linear-gradient(90deg,#a5b4fc,#67e8f9,#fcd34d);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .meta{color:var(--mut);font-size:13.5px;margin-top:4px}.meta b{color:var(--txt)}
+  .lead{margin-top:12px;font-size:14px;color:#cbd5e1;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:10px 14px}
+  .lead .tag{color:var(--accent);font-weight:700;margin-right:6px}
+  .mpnote{margin-top:10px;font-size:12.5px;color:var(--wx)}
+  /* 今日看点（版块索引） */
+  .peek{margin:20px 0 26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+  .peek-h{padding:11px 15px;font-size:14px;font-weight:800;border-bottom:1px solid var(--line);background:var(--card2)}
+  .peek-row{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px dashed var(--line);cursor:pointer;transition:.15s}
+  .peek-row:last-child{border-bottom:none}
+  .peek-row:hover{background:var(--card2)}
+  .peek-num{font-size:13px;font-weight:800;color:var(--c);min-width:24px}
+  .peek-label{font-size:13.5px;font-weight:700;white-space:nowrap}
+  .peek-c{font-size:12px;color:var(--mut);white-space:nowrap}
+  .peek-title{font-size:12px;color:var(--mut);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .block{margin-bottom:34px;scroll-margin-top:64px}
+  .block.flash{animation:secflash 1.6s ease}
+  @keyframes secflash{0%,100%{box-shadow:none}15%,45%{box-shadow:0 0 0 3px var(--c),0 0 40px -8px var(--c);border-radius:14px}}
   .bh{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--line)}
   .bh .dot{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
   .bh h2{font-size:19px;font-weight:700}.bh .c{margin-left:auto;font-size:13px;color:var(--mut)}
@@ -49,14 +77,15 @@
   .card.wx::before{background:var(--wx)}
   .card:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:0 10px 30px -12px var(--c)}
   .card.wx:hover{border-color:var(--wx);box-shadow:0 10px 30px -12px var(--wx)}
-  /* 功能2：有更新的追踪卡片橙色高亮边框 */
   .card.updated{border-color:var(--up)}
   .ct{display:flex;align-items:center;gap:9px;margin-bottom:9px}
   .num{font-size:12.5px;font-weight:800;color:#0b0e14;background:#a5b4fc;border-radius:8px;padding:2px 8px;min-width:32px;text-align:center}
   .card.wx .num{background:#6ee7b7}
   .source{font-size:11.5px;color:var(--mut);background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:2px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .source.wx{color:#7ee2a8;border-color:#0c3a22}
-  /* 路线A：AI 评分徽章（分级：≥80 金色 / 70-79 靛蓝 / <70 弱化） */
+  /* P4：AI 两级分类徽章与维度胶囊 */
+  .cat-badge{font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 8px;white-space:nowrap;color:var(--cc);border:1px solid var(--cc);background:var(--card2)}
+  .dim-pill{font-size:10.5px;color:var(--mut);background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:2px 7px;white-space:nowrap}
   .score-badge{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;white-space:nowrap}
   .score-badge.hi{color:#fcd34d;background:rgba(252,211,77,.13);border:1px solid rgba(252,211,77,.4)}
   .score-badge.mid{color:#a5b4fc;background:rgba(165,180,252,.12);border:1px solid rgba(165,180,252,.35)}
@@ -66,7 +95,6 @@
   .title a{color:var(--txt);text-decoration:none}.title a:hover{color:#a5b4fc;text-decoration:underline;text-decoration-color:var(--accent)}
   .card.wx .title a:hover{color:#6ee7b7}
   .summary{font-size:13px;color:var(--mut);flex:1;margin-bottom:13px}
-  /* 功能2：卡片底部行（阅读原文 + 追踪按钮） */
   .card-foot{display:flex;align-items:center;gap:8px;margin-top:auto}
   .read{font-size:12.5px;font-weight:600;color:#a5b4fc;text-decoration:none;border:1px solid var(--accent);border-radius:9px;padding:5px 11px;transition:.18s}
   .read:hover{background:var(--accent);color:#0b0e14}
@@ -74,7 +102,6 @@
   .track-btn{margin-left:auto;font-size:12px;font-weight:600;color:var(--mut);background:transparent;border:1px solid var(--line);border-radius:9px;padding:5px 11px;cursor:pointer;transition:.18s;white-space:nowrap}
   .track-btn:hover{color:var(--fav);border-color:var(--fav)}
   .track-btn.on{color:#0b0e14;background:var(--fav);border-color:var(--fav)}
-  /* 功能2：UPDATE 徽章（橙红渐变 + 脉冲），点击展开相关进展 */
   .update-badge{position:absolute;top:10px;right:10px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:#fff;background:linear-gradient(90deg,#f97316,#ef4444);border:none;border-radius:999px;padding:3px 10px;cursor:pointer;animation:uppulse 1.6s infinite;z-index:2}
   @keyframes uppulse{0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,.55)}50%{box-shadow:0 0 0 7px rgba(249,115,22,0)}}
   .update-panel{display:none;margin:0 0 10px;border:1px solid #7c2d12;background:#1c1310;border-radius:10px;padding:8px 11px;font-size:12px}
@@ -84,7 +111,6 @@
   .up-item:first-of-type{border-top:none}
   .up-item:hover{color:#fdba74}
   .up-item .up-time{color:var(--mut);font-size:11px;margin-left:6px;white-space:nowrap}
-  /* 功能2：收藏夹视图 */
   .fav-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
   .fav-head h2{font-size:19px;font-weight:700}
   .fav-status{font-size:12.5px;color:var(--mut)}
@@ -95,55 +121,79 @@
   .kw-chip{font-size:11px;color:#c4b5fd;background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.35);border-radius:999px;padding:1px 8px}
   .untrack-btn{font-size:11.5px;font-weight:600;color:var(--mut);background:transparent;border:1px solid var(--line);border-radius:8px;padding:3px 10px;cursor:pointer;transition:.18s;white-space:nowrap}
   .untrack-btn:hover{color:#fca5a5;border-color:#7f1d1d}
-  .mpnote{margin:10px 0 0;font-size:12.5px;color:var(--wx)}
   .foot{border-top:1px solid var(--line);margin-top:22px;padding-top:18px;color:var(--mut);font-size:12.5px;text-align:center}
   .foot a{color:#67e8f9;text-decoration:none}
-  @media(max-width:720px){.stats{grid-template-columns:repeat(3,1fr)}.hero{padding:30px 0 16px}.filters{margin-left:0;width:100%}}
+  @media(max-width:1200px){.layout{grid-template-columns:200px minmax(0,1fr)}.dates{display:none}}
+  @media(max-width:860px){.layout{grid-template-columns:1fr}.side{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.side .brand{width:100%;margin-bottom:4px}.tab{margin-bottom:0}.side-h,.sstat{display:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="hero" id="hero">
-    <div class="kicker">AI HOT · 每日 / 每周晨报</div>
-    <h1 id="title">AI 日报</h1>
-    <div class="meta" id="meta"></div>
-    <div class="lead" id="lead" style="display:none"></div>
-    <div class="stats" id="stats"></div>
-    <div class="mpnote" id="mpnote"></div>
-  </header>
-</div>
-<div class="bar">
-  <div class="bar-in">
-    <div class="tab active" data-view="daily">日报</div>
-    <div class="tab" data-view="weekly">周报</div>
-    <div class="tab fav" id="favTab" data-view="fav">★ 收藏<span class="fav-n" id="favCount">0</span></div>
-    <div class="filters">
-      <input id="q" placeholder="搜索关键词…" />
-      <span class="fchip wx" data-src="wechat">仅看公众号</span>
-      <span class="fchip hs" data-src="selected">仅看高分 ≥75</span>
-    </div>
+  <div class="layout">
+    <aside class="side">
+      <div class="brand">
+        <div class="kicker">AI HOT · 晨报</div>
+        <h2>AI 情报仪表盘</h2>
+        <p>每日 08 / 13 / 20 时更新</p>
+      </div>
+      <div class="tab active" data-view="daily">日报</div>
+      <div class="tab" data-view="weekly">周报</div>
+      <div class="tab fav" id="favTab" data-view="fav">★ 收藏<span class="fav-n" id="favCount">0</span></div>
+      <div class="side-h">筛选</div>
+      <div class="filters">
+        <input id="q" placeholder="搜索关键词…" />
+        <span class="fchip wx" data-src="wechat">仅看公众号</span>
+        <span class="fchip hs" data-src="selected">仅看高分 ≥75</span>
+      </div>
+      <div class="side-h">AI 分类</div>
+      <div class="filters">
+        <span class="fchip catc" data-cat="financing">融资动态</span>
+        <span class="fchip catc" data-cat="release">产品/模型发布</span>
+        <span class="fchip catc" data-cat="bigtech">大厂动态</span>
+        <span class="fchip catc" data-cat="paper">论文研究</span>
+        <span class="fchip catc" data-cat="interview">深度访谈</span>
+        <span class="fchip catc" data-cat="general">泛行业</span>
+      </div>
+      <div class="side-h">六版块</div>
+      <div id="sideStats"></div>
+    </aside>
+    <aside class="dates" id="datesRail">
+      <div class="rail-h">历史归档 · 近 30 天</div>
+      <div id="dateList"></div>
+      <div class="rail-h gap">周报期刊</div>
+      <div id="weeklyList"></div>
+    </aside>
+    <main class="main">
+      <header class="hero" id="hero">
+        <div class="vol" id="vol"></div>
+        <h1 id="title"></h1>
+        <div class="meta" id="meta"></div>
+        <div class="lead" id="lead" style="display:none"></div>
+        <div class="mpnote" id="mpnote"></div>
+      </header>
+      <div id="peek"></div>
+      <div id="sections"></div>
+      <div id="favView" style="display:none">
+        <div class="fav-head">
+          <h2>★ 我的收藏追踪</h2>
+          <span class="fav-status" id="favStatus"></span>
+          <button class="fav-clear" id="favClear">清空全部</button>
+        </div>
+        <div class="fav-grid" id="favList"></div>
+      </div>
+      <footer class="foot">
+        <p>当前视图共 <b id="ftotal" style="color:var(--txt)"></b> 条 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT</a> + 微信公众号（伴生服务）· 近 30 天历史可回溯</p>
+        <p style="margin-top:5px;opacity:.7">时间均为北京时间 · 摘要由 AI 生成，点击「阅读原文」核对详情</p>
+      </footer>
+    </main>
   </div>
-</div>
-<div class="wrap">
-  <div id="sections"></div>
-  <div id="favView" style="display:none">
-    <div class="fav-head">
-      <h2>★ 我的收藏追踪</h2>
-      <span class="fav-status" id="favStatus"></span>
-      <button class="fav-clear" id="favClear">清空全部</button>
-    </div>
-    <div class="fav-grid" id="favList"></div>
-  </div>
-  <footer class="foot">
-    <p>本仪表盘共 <b id="ftotal" style="color:var(--txt)"></b> 条 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT</a> + 微信公众号（伴生服务）</p>
-    <p style="margin-top:5px;opacity:.7">时间均为北京时间 · 摘要由 AI 生成，点击「阅读原文」核对详情</p>
-  </footer>
 </div>
 <script>
 const DATA = __DATA__;
 const SECTION_COLORS = {"模型发布/更新":"#6366f1","产品发布/更新":"#10b981","AI泛娱乐新闻":"#ec4899","行业动态":"#f59e0b","论文研究":"#f43f5e","技巧与观点":"#06b6d4"};
+const CATEGORY_COLORS = {"financing":"#f59e0b","release":"#6366f1","bigtech":"#0ea5e9","paper":"#f43f5e","interview":"#a855f7","general":"#64748b"};
 const API_BASE = "https://aihot.virxact.com";
-let state = { view:"daily", src:null, q:"" };
+let state = { view:"daily", src:null, cat:null, q:"" };
 
 function esc(s){return (s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
@@ -250,6 +300,7 @@ function toggleTrack(id){
     tracked[id] = {
       title: it.title, summary: it.summary, category: it.category, url: it.url,
       source: it.source, sourceType: it.sourceType || "aihot",
+      classification: it.classification || null,
       publishedAt: it.publishedAt || "", timeText: it.timeText || "",
       trackedAt: new Date().toISOString(), lastSummary: it.summary,
       keywords: extractKeywords(it), relatedMatches: []
@@ -286,6 +337,8 @@ function cardHTML(i, n, ctx){
     badge +
     '<div class="ct">' + (ctx==="fav" ? '' : '<span class="num">' + String(n).padStart(2,'0') + '</span>') +
       '<span class="' + (wx?'source wx':'source') + '">' + esc(i.source) + '</span>' +
+      (i.classification ? '<span class="cat-badge" style="--cc:' + (CATEGORY_COLORS[i.classification.cat]||'#64748b') + '">' + esc(i.classification.catLabel) + '</span>' +
+        (i.classification.dims||[]).slice(0,2).map(d=>'<span class="dim-pill">' + esc(d.value) + '</span>').join('') : '') +
       (typeof i.score === 'number' ? '<span class="score-badge ' + (i.score>=80?'hi':(i.score>=70?'mid':'lo')) + '">AI ' + i.score + '</span>' : '') +
       '<span class="time">' + esc(fmtLiveTime(i.publishedAt) || i.timeText) + '</span></div>' +
     '<h3 class="title"><a href="' + esc(i.url) + '" target="_blank" rel="noopener noreferrer">' + esc(i.title) + '</a></h3>' +
@@ -299,36 +352,54 @@ function cardHTML(i, n, ctx){
     '</div></article>';
 }
 
+/* ================= P3：今日看点（版块索引：编号 + 条数 + 头条，点击跳转） ================= */
+function peekHTML(p, headText){
+  const rows = p.sections.filter(s=>s.count>0);
+  if(!rows.length) return "";
+  return `<div class="peek"><div class="peek-h">${esc(headText)}</div>` + rows.map((s,ix)=>{
+    const lead = s.items.reduce((a,b)=>((b.score||0)>(a.score||0)?b:a), s.items[0]);
+    return `<div class="peek-row" data-label="${esc(s.label)}" style="--c:${SECTION_COLORS[s.label]||'#64748b'}">
+      <span class="peek-num">${String(ix+1).padStart(2,'0')}</span>
+      <span class="peek-label">${esc(s.label)}</span>
+      <span class="peek-c">${s.count} 条</span>
+      <span class="peek-title">${esc((lead&&lead.title)||'')}</span></div>`;
+  }).join("") + `</div>`;
+}
+
 /* ================= 渲染主流程 ================= */
 function render(){
   const favN = Object.keys(tracked).length;
   document.getElementById("favCount").textContent = favN;
   if(state.view==="fav"){ renderFav(); return; }
   const p = DATA[state.view];
-  document.getElementById("title").textContent = state.view==="daily" ? "AI 日报" : "AI 周报";
-  document.getElementById("meta").innerHTML = `${p.range.label} · 共 <b>${p.total}</b> 条 · 六版块 · 生成于 北京时间 ${p.generatedAt.slice(11,16)}`;
+  /* P3：VOL 期刊头 */
+  const isDaily = state.view==="daily";
+  document.getElementById("vol").textContent = `${p.vol||''} · ${p.total} STORIES · AI HOT ${isDaily?'DAILY':'WEEKLY'}`;
+  document.getElementById("title").textContent = p.range.cnLabel || (isDaily ? "AI 日报" : "AI 周报");
+  document.getElementById("meta").innerHTML = `${esc(p.range.label)} · 共 <b>${p.total}</b> 条 · 六版块 · 生成于 北京时间 ${p.generatedAt.slice(11,16)}` +
+    (isDaily ? "" : ' · <span style="color:var(--fav)">周报为当前进行中的自然周（周一起算），完结周见左下方周期刊</span>');
   const lead = document.getElementById("lead");
-  if(state.view==="daily" && p.lead){ lead.style.display="block"; lead.innerHTML = `<span class="tag">今日头条</span>${esc(p.lead)}`; }
+  if(isDaily && p.lead){ lead.style.display="block"; lead.innerHTML = `<span class="tag">今日头条</span>${esc(p.lead)}`; }
   else lead.style.display="none";
   document.getElementById("mpnote").textContent = p.mpStatus.note ? "公众号：" + p.mpStatus.note : "";
-  /* 功能1：统计卡片 count>0 可点击跳转，count=0 置灰 */
-  document.getElementById("stats").innerHTML = p.stats.map(s=>{
-    const clickable = s.count > 0;
-    return `<div class="stat ${clickable?'clickable':'disabled'}" data-label="${esc(s.label)}" style="--c:${SECTION_COLORS[s.label]||'#64748b'}" ${clickable?'title="点击跳转到该版块"':''}><span class="stat-n">${s.count}</span><span class="stat-l">${s.label}</span></div>`;
-  }).join("");
+  /* 侧栏版块统计（count>0 可点击跳转） */
+  document.getElementById("sideStats").innerHTML = p.stats.map(s=>
+    `<div class="sstat ${s.count>0?'':'disabled'}" data-label="${esc(s.label)}" style="--c:${SECTION_COLORS[s.label]||'#64748b'}"><span class="n">${s.count}</span><span class="l">${esc(s.label)}</span></div>`).join("");
   const q = state.q.toLowerCase();
   let sectionsHtml = ""; let total=0;
   p.sections.forEach(sec=>{
     let items = sec.items;
     if(state.src==="wechat") items = items.filter(i=>i.sourceType==="wechat");
     if(state.src==="selected") items = items.filter(i=>(i.score||0) >= 75);
+    if(state.cat) items = items.filter(i=>i.classification && i.classification.cat===state.cat);
     if(q) items = items.filter(i=>(i.title||"").toLowerCase().includes(q)||(i.summary||"").toLowerCase().includes(q));
     if(!items.length) return;
     let n=0; const cards = items.map(i=>{ n++; total++; return cardHTML(i, n, "main"); }).join("");
     sectionsHtml += `<section class="block" data-label="${esc(sec.label)}" style="--c:${SECTION_COLORS[sec.label]||'#64748b'}">
-      <header class="bh"><span class="dot"></span><h2>${sec.label}</h2><span class="c">${items.length} 条</span></header>
+      <header class="bh"><span class="dot"></span><h2>${esc(sec.label)}</h2><span class="c">${items.length} 条</span></header>
       <div class="grid">${cards}</div></section>`;
   });
+  document.getElementById("peek").innerHTML = peekHTML(p, isDaily ? "今日看点" : "本周看点");
   document.getElementById("sections").innerHTML = sectionsHtml || `<p style="color:var(--mut)">无匹配内容。</p>`;
   document.getElementById("ftotal").textContent = total;
 }
@@ -350,13 +421,21 @@ function renderFav(){
   box.innerHTML = list.map(t=>cardHTML(t, 0, "fav")).join("");
 }
 
-/* ================= 功能1：点击统计卡片跳转到对应版块 ================= */
+/* ================= 功能1：点击版块统计跳转到对应版块 ================= */
 function jumpToSection(label){
   const el = document.querySelector('.block[data-label="' + label + '"]');
   if(!el) return;
   el.scrollIntoView({behavior:"smooth", block:"start"});
   el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
 }
+
+/* ================= P3：中栏导航（历史归档 + 周期刊，初始化一次） ================= */
+document.getElementById("dateList").innerHTML = (DATA.history||[]).map(h=>
+  `<a class="dlink" href="${esc(h.url)}">
+    <span class="d-top">${esc(h.label)}<span class="badge ${h.finalized?'lock':'live'}">${h.finalized?'定稿':'更新中'}</span></span>
+    <span class="d-title">${esc(h.title||'')}</span></a>`).join("") || '<p style="font-size:12px;color:var(--mut)">归档积累中…</p>';
+document.getElementById("weeklyList").innerHTML = (DATA.weeklyNav||[]).map(w=>
+  `<a class="jchip" href="${esc(w.url)}"><b>${esc(w.label)}</b> · ${esc(w.range)} · ${w.total}条</a>`).join("") || '<p style="font-size:12px;color:var(--mut)">首个自然周完结后产出…</p>';
 
 /* ================= 事件绑定（委托，避免重渲染后失效） ================= */
 document.addEventListener("click", e=>{
@@ -366,8 +445,10 @@ document.addEventListener("click", e=>{
   if(ub){ toggleTrack(ub.dataset.id); return; }
   const bd = e.target.closest(".update-badge");
   if(bd){ const panel = bd.parentElement.querySelector(".update-panel"); if(panel) panel.classList.toggle("open"); return; }
-  const st = e.target.closest(".stat.clickable");
+  const st = e.target.closest(".sstat:not(.disabled)");
   if(st){ jumpToSection(st.dataset.label); return; }
+  const pr = e.target.closest(".peek-row");
+  if(pr){ jumpToSection(pr.dataset.label); return; }
 });
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
@@ -375,6 +456,7 @@ document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   const fav = state.view==="fav";
   document.getElementById("favView").style.display = fav ? "" : "none";
   document.getElementById("sections").style.display = fav ? "none" : "";
+  document.getElementById("peek").style.display = fav ? "none" : "";
   document.getElementById("hero").style.display = fav ? "none" : "";
   render();
 });
@@ -384,6 +466,14 @@ document.querySelectorAll(".fchip[data-src]").forEach(chip=>chip.onclick=functio
   document.querySelectorAll(".fchip[data-src]").forEach(x=>x.classList.remove("on"));
   if(turningOn) this.classList.add("on");
   state.src = turningOn ? this.dataset.src : null;
+  render();
+});
+/* P4：AI 分类筛选（组内互斥，与来源组/关键词正交叠加） */
+document.querySelectorAll(".fchip[data-cat]").forEach(chip=>chip.onclick=function(){
+  const turningOn = !this.classList.contains("on");
+  document.querySelectorAll(".fchip[data-cat]").forEach(x=>x.classList.remove("on"));
+  if(turningOn) this.classList.add("on");
+  state.cat = turningOn ? this.dataset.cat : null;
   render();
 });
 document.getElementById("q").oninput=function(){ state.q=this.value; render(); };
