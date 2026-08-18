@@ -486,6 +486,24 @@ def fetch_items(api_base: str, since_bj: datetime) -> list[dict]:
     return items
 
 
+def fetch_hot_topics(api_base: str) -> dict:
+    """抓取 AI HOT 热点榜（/api/v1/hot-topics），失败返回空列表结构。"""
+    url = f"{api_base}/api/v1/hot-topics"
+    try:
+        with urllib.request.urlopen(url, timeout=30) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        print(f"热点榜抓取失败: {exc}", file=sys.stderr)
+        return {"items": []}
+
+    items = data.get("items", [])
+    for it in items:
+        # API 原始字段无 heat，用来源数 + 信号数作为热度值
+        it.setdefault("heat", (it.get("sourceCount") or 0) + (it.get("signalCount") or 0))
+    items.sort(key=lambda x: x.get("heat", 0), reverse=True)
+    return {"items": items}
+
+
 def to_bj(iso: str) -> datetime:
     """ISO8601 -> 北京时间 datetime（无法解析时返回遥远的过去）。"""
     try:
@@ -533,6 +551,7 @@ def build_item(raw: dict, num: int, today: datetime) -> dict:
         "category": category,
         "publishedAt": raw.get("publishedAt") or "",
         "score": raw.get("score") if isinstance(raw.get("score"), (int, float)) else None,
+        "selected": bool(raw.get("selected")) if "selected" in raw else None,
         "mpName": raw.get("mpName") if "mpName" in raw else None,
         # AI 两级分类结果（id → label 展示结构）；未打标条目为 None，前端自然隐藏徽章
         "classification": (tag_news.to_display(TAG_TAXONOMY, raw["classification"])
@@ -551,6 +570,68 @@ def group_sections(items: list[dict]) -> list[dict]:
         {"label": s, "count": len(grouped[s]), "items": grouped[s]}
         for s in SECTIONS
     ]
+
+
+def format_items(items: list[dict], today: datetime, time_ref: datetime | None = None) -> list[dict]:
+    """将原始条目列表格式化为前端消费的结构（带 timeText / num）。"""
+    ref = time_ref or today
+    return [build_item(it, idx + 1, ref) for idx, it in enumerate(items)]
+
+
+def build_daily_nav(all_days: dict[str, dict], weekly_nav: list[dict], time_ref: datetime) -> list[dict]:
+    """按月份组织日报/周报导航，并附带格式化后的条目列表。
+
+    返回 [{month, label, daily:[...], weekly:[...]}]，月份从新到旧。
+    """
+    months: dict[str, dict] = {}
+    # 日报：按月份分组
+    for date_str, day in sorted(all_days.items(), reverse=True):
+        month_key = date_str[:7]
+        if month_key not in months:
+            months[month_key] = {
+                "month": month_key,
+                "label": f"{date_str[:4]} 年 {int(date_str[5:7])} 月",
+                "daily": [],
+                "weekly": [],
+            }
+        d = date.fromisoformat(date_str)
+        raw_items = sorted(day.get("items") or [], key=lambda i: to_bj(i.get("publishedAt") or ""), reverse=True)
+        items = format_items(raw_items, time_ref)
+        months[month_key]["daily"].append({
+            "date": date_str,
+            "label": f"{d.month}月{d.day}日 {WEEKDAYS[d.weekday()]}",
+            "title": raw_items[0].get("title") if raw_items else "",
+            "total": len(raw_items),
+            "finalized": bool(day.get("finalized")),
+            "url": f"history/{date_str}.html",
+            "items": items,
+        })
+    # 周报：按月份分组
+    for w in weekly_nav:
+        url = w.get("url") or ""
+        week_start_str = url.split("/")[-1].split(".")[0]
+        try:
+            ws = date.fromisoformat(week_start_str)
+        except ValueError:
+            continue
+        month_key = ws.isoformat()[:7]
+        if month_key not in months:
+            months[month_key] = {
+                "month": month_key,
+                "label": f"{ws.year} 年 {ws.month} 月",
+                "daily": [],
+                "weekly": [],
+            }
+        raw_items = sorted(week_items(all_days, ws), key=lambda i: to_bj(i.get("publishedAt") or ""), reverse=True)
+        items = format_items(raw_items, time_ref)
+        months[month_key]["weekly"].append({
+            "url": url,
+            "label": w.get("label") or "",
+            "range": w.get("range") or "",
+            "total": w.get("total") or 0,
+            "items": items,
+        })
+    return sorted(months.values(), key=lambda m: m["month"], reverse=True)
 
 
 def build_view(view: str, items: list[dict], day: datetime, days: int, generated_at: datetime, mp_status: dict,
@@ -605,6 +686,8 @@ def render(template_path: str, out_path: str, data: dict) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="生成 AI HOT 仪表盘静态快照")
     parser.add_argument("--out", default="public/index.html")
+    parser.add_argument("--snapshot-json", default="public/snapshot.json",
+                        help="新版前端消费的 JSON 数据快照（与 HTML 快照同源同构）")
     parser.add_argument("--template", default="templates/index.template.html")
     parser.add_argument("--history-template", default="templates/history.template.html",
                         help="历史归档只读页模板")
@@ -743,6 +826,17 @@ def main() -> int:
     daily_view["vol"] = f"VOL.{now_bj.year}-{now_bj.month:02d}-{now_bj.day:02d}"
     daily_view["range"]["cnLabel"] = fmt_cn_date(now_bj.date()) + " " + WEEKDAYS[now_bj.weekday()]
 
+    # 新版前端字段：精选 / 热点榜 / 全部 AI 动态 / 日报周报导航 / 分类标签
+    featured_pool = format_items(items[:200], now_bj)
+    selected_featured = [it for it in featured_pool if it.get("selected")]
+    featured_items = selected_featured[:50] if selected_featured else featured_pool[:50]
+
+    all_pool = format_items(items[:200], now_bj)
+    category_counts: dict[str, int] = {}
+    for it in all_pool:
+        category_counts[it["category"]] = category_counts.get(it["category"], 0) + 1
+    all_tags = [{"tag": cat, "count": category_counts.get(cat, 0)} for cat in SECTIONS if category_counts.get(cat, 0) > 0]
+
     data = {
         # 日报：昨天 00:00 至今（今天没新文章时自然退化为昨日视图，标签相对真实今天）
         "daily": daily_view,
@@ -751,8 +845,20 @@ def main() -> int:
         # 历史归档日期导航（新到旧）+ 周期刊导航
         "history": [day_nav_entry(all_days[d]) for d in sorted(all_days, reverse=True)],
         "weeklyNav": weekly_nav,
+        # 新版单页前端字段
+        "featured": featured_items,
+        "hot": fetch_hot_topics(args.api_base),
+        "all": {"items": all_pool, "tags": all_tags, "live": True},
+        "dailyNav": build_daily_nav(all_days, weekly_nav, now_bj),
+        "categories": ["模型", "产品", "行业", "论文", "教程", "观点"],
     }
     render(args.template, args.out, data)
+
+    # JSON 数据快照：新版前端（Next.js 页面）直接消费，结构与 HTML 内嵌 DATA 完全一致
+    os.makedirs(os.path.dirname(args.snapshot_json) or ".", exist_ok=True)
+    with open(args.snapshot_json, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"已生成 {args.snapshot_json}")
 
     # ---- 历史页：每个保留归档日渲染一页只读精简版（日报 + 本周周报双 tab） ----
     os.makedirs(args.history_dir, exist_ok=True)

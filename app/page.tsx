@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { AppShell } from "./_components/AppShell";
 
 export default function Home() {
-  redirect("/index.html");
+  return <AppShell />;
 }

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI HOT 仪表盘",
-  description: "AI 每日与每周情报看板。",
+  title: "AI HOT · AI 情报仪表盘",
+  description: "精选 / 热点榜 / 全部 AI 动态 / 日报周报，一站式 AI 情报看板。",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="zh-CN">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

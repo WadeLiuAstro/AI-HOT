@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
+/* AI HOT 浅色主题令牌（对齐官网截图：浅灰白底 + 深青绿强调） */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --page: #f5f7fa;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --ink: #111827;
+  --ink-2: #374151;
+  --mut: #6b7280;
+  --mut-2: #9ca3af;
+  --line: #e5e7eb;
+  --line-2: #eef1f4;
+  --brand: #1a5f7a;
+  --brand-strong: #0f4c63;
+  --brand-soft: #e8f0f4;
+  --brand-softer: #f2f7f9;
+  --heat-red: #dc2626;
+  --heat-orange: #f97316;
+  --heat-gold: #eab308;
+  --tag-beige-bg: #f5ead9;
+  --tag-beige-ink: #8a6d3b;
+  --wx-green: #07c160;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-mut: var(--mut);
+  --color-mut-2: var(--mut-2);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-softer: var(--brand-softer);
+  --color-heat-red: var(--heat-red);
+  --color-heat-orange: var(--heat-orange);
+  --color-heat-gold: var(--heat-gold);
+  --color-wx-green: var(--wx-green);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans), "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 卡片基础质感：圆角 + 细边 + 轻阴影（与截图一致的低对比风格） */
+.ah-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.04);
+}
+.ah-card-hover {
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+.ah-card-hover:hover {
+  border-color: #d7dde3;
+  box-shadow: 0 6px 18px -8px rgb(16 24 40 / 0.16);
+  transform: translateY(-1px);
+}
+
+/* 精选卡片内的虚线分隔（截图样式） */
+.ah-dashed {
+  border-top: 1px dashed var(--line);
+}
+
+/* 滚动条弱化 */
+.ah-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.ah-scroll::-webkit-scrollbar-thumb {
+  background: #d5dae0;
+  border-radius: 999px;
 }

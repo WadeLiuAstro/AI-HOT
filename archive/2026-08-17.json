@@ -2,7 +2,7 @@
  "date": "2026-08-17",
  "finalized": false,
  "finalizedAt": null,
- "updatedAt": "2026-08-18T13:28:24.181671+08:00",
+ "updatedAt": "2026-08-18T17:29:09.548264+08:00",
  "items": [
   {
    "id": "cmswesk6a0r2hrovml2edcl2c",
@@ -20,24 +20,6 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmswesk6a0r2hrovml2edcl2c"
-   }
-  },
-  {
-   "id": "cmsx7ffrz049uromm6en3if02",
-   "title": "OpenRouter 推出 Activity 仪表盘与 Analytics API：按智能体、模型、请求追踪 AI 使用成本",
-   "title_en": "Understand your AI usage： every agent， model， and request",
-   "url": "https://openrouter.ai/blog/announcements/activity-dashboard",
-   "permalink": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02",
-   "source": "OpenRouter：Announcements（RSS）",
-   "publishedAt": "2026-08-17T00:00:00.000Z",
-   "discoveredAt": "2026-08-17T12:22:55.595Z",
-   "summary": "OpenRouter 发布 Activity 仪表盘和 beta Analytics API，可按智能体、模型、请求维度查看支出、token 量、缓存命中率等指标，并支持下钻至单条请求日志。",
-   "category": "ai-products",
-   "score": 63,
-   "selected": true,
-   "attribution": {
-    "source": "AIHOT",
-    "canonical": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02"
    }
   },
   {
@@ -95,6 +77,24 @@
    }
   },
   {
+   "id": "cmsy8afig0mvmroz0gb3hz0iq",
+   "title": "inclusionAI 开源 ConceptEdit：基于概念缩放与密集监督的图像编辑数据生成管线",
+   "title_en": "inclusionAI/ConceptEdit",
+   "url": "https://github.com/inclusionAI/ConceptEdit",
+   "permalink": "https://aihot.virxact.com/items/cmsy8afig0mvmroz0gb3hz0iq",
+   "source": "蚂蚁 inclusionAI：GitHub 新仓库",
+   "publishedAt": "2026-08-17T07:22:08.000Z",
+   "discoveredAt": "2026-08-18T05:34:47.114Z",
+   "summary": "蚂蚁集团 inclusionAI 开源 ConceptEdit，一个基于概念缩放与密集监督的图像编辑数据生成管线。该管线通过三阶段流程（VLM 生成指令、FLUX 执行编辑、VQA 评估筛选）构建大规模、基于分类法的图像编辑数据集，并提供单概念与多概念两种变体。项目采用 MIT 许可证，支持断点续跑，需 OpenAI 兼容 VLM 端点与本地 FLUX 检查点。",
+   "category": "ai-products",
+   "score": 64,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsy8afig0mvmroz0gb3hz0iq"
+   }
+  },
+  {
    "id": "cmsx9696t05u7rommdoa60l4p",
    "title": "OpenAI 如何用前沿智能加固自身防御：The Defender's Window",
    "title_en": "The Defender's Window",
@@ -110,6 +110,24 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsx9696t05u7rommdoa60l4p"
+   }
+  },
+  {
+   "id": "cmsx7ffrz049uromm6en3if02",
+   "title": "OpenRouter 推出 Activity 仪表盘与 Analytics API：按智能体、模型、请求追踪 AI 使用成本",
+   "title_en": "Understand your AI usage： every agent， model， and request",
+   "url": "https://openrouter.ai/blog/announcements/activity-dashboard",
+   "permalink": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02",
+   "source": "OpenRouter：Announcements（RSS）",
+   "publishedAt": "2026-08-17T00:00:00.000Z",
+   "discoveredAt": "2026-08-17T12:22:55.595Z",
+   "summary": "OpenRouter 发布 Activity 仪表盘和 beta Analytics API，可按智能体、模型、请求维度查看支出、token 量、缓存命中率等指标，并支持下钻至单条请求日志。",
+   "category": "ai-products",
+   "score": 63,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02"
    }
   }
  ]

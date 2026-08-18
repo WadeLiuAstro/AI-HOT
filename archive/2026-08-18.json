@@ -2,7 +2,7 @@
  "date": "2026-08-18",
  "finalized": false,
  "finalizedAt": null,
- "updatedAt": "2026-08-18T13:28:24.181671+08:00",
+ "updatedAt": "2026-08-18T17:29:09.548264+08:00",
  "items": [
   {
    "id": "cmsxwd7a40coxroz06g25sfaf",
@@ -92,6 +92,24 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsxkakju0300roz0zx6cvdeu"
+   }
+  },
+  {
+   "id": "cmsycmgww0rkrroz0nfma0z05",
+   "title": "设计 AI 评测：先求清晰，再谈可视化",
+   "title_en": "Designing AI Evals： Clarity Now and Visualization Next",
+   "url": "https://dev.to/googleai/designing-ai-evals-clarity-now-and-visualization-next-4eii",
+   "permalink": "https://aihot.virxact.com/items/cmsycmgww0rkrroz0nfma0z05",
+   "source": "Google AI：DEV 作者专属（RSS）",
+   "publishedAt": "2026-08-18T07:00:00.000Z",
+   "discoveredAt": "2026-08-18T07:36:07.408Z",
+   "summary": "本文演示如何用开源评测框架 Inspect AI 和 Harbor 评估 agent 技能，并借助 Google Sheets 和 Data Studio 进行可视化分析。",
+   "category": "tip",
+   "score": 67,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsycmgww0rkrroz0nfma0z05"
    }
   }
  ]
