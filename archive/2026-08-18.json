@@ -1,0 +1,98 @@
+{
+ "date": "2026-08-18",
+ "finalized": false,
+ "finalizedAt": null,
+ "updatedAt": "2026-08-18T09:11:01.036853+08:00",
+ "items": [
+  {
+   "id": "cmsxwd7a40coxroz06g25sfaf",
+   "title": "一个实用的深度思考Prompt：用\"双向钢人论证\"让AI帮你挖出最本质的答案",
+   "title_en": "一个极度实用的深度思考Prompt，帮你挖出最本质的答案。",
+   "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647685329&idx=1&sn=9471278dc489641c097b228912965ed4",
+   "permalink": "https://aihot.virxact.com/items/cmsxwd7a40coxroz06g25sfaf",
+   "source": "公众号：数字生命卡兹克",
+   "publishedAt": "2026-08-17T23:58:00.000Z",
+   "discoveredAt": "2026-08-18T00:01:01.853Z",
+   "summary": "作者基于Reddit上\"让Claude真正开始思考\"的帖子，引入逻辑学中的\"钢人论证\"（steelman）概念，并自创了一个\"双向钢人Prompt\"。该Prompt通过重述真实问题、强化正反双方观点、找出关键变量、逼AI给出明确判断四步，旨在避免模型谄媚，帮助用户找到问题最本质的答案。作者以自己选择公司司庆日的真实案例演示了使用效果。",
+   "category": "tip",
+   "score": 71,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsxwd7a40coxroz06g25sfaf"
+   }
+  },
+  {
+   "id": "cmsxv0p3v0bntroz0227a6b3j",
+   "title": "用 Google 的 Agent Development Kit 构建零信任 AI 智能体",
+   "title_en": "Build zero-trust AI agents with Google's Agent Development Kit",
+   "url": "https://developers.googleblog.com/build-zero-trust-ai-agents-with-googles-agent-development-kit",
+   "permalink": "https://aihot.virxact.com/items/cmsxv0p3v0bntroz0227a6b3j",
+   "source": "Google Developers Blog（RSS）",
+   "publishedAt": "2026-08-17T23:22:25.902Z",
+   "discoveredAt": "2026-08-17T23:22:25.902Z",
+   "summary": "Google 开源了基于 ADK 和 Gemini 的零信任客服与退货智能体示例，演示如何防御提示注入等攻击。该架构在 LLM 上下文之外通过三层硬性安全机制保障：硬件支持的加密签名确保数据库写入不可抵赖、gVisor 沙箱隔离动态代码执行、确定性语义网关校验业务逻辑。系统提示词只是软约束，无法作为安全边界。",
+   "category": "tip",
+   "score": 69,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsxv0p3v0bntroz0227a6b3j"
+   }
+  },
+  {
+   "id": "cmsxsvb5s0a4troz0z2q2nu3h",
+   "title": "Cursor 推出 Origin 代码托管服务，作为 GitHub 的替代方案",
+   "title_en": "Cursor 推出 Origin，作为 GitHub 的替代方案",
+   "url": "https://cursor.com/changelog/origin-code-hosting",
+   "permalink": "https://aihot.virxact.com/items/cmsxsvb5s0a4troz0z2q2nu3h",
+   "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+   "publishedAt": "2026-08-17T22:14:00.748Z",
+   "discoveredAt": "2026-08-17T22:23:07.832Z",
+   "summary": "Cursor 今日起向所有付费计划用户开放 Origin 代码托管的早期测试版，提供仓库、拉取请求、代码浏览及 GitHub 同步功能。用户可创建以 cursor.com/codebase/ 为前缀的仓库，或将 GitHub 仓库同步至 Origin，双向同步评论与审查。Vercel、Depot 和 Buildkite 集成已可用，智能体功能即将推出。",
+   "category": "ai-products",
+   "score": 81,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsxsvb5s0a4troz0z2q2nu3h"
+   }
+  },
+  {
+   "id": "cmsxld6es03o8roz0jblf3ii9",
+   "title": "404 Media 追踪珍本图书流向：亚马逊批量购书扫描用于 AI 训练后销毁",
+   "title_en": "我们追踪了一批珍本图书的运输过程。最终，这些书被送到了亚马逊的一处人工智能训练中心",
+   "url": "https://www.404media.co/we-tracked-a-shipment-of-rare-books-it-ended-at-an-amazon-ai-training-facility",
+   "permalink": "https://aihot.virxact.com/items/cmsxld6es03o8roz0jblf3ii9",
+   "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+   "publishedAt": "2026-08-17T18:46:04.518Z",
+   "discoveredAt": "2026-08-17T18:53:04.323Z",
+   "summary": "404 Media 通过在一本珍本图书中放置追踪设备，首次揭露亚马逊未公开的购书行动：批量购入大量书籍，扫描用于 AI 训练数据，随后销毁。追踪显示这些书最终被送往亚马逊的一处人工智能训练中心。",
+   "category": "industry",
+   "score": 71,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsxld6es03o8roz0jblf3ii9"
+   }
+  },
+  {
+   "id": "cmsxkakju0300roz0zx6cvdeu",
+   "title": "如何禁用或避免侵入式 AI：一份覆盖 Windows、Chrome、Edge、Firefox 及主流应用的实用指南",
+   "title_en": "如何禁用或避免侵入式人工智能",
+   "url": "https://www.librarian.net/notoai",
+   "permalink": "https://aihot.virxact.com/items/cmsxkakju0300roz0zx6cvdeu",
+   "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+   "publishedAt": "2026-08-17T17:58:12.144Z",
+   "discoveredAt": "2026-08-17T18:23:03.341Z",
+   "summary": "一份面向希望减少技术环境中侵入式 AI 的用户的操作指南，涵盖 Adobe Acrobat、Android/Gemini、Apple Intelligence、Chrome、Edge、Firefox、DuckDuckGo、Google Workspace、Slack、WhatsApp 及 Windows 11/Copilot 等平台。",
+   "category": "tip",
+   "score": 70,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsxkakju0300roz0zx6cvdeu"
+   }
+  }
+ ]
+}
