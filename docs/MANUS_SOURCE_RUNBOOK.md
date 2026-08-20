@@ -21,7 +21,8 @@ Actions 页 → `Manus 公众号采集并晋升 feed` → Run workflow：
 
 推荐冒烟序列：`group_a + promote=false` → 全组 + `promote=false` → 全组 + `promote=true`。
 
-本地分阶段调试（需 `.env` 配置 `MANUS_API_KEY` / `DEEPSEEK_API_KEY`，参考 `.env.example`）：
+本地分阶段调试（需 `.env` 配置 `MANUS_API_KEY` / `DEEPSEEK_API_KEY`，参考 `.env.example`；
+也可用设置页免手改：`node scripts/settings-server.mjs` 后打开 Next.js 应用「设置」视图保存）：
 
 ```powershell
 python scripts/manus_source/runner.py --date 2026-08-16 --groups group_a   # 阶段 A 发现
@@ -71,7 +72,8 @@ python scripts/build_manus_feed.py --date 2026-08-16                       # 原
 
 ## 8. 安全红线
 
-- `MANUS_API_KEY` / `DEEPSEEK_API_KEY` 只存 GitHub Secrets 或本地 `.env`（已 gitignore）。
+- `MANUS_API_KEY` / `DEEPSEEK_API_KEY` 只存 GitHub Secrets 或本地 `.env`（已 gitignore；
+  可用设置页 `scripts/settings-server.mjs` 写入，页面响应不回显明文）。
 - 正文全文只存在于运行时 `work/`（已 gitignore）；Artifact 只上传去正文诊断目录，
   上传前有防泄漏断言（content_text / 密钥字段检测）。
 - 分发打包（见外层 `DISTRIBUTE.md`）不得携带 key、正文与本地 `.env`。

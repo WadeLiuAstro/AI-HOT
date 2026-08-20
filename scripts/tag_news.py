@@ -29,7 +29,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # 公共 LLM 调用/解析能力抽取至 llm_common.py（enrich_news.py 同样复用）；
 # 原名导入保持向后兼容，既有调用方与 selftest 行为不变。
-from llm_common import call_llm, parse_output  # noqa: F401
+from llm_common import call_llm, ensure_env_loaded, parse_output  # noqa: F401
 
 MAX_INPUT_CHARS = 800  # 标题/摘要各自截断上限（仅轻调用；正文加工见 enrich_news.py）
 
@@ -37,6 +37,9 @@ MAX_INPUT_CHARS = 800  # 标题/摘要各自截断上限（仅轻调用；正文
 # ================= 配置加载 =================
 
 def load_taxonomy(path: str = "taxonomy.json") -> dict:
+    # 先加载项目根 .env（设置页写入的密钥），使 build_snapshot 的 key 预检、
+    # CLI 单条调试在未手动 export 时也能命中配置。
+    ensure_env_loaded()
     with open(path, "r", encoding="utf-8") as f:
         tx = json.load(f)
     # 一致性自检：priority 与 categories 顺序/集合必须一致
@@ -168,8 +171,12 @@ def item_key(item: dict) -> str:
 
 
 def cache_prefix(tx: dict) -> str:
-    """缓存键前缀：taxonomy/prompt/模型 任一变更自动作废旧结果。"""
-    return f"{tx['version']}:{tx['promptVersion']}:{tx['model']['model']}"
+    """缓存键前缀：taxonomy/prompt/模型 任一变更自动作废旧结果。
+
+    LLM_MODEL 环境变量覆盖 taxonomy.model 时并入前缀，换模型自动失效。
+    """
+    model = os.environ.get("LLM_MODEL", "").strip() or tx["model"]["model"]
+    return f"{tx['version']}:{tx['promptVersion']}:{model}"
 
 
 def load_cache(path: str) -> dict:

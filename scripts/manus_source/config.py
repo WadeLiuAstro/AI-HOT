@@ -7,10 +7,14 @@ ALLOWED_PROFILES = {"manus-1.6-lite", "manus-1.6", "manus-1.6-max"}
 
 
 def load_dotenv(path: Path) -> None:
-    """无第三方依赖的最小 .env 加载；已存在的环境变量优先。"""
+    """无第三方依赖的最小 .env 加载；已存在的环境变量优先。
+
+    utf-8-sig 读取：兼容 Windows 编辑器写出的带 BOM 文件，避免首行 key 静默丢失
+    （与 llm_common.load_dotenv 语义保持一致）。
+    """
     if not path.exists():
         return
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
+    for raw_line in path.read_text(encoding="utf-8-sig").splitlines():
         line = raw_line.strip()
         if not line or line.startswith("#") or "=" not in line:
             continue

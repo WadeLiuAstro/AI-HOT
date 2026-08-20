@@ -80,10 +80,11 @@ export function DailyReportView() {
   useEffect(() => {
     if (!selectedDate) return;
     let cancelled = false;
-    setOfficial(null);
-    loadOfficialDaily(selectedDate).then((data) => {
+    (async () => {
+      setOfficial(null); // 切换日期先清空旧看点（同步于本 effect 的执行序）
+      const data = await loadOfficialDaily(selectedDate);
       if (!cancelled) setOfficial(parseOfficialSections(data));
-    });
+    })();
     return () => {
       cancelled = true;
     };

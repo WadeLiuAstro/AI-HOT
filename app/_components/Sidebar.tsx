@@ -2,7 +2,7 @@
 "use client";
 
 import { useApp } from "./providers/AppDataProvider";
-import { BrandLogo, FlameIcon, ListIcon, NewsIcon, StarIcon } from "./icons";
+import { BrandLogo, FlameIcon, GearIcon, ListIcon, NewsIcon, StarIcon } from "./icons";
 import type { ViewKey } from "../_lib/types";
 
 const NAV_ITEMS: { key: ViewKey; label: string; icon: (p: { className?: string }) => React.ReactNode }[] = [
@@ -51,6 +51,26 @@ export function SidebarContent() {
               </button>
             );
           })}
+        </nav>
+      </div>
+
+      {/* 系统导航 */}
+      <div className="px-3">
+        <div className="px-2 pb-2 text-[11px] font-bold tracking-[0.18em] text-mut-2">系统</div>
+        <nav className="flex flex-col gap-1" aria-label="系统导航">
+          <button
+            type="button"
+            onClick={() => setView("settings")}
+            aria-current={view === "settings" ? "page" : undefined}
+            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[14px] transition-colors ${
+              view === "settings"
+                ? "bg-brand-soft font-semibold text-brand-strong"
+                : "text-ink-2 hover:bg-surface-2 hover:text-ink"
+            }`}
+          >
+            <GearIcon className={`size-4.5 ${view === "settings" ? "text-brand" : "text-mut"}`} />
+            设置
+          </button>
         </nav>
       </div>
 

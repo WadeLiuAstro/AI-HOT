@@ -11,7 +11,7 @@ import {
 } from "react";
 import type { ViewKey } from "../../_lib/types";
 
-const VALID_VIEWS: ViewKey[] = ["featured", "hot", "all", "daily"];
+const VALID_VIEWS: ViewKey[] = ["featured", "hot", "all", "daily", "settings"];
 
 interface AppState {
   view: ViewKey;
@@ -29,12 +29,14 @@ function viewFromHash(): ViewKey {
 }
 
 export function AppDataProvider({ children }: { children: ReactNode }) {
-  const [view, setViewRaw] = useState<ViewKey>("featured");
+  // 初始视图惰性读取 hash（客户端渲染阶段执行；SSR 走默认 featured）
+  const [view, setViewRaw] = useState<ViewKey>(() =>
+    typeof window === "undefined" ? "featured" : viewFromHash(),
+  );
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // 挂载时读取 hash，并监听浏览器前进/后退
+  // 监听浏览器前进/后退
   useEffect(() => {
-    setViewRaw(viewFromHash());
     const onHashChange = () => setViewRaw(viewFromHash());
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);

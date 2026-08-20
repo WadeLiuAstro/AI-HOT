@@ -1,6 +1,6 @@
 // AI HOT 前端数据类型定义（与 build_snapshot.py / aihot API 对齐）
 
-export type ViewKey = "featured" | "hot" | "all" | "daily";
+export type ViewKey = "featured" | "hot" | "all" | "daily" | "settings";
 
 /** AI 两级分类（tag_news 打标签产物，展示结构） */
 export interface Classification {

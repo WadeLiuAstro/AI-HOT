@@ -10,19 +10,24 @@ import { FeaturedView } from "./views/FeaturedView";
 import { HotView } from "./views/HotView";
 import { AllAIView } from "./views/AllAIView";
 import { DailyReportView } from "./views/DailyReportView";
+import { SettingsView } from "./views/SettingsView";
 
 function ShellBody() {
   const { view, sidebarOpen, setSidebarOpen } = useApp();
   const [mounted, setMounted] = useState(false);
   const [visited, setVisited] = useState<Set<ViewKey>>(new Set(["featured"]));
 
-  // 客户端挂载后才渲染，避免日期/状态的服务端水合差异
+  // 客户端挂载后才渲染，避免日期/状态的服务端水合差异（延迟一拍，不产生同步级联渲染）
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    setVisited((prev) => (prev.has(view) ? prev : new Set(prev).add(view)));
+    const timer = setTimeout(() => {
+      setVisited((prev) => (prev.has(view) ? prev : new Set(prev).add(view)));
+    }, 0);
+    return () => clearTimeout(timer);
   }, [view]);
 
   if (!mounted) {
@@ -86,6 +91,7 @@ function ShellBody() {
           {visited.has("hot") && panel("hot", <HotView />)}
           {visited.has("all") && panel("all", <AllAIView />)}
           {visited.has("daily") && panel("daily", <DailyReportView />)}
+          {visited.has("settings") && panel("settings", <SettingsView />)}
         </main>
       </div>
     </div>

@@ -33,9 +33,9 @@ export function FeaturedView() {
   const [today, setToday] = useState("");
 
   useEffect(() => {
-    setToday(fmtFullDay(new Date().toISOString()));
     let cancelled = false;
     (async () => {
+      setToday(fmtFullDay(new Date().toISOString()));
       const snap = await loadSnapshot();
       const base = snap ? poolFromSnapshot(snap) : [];
       if (cancelled) return;
