@@ -142,8 +142,10 @@ export function SettingsView() {
     }
   }, []);
 
-  // 挂载：探测本地服务 + 读取已存状态 + 恢复浏览器记忆
-  useEffect(() => {
+  const OFFLINE_HINT = "本地设置服务未启动：请在项目目录（aihot-site，含 scripts/ 的目录）执行 node scripts/settings-server.mjs";
+
+  /** 探测本地设置服务并刷新在线状态；返回清理函数（中止未完成的探测）。 */
+  const probe = useCallback(() => {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), PROBE_TIMEOUT_MS);
     fetch(`${SETTINGS_BASE}/healthz`, { signal: ctrl.signal })
@@ -151,19 +153,32 @@ export function SettingsView() {
       .then((ok) => {
         setOnline(ok);
         if (ok) void loadStatus();
-        else flash("info", "本地设置服务未启动：请先运行 node scripts/settings-server.mjs");
+        else flash("info", OFFLINE_HINT);
       })
       .catch(() => {
         setOnline(false);
-        flash("info", "本地设置服务未启动：请先运行 node scripts/settings-server.mjs");
+        flash("info", OFFLINE_HINT);
       })
       .finally(() => clearTimeout(timer));
     return () => {
       clearTimeout(timer);
       ctrl.abort();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [flash, loadStatus]);
+
+  // 挂载时探测；窗口重新聚焦时自动重探测（用户启动服务后切回浏览器即自动变在线）
+  useEffect(() => {
+    const cleanup = probe();
+    const onFocus = () => {
+      cleanup();
+      probe();
+    };
+    window.addEventListener("focus", onFocus);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      cleanup();
+    };
+  }, [probe]);
 
   // 表单变化：实时记忆（仅本机）
   useEffect(() => {
@@ -293,18 +308,16 @@ export function SettingsView() {
           {online === null ? "检测中…" : online ? "本地设置服务在线" : "本地设置服务离线"}
         </span>
         {online === false && (
-          <code className="text-xs text-mut-2">node scripts/settings-server.mjs</code>
+          <code className="text-xs text-mut-2">cd 项目目录（aihot-site）; node scripts/settings-server.mjs</code>
         )}
-        <button type="button" className={secondaryCls + " !px-3 !py-1.5 text-xs"} onClick={() => {
-          setOnline(null);
-          fetch(`${SETTINGS_BASE}/healthz`)
-            .then((r) => r.ok)
-            .then((ok) => {
-              setOnline(ok);
-              if (ok) void loadStatus();
-            })
-            .catch(() => setOnline(false));
-        }}>
+        <button
+          type="button"
+          className={secondaryCls + " !px-3 !py-1.5 text-xs"}
+          onClick={() => {
+            setOnline(null);
+            probe();
+          }}
+        >
           重新检测
         </button>
       </div>
