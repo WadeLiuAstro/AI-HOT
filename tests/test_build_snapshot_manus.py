@@ -14,6 +14,8 @@ import tempfile
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+sys.path.insert(0, os.path.dirname(__file__))
+from _tempdir import make_temp_dir  # noqa: E402
 import build_snapshot  # noqa: E402
 
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -120,7 +122,7 @@ class TestArchiveKeyCompat(unittest.TestCase):
 
     def test_cross_era_title_dedup_in_upsert(self):
         """旧 wechat 条目与同题 Manus 条目共存时，跨源标题去重仍生效。"""
-        tmp = tempfile.mkdtemp(prefix="snapshot-archive-test-")
+        tmp = make_temp_dir("snapshot-archive-test-")
         self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
         legacy = {"id": "wechat:old", "sourceType": "wechat", "source": "公众号：机器之心",
                   "title": "同一篇文章", "url": "https://mp.weixin.qq.com/s?__biz=a&mid=1&sn=x",
@@ -153,7 +155,7 @@ class TestEndToEndWithMockedAPI(unittest.TestCase):
     """main() 全链路：mock aihot API 返回，消费 fixture feed，渲染含 Manus 条目的快照。"""
 
     def setUp(self):
-        self.tmp = tempfile.mkdtemp(prefix="snapshot-e2e-test-")
+        self.tmp = make_temp_dir("snapshot-e2e-test-")
         self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
 
     def run_main(self, feed_path):

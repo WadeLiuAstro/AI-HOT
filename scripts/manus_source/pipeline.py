@@ -3,8 +3,13 @@
 职责：
   - 从三组发现结果汇总 complete 文章，跨镜像 URL 去重（保留 provenance 最完整者）
   - 按 batch_size 分批；已有合法原始批次的 URL 直接复用（断点续跑）
-  - 调 ManusClient 提交正文任务，contracts 本地门槛校验
+  - 通过正文提供方（provider）取回正文：默认本地脚本爬虫（crawler.py，
+    MANUS_CONTENT_MODE=script），可选 Manus 正文任务（MANUS_CONTENT_MODE=manus）
+  - contracts 本地门槛校验
   - 原始正文只写运行时 work 目录；诊断文件剥离 content_text
+
+两种提供方均产出同一内容契约（见 docs/MANUS_DATA_CONTRACT.md §2），
+下游 build_manus_feed 与契约校验零改动。
 """
 from __future__ import annotations
 
@@ -14,6 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from . import contracts
+from . import crawler
 
 CONTENT_OUTPUT_SCHEMA = {
     "type": "object",
@@ -142,19 +148,91 @@ def _next_batch_index(raw_dir: Path) -> int:
     return (max(indexes) + 1) if indexes else 1
 
 
-class ContentPipeline:
-    """阶段 B 编排器。client 仅需实现 create_crawl_task / wait_for_structured_result。"""
+class ManusContentProvider:
+    """正文提供方（Manus 正文任务，回退模式）。
 
-    def __init__(self, client, prompt_template_text: str, target_date: str, work_dir: Path,
+    保留原 ContentPipeline 的 Manus 任务编排：每批一个任务、断点语义由外层维持。
+    """
+
+    def __init__(self, client, prompt_text: str, target_date: str) -> None:
+        self.client = client
+        self.prompt_text = prompt_text
+        self.target_date = target_date
+
+    def fetch_content(self, batch: list[dict], batch_index: int) -> dict:
+        """提交一批 Manus 正文任务并等待结构化结果；返回与契约同 schema 的 payload。"""
+        listing = render_batch_listing(batch)
+        brief = CONTENT_BRIEF_TEMPLATE.format(count=len(batch), listing=listing)
+        task = self.client.create_crawl_task(
+            prompt_text=self.prompt_text,
+            source_group="content",
+            target_date=self.target_date,
+            title=f"AI 新闻正文提取 {self.target_date} · batch{batch_index:02d}",
+            task_brief=brief,
+            output_schema=CONTENT_OUTPUT_SCHEMA,
+        )
+        print(f"[content] batch{batch_index:02d} Manus task created: {task.task_url}",
+              flush=True)
+        payload = self.client.wait_for_structured_result(task.task_id)
+        if not isinstance(payload.get("articles"), list):
+            raise contracts.ContractError(f"batch{batch_index:02d} 正文结果缺少 articles")
+        return payload
+
+
+class ScriptContentProvider:
+    """正文提供方（本地脚本爬虫，默认）：按批并发抓取 article_url 并提取正文。"""
+
+    def __init__(self, target_date: str, *, concurrency: int = 4,
+                 max_content_chars: int = 20000, min_content_chars: int = 100,
+                 timeout_seconds: float = 20, retries: int = 2,
+                 request_delay_seconds: float = 1.0,
+                 user_agent: str | None = None, jina_fallback: bool = False,
+                 transport=None) -> None:
+        self.target_date = target_date
+        self.concurrency = concurrency
+        self.max_content_chars = max_content_chars
+        self.min_content_chars = min_content_chars
+        self.timeout_seconds = timeout_seconds
+        self.retries = retries
+        self.request_delay_seconds = request_delay_seconds
+        self.user_agent = user_agent or crawler.DEFAULT_USER_AGENT
+        self.jina_fallback = jina_fallback
+        self.transport = transport  # 离线单测注入
+
+    def fetch_content(self, batch: list[dict], batch_index: int) -> dict:
+        payload = crawler.crawl_batch(
+            batch, self.target_date, concurrency=self.concurrency,
+            max_content_chars=self.max_content_chars,
+            min_content_chars=self.min_content_chars,
+            timeout_seconds=self.timeout_seconds, retries=self.retries,
+            user_agent=self.user_agent, request_delay_seconds=self.request_delay_seconds,
+            jina_fallback=self.jina_fallback, transport=self.transport)
+        print(f"[content] batch{batch_index:02d} 脚本爬取完成："
+              f"{sum(1 for a in payload['articles'] if a['content_status'] == 'complete')}/"
+              f"{len(payload['articles'])} 篇成功", flush=True)
+        return payload
+
+
+class ContentPipeline:
+    """阶段 B 编排器。provider 需实现 fetch_content(batch, batch_index) -> payload。"""
+
+    def __init__(self, provider, prompt_template_text: str, target_date: str, work_dir: Path,
                  batch_size: int = 4, max_content_chars: int = 20000,
                  min_content_chars: int = 100):
-        self.client = client
+        self.provider = self._resolve_provider(provider, prompt_template_text, target_date)
         self.prompt_text = render_content_prompt(prompt_template_text, max_content_chars)
         self.target_date = target_date
         self.raw_dir = Path(work_dir) / target_date / "raw"
         self.diag_dir = Path(work_dir) / "diagnostics" / target_date
         self.batch_size = batch_size
         self.min_content_chars = min_content_chars
+
+    @staticmethod
+    def _resolve_provider(provider, prompt_template_text: str, target_date: str):
+        """兼容旧式 client（create_crawl_task/wait_for_structured_result）与新式 provider。"""
+        if hasattr(provider, "fetch_content"):
+            return provider
+        return ManusContentProvider(provider, prompt_template_text, target_date)
 
     def run(self, discoveries: dict[str, dict]) -> ContentResult:
         result = ContentResult()
@@ -175,21 +253,7 @@ class ContentPipeline:
                 result.batches_resumed += 1
                 batch_articles = [resumed[u] for u in urls]
             else:
-                listing = render_batch_listing(batch)
-                brief = CONTENT_BRIEF_TEMPLATE.format(count=len(batch), listing=listing)
-                task = self.client.create_crawl_task(
-                    prompt_text=self.prompt_text,
-                    source_group="content",
-                    target_date=self.target_date,
-                    title=f"AI 新闻正文提取 {self.target_date} · batch{batch_index:02d}",
-                    task_brief=brief,
-                    output_schema=CONTENT_OUTPUT_SCHEMA,
-                )
-                print(f"[content] batch{batch_index:02d} Manus task created: {task.task_url}",
-                      flush=True)
-                payload = self.client.wait_for_structured_result(task.task_id)
-                if not isinstance(payload.get("articles"), list):
-                    raise contracts.ContractError(f"batch{batch_index:02d} 正文结果缺少 articles")
+                payload = self.provider.fetch_content(batch, batch_index)
                 # 批次结果必须与请求清单 URL 一一对应（不漏不增）
                 got_urls = {a.get("article_url") for a in payload["articles"]}
                 if got_urls != set(urls):

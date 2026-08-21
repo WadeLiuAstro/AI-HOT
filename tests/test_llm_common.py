@@ -5,11 +5,12 @@
 """
 import os
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+sys.path.insert(0, os.path.dirname(__file__))
+from _tempdir import make_temp_dir  # noqa: E402
 import llm_common  # noqa: E402
 
 ENV_KEYS = ("DEEPSEEK_API_KEY", "LLM_MODEL", "LLM_API_BASE")
@@ -17,7 +18,11 @@ ENV_KEYS = ("DEEPSEEK_API_KEY", "LLM_MODEL", "LLM_API_BASE")
 
 class TestLoadDotenv(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.mkdtemp(prefix="llm-common-test-")
+        self.tmp = make_temp_dir("llm-common-test-")
+        # 隔离环境：前置测试可能已把项目根 .env 载入 os.environ，导致
+        # setdefault 语义下的 BOM 断言失败（与 tearDown 对称清理）
+        for key in ENV_KEYS:
+            os.environ.pop(key, None)
 
     def tearDown(self):
         for key in ENV_KEYS:

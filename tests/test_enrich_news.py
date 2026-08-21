@@ -11,10 +11,11 @@ import json
 import os
 import shutil
 import sys
-import tempfile
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+sys.path.insert(0, os.path.dirname(__file__))
+from _tempdir import make_temp_dir  # noqa: E402
 import enrich_news  # noqa: E402
 import tag_news  # noqa: E402
 
@@ -140,7 +141,7 @@ class TestEnrichOne(unittest.TestCase):
 
 class TestCache(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.mkdtemp(prefix="enrich-cache-test-")
+        self.tmp = make_temp_dir("enrich-cache-test-")
         self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
         self.cache_path = os.path.join(self.tmp, "enrich_cache.json")
 

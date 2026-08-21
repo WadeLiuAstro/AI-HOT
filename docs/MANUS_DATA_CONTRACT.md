@@ -8,7 +8,7 @@
 | 契约 | 载体 | 生产者 | 校验函数 |
 |---|---|---|---|
 | 发现结果（schema v2） | `work/manus/<date>/raw/discovery-<group>.json` | Manus 发现任务 | `validate_discovery()` |
-| 正文批次 | `work/manus/<date>/raw/content-batch-NN.json` | Manus 正文任务 | `validate_content_batch()` |
+| 正文批次 | `work/manus/<date>/raw/content-batch-NN.json` | 本地脚本爬虫（`crawler.py`，trafilatura；可选 Manus 正文任务回退） | `validate_content_batch()` |
 | 规范化 feed | `data/manus/current.json` + `archive/YYYY-MM-DD.json` | `build_manus_feed.py` | `validate_feed()` |
 | 运行状态 | `data/manus/state.json` | `build_manus_feed.py` / 工作流 | 无强校验（运维只读） |
 
@@ -68,6 +68,11 @@
 - 批次 URL 集合必须与请求清单一一对应（不漏不增）。
 - 正文原文只存在于运行时 `work/`（已 gitignore），不入库、不进 Artifact；诊断目录仅含
   URL/状态/长度/哈希/原因。
+
+正文生产者为本地脚本爬虫（`crawler.py`，trafilatura 提取；默认 `MANUS_CONTENT_MODE=script`）：
+爬虫在产出记录前已做跳转漂移（final URL/标题）、风控页、正文过短判定，再经本契约统一校验；
+标题一致性由爬虫宽松比较（剥离空白 + 双向子串）容忍站点后缀与空格漂移。
+回退模式 `MANUS_CONTENT_MODE=manus` 保留 Manus 正文任务路径，产出同一契约。
 
 ## 3. 规范化 feed（`data/manus/current.json`，schemaVersion=1）
 

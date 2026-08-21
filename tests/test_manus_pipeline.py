@@ -8,14 +8,17 @@ import os
 import re
 import shutil
 import sys
-import tempfile
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+sys.path.insert(0, os.path.dirname(__file__))
+from _tempdir import make_temp_dir  # noqa: E402
 from manus_source import contracts  # noqa: E402
-from manus_source.pipeline import ContentPipeline, plan_batches  # noqa: E402
+from manus_source.pipeline import ContentPipeline, ScriptContentProvider, plan_batches  # noqa: E402
+from manus_source.crawler import DEFAULT_USER_AGENT  # noqa: E402
 
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__), "fixtures", "manus")
+CRAWLER_FIXTURE_DIR = os.path.join(os.path.dirname(__file__), "fixtures", "crawler")
 PROMPT_PATH = os.path.join(os.path.dirname(__file__), "..", "prompts", "manus_content.md")
 TARGET_DATE = "2026-08-16"
 
@@ -78,7 +81,7 @@ class TestPlanBatches(unittest.TestCase):
 
 class TestContentPipeline(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.mkdtemp(prefix="manus-pipeline-test-")
+        self.tmp = make_temp_dir("manus-pipeline-test-")
         self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
         self.prompt_text = open(PROMPT_PATH, encoding="utf-8").read()
 
@@ -152,6 +155,80 @@ class TestContentPipeline(unittest.TestCase):
         pipeline = self.make_pipeline(AssertNotCalledClient())
         self.assertIn("20000", pipeline.prompt_text)
         self.assertNotIn("{{MAX_CONTENT_CHARS}}", pipeline.prompt_text)
+
+
+class TestScriptContentPipeline(unittest.TestCase):
+    """脚本爬虫模式端到端：ScriptContentProvider + 注入 fake transport，不发真实请求。"""
+
+    def setUp(self):
+        self.tmp = make_temp_dir("manus-script-pipeline-test-")
+        self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
+        self.prompt_text = open(PROMPT_PATH, encoding="utf-8").read()
+        base_html = open(os.path.join(CRAWLER_FIXTURE_DIR, "tencent_article.html"),
+                         encoding="utf-8").read()
+        old_title = "单人3个月做的AI游戏，Steam好评率94%：「我曾对游戏开发一无所知」"
+        titles = {a["article_url"]: a["title"]
+                  for payload in all_discoveries().values()
+                  for a in payload["articles"] if a.get("article_url")}
+        # 每条 URL 都返回同一份腾讯 fixture 正文，但标题回填为发现记录对应标题
+        self.transport = lambda url, headers: (
+            url, base_html.replace(old_title, titles.get(url, old_title)).encode("utf-8"))
+
+    def make_provider(self, **kw):
+        kw.setdefault("concurrency", 2)
+        kw.setdefault("timeout_seconds", 5)
+        kw.setdefault("retries", 0)
+        kw.setdefault("request_delay_seconds", 0)
+        return ScriptContentProvider(TARGET_DATE, transport=self.transport, **kw)
+
+    def test_full_run_via_script_provider(self):
+        pipeline = ContentPipeline(self.make_provider(), self.prompt_text, TARGET_DATE,
+                                   self.tmp, batch_size=4, max_content_chars=20000,
+                                   min_content_chars=100)
+        result = pipeline.run(all_discoveries())
+        self.assertEqual(result.duplicates_dropped, 1)
+        self.assertEqual(result.batches_run, 3)
+        self.assertEqual(result.batches_resumed, 0)
+        # 脚本模式全成功：去重后 11 条全部通过（Manus 夹具里的 2 篇失败场景不适用）
+        self.assertEqual(len(result.ok_articles), 11)
+        self.assertEqual(result.failed, [])
+        # 契约通过且原始批次落盘
+        raw_dir = os.path.join(self.tmp, TARGET_DATE, "raw")
+        self.assertEqual(len(glob_content_batches(raw_dir)), 3)
+
+    def test_script_provider_resume_reuses_raw_batches(self):
+        pipeline = ContentPipeline(self.make_provider(), self.prompt_text, TARGET_DATE,
+                                   self.tmp, batch_size=4, max_content_chars=20000,
+                                   min_content_chars=100)
+        pipeline.run(all_discoveries())
+
+        def fail_transport(url, headers):
+            raise AssertionError("断点续跑不应再发起爬取请求")
+
+        provider = ScriptContentProvider(TARGET_DATE, transport=fail_transport)
+        result = ContentPipeline(provider, self.prompt_text, TARGET_DATE,
+                                 self.tmp, batch_size=4, max_content_chars=20000,
+                                 min_content_chars=100).run(all_discoveries())
+        self.assertEqual(result.batches_resumed, 3)
+        self.assertEqual(result.batches_run, 0)
+        self.assertEqual(len(result.ok_articles), 11)
+
+    def test_short_text_fails_via_contract(self):
+        # 风控页 fixture 提取文本短 → 爬虫层 failed，不进入 ok
+        risk_html = open(os.path.join(CRAWLER_FIXTURE_DIR, "risk_page.html"),
+                         encoding="utf-8").read()
+        self.transport = lambda url, headers: (url, risk_html.encode("utf-8"))
+        pipeline = ContentPipeline(self.make_provider(), self.prompt_text, TARGET_DATE,
+                                   self.tmp, batch_size=4, max_content_chars=20000,
+                                   min_content_chars=100)
+        result = pipeline.run(all_discoveries())
+        self.assertEqual(result.ok_articles, [])
+        self.assertGreaterEqual(len(result.failed), 1)
+        self.assertTrue(any("风控" in f["reason"] for f in result.failed))
+
+
+def glob_content_batches(raw_dir: str) -> list:
+    return sorted(p for p in os.listdir(raw_dir) if p.startswith("content-batch-"))
 
 
 if __name__ == "__main__":

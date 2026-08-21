@@ -26,10 +26,14 @@ Actions 页 → `Manus 公众号采集并晋升 feed` → Run workflow：
 
 ```powershell
 python scripts/manus_source/runner.py --date 2026-08-16 --groups group_a   # 阶段 A 发现
-python scripts/manus_source/content_phase.py --date 2026-08-16             # 阶段 B 正文
+python scripts/manus_source/content_phase.py --date 2026-08-16             # 阶段 B 正文（脚本爬虫）
 python scripts/build_manus_feed.py --date 2026-08-16 --no-promote          # 阶段 C 校验
 python scripts/build_manus_feed.py --date 2026-08-16                       # 原子晋升
 ```
+
+> 阶段 B 默认本地脚本爬虫（`MANUS_CONTENT_MODE=script`，需 `pip install trafilatura`）：
+> urllib 抓取文章页 → trafilatura 提取正文 → 跳转漂移/风控/过短判定 → 产出与 Manus 相同契约。
+> 回退：`MANUS_CONTENT_MODE=manus` 走原 Manus 正文任务路径（见 `docs/2026-08-20-manus-pipeline-smoke-issues.md`）。
 
 ## 3. 断点续跑与重试
 
@@ -39,12 +43,15 @@ python scripts/build_manus_feed.py --date 2026-08-16                       # 原
 
 ## 4. 成本控制
 
-- 每天 Manus 任务数 ≈ 3（发现） + ceil(文章数/4)（正文批次）。14 账号日均 10-20 篇时约 6-8 个任务。
+- 每天 Manus 任务数 = 3（发现）固定；正文阶段默认本地脚本爬取，**不再产生 Manus 正文任务**。
+  回退 `MANUS_CONTENT_MODE=manus` 时 ≈ ceil(文章数/4) 个正文任务（14 账号日均 10-20 篇时约 6-8 个任务）。
 - 降低成本：`MANUS_AGENT_PROFILE=manus-1.6-lite`、缩小 `groups` 冒烟、`promote=false` 演练。
 - 正文加工模型预算独立于打标签：`taxonomy.json → enrich` 块（并发/预算/超时），
   长正文调用不得沿用 `model.budget_seconds`。
 - 缓存：`data/manus/enrichment_cache.json`，键含正文哈希 + taxonomy/prompt/模型版本；
   重复运行不重复付费。
+- 爬虫礼貌性：`MANUS_CRAWL_REQUEST_DELAY_SECONDS`（默认 1s）+ `MANUS_CRAWL_CONCURRENCY`（默认 4），
+  降低被目标平台风控的概率。
 
 ## 5. 故障恢复
 
@@ -53,7 +60,9 @@ python scripts/build_manus_feed.py --date 2026-08-16                       # 原
 | 工作流红 + 告警 Issue | Action 日志 + `state.json.failure` | 按错误类型重跑；429/限额 → 降并发或延后 |
 | 页面显示“公众号源不可用/过期” | `data/manus/state.json` | 手动补采目标日期并晋升 |
 | 某账号持续 failed | 诊断 Artifact 的 `source_audits` | 主页 URL 失效/平台改版 → 更新 `manus_sources.json` |
-| 正文大量风控失败 | 诊断 summary 的 failed 列表 | 属目标站点风控，等待恢复；不伪造正文 |
+| 正文大量风控失败 | 诊断 summary 的 failed 列表 | 属目标站点风控（CI 数据中心 IP 更易触发），等待恢复或临时 `MANUS_CRAWL_JINA_FALLBACK=true`；不伪造正文 |
+| 正文批量“无法从页面提取正文” | 诊断 summary 的 failed 列表 | 平台改版导致 trafilatura 失效：本地抓一页 URL 调试提取，必要时临时 `MANUS_CONTENT_MODE=manus` 回退 |
+| 正文批量“抓取失败” | 诊断 summary 的 failed 列表 | 网络/超时：检查 `MANUS_CRAWL_TIMEOUT_SECONDS/RETRIES`，或 CI runner 网络策略 |
 | feed schema 疑似有问题 | `python -m unittest tests.test_manus_contract -v` | 消费者回退：临时让快照读取 `data/manus/archive/<上一成功日>.json` |
 
 ## 6. 回滚

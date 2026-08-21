@@ -9,10 +9,11 @@ import json
 import os
 import shutil
 import sys
-import tempfile
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+sys.path.insert(0, os.path.dirname(__file__))
+from _tempdir import make_temp_dir  # noqa: E402
 import build_manus_feed  # noqa: E402
 import enrich_news  # noqa: E402
 from manus_source import contracts  # noqa: E402
@@ -51,7 +52,7 @@ def fake_enricher(items, tx, cache_path):
 
 class TestBuildManusFeed(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.mkdtemp(prefix="manus-feed-test-")
+        self.tmp = make_temp_dir("manus-feed-test-")
         self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
         self.work_dir = os.path.join(self.tmp, "work", "manus")
         self.data_dir = os.path.join(self.tmp, "data", "manus")

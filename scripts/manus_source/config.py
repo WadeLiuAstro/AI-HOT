@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 ALLOWED_PROFILES = {"manus-1.6-lite", "manus-1.6", "manus-1.6-max"}
+ALLOWED_CONTENT_MODES = {"script", "manus"}
 
 
 def load_dotenv(path: Path) -> None:
@@ -31,6 +32,13 @@ class Settings:
     register_grace_seconds: int
     content_batch_size: int
     content_concurrency: int
+    content_mode: str
+    crawl_timeout_seconds: int
+    crawl_retries: int
+    crawl_concurrency: int
+    crawl_request_delay_seconds: float
+    crawl_user_agent: str | None
+    crawl_jina_fallback: bool
     max_content_chars: int
     min_content_chars: int
     sources_path: Path
@@ -46,6 +54,9 @@ class Settings:
         agent_profile = os.getenv("MANUS_AGENT_PROFILE", "manus-1.6")
         if agent_profile not in ALLOWED_PROFILES:
             raise RuntimeError("MANUS_AGENT_PROFILE must be one of: " + ", ".join(sorted(ALLOWED_PROFILES)))
+        content_mode = os.getenv("MANUS_CONTENT_MODE", "script")
+        if content_mode not in ALLOWED_CONTENT_MODES:
+            raise RuntimeError("MANUS_CONTENT_MODE must be one of: " + ", ".join(sorted(ALLOWED_CONTENT_MODES)))
 
         def rel(env_value: str, default: str) -> Path:
             p = Path(os.getenv(env_value, default))
@@ -65,6 +76,13 @@ class Settings:
             register_grace_seconds=int(os.getenv("MANUS_REGISTER_GRACE_SECONDS", "90")),
             content_batch_size=int(os.getenv("MANUS_CONTENT_BATCH_SIZE", "4")),
             content_concurrency=int(os.getenv("MANUS_CONTENT_CONCURRENCY", "2")),
+            content_mode=content_mode,
+            crawl_timeout_seconds=int(os.getenv("MANUS_CRAWL_TIMEOUT_SECONDS", "20")),
+            crawl_retries=int(os.getenv("MANUS_CRAWL_RETRIES", "2")),
+            crawl_concurrency=int(os.getenv("MANUS_CRAWL_CONCURRENCY", "4")),
+            crawl_request_delay_seconds=float(os.getenv("MANUS_CRAWL_REQUEST_DELAY_SECONDS", "1.0")),
+            crawl_user_agent=os.getenv("MANUS_CRAWL_UA") or None,
+            crawl_jina_fallback=os.getenv("MANUS_CRAWL_JINA_FALLBACK", "").lower() in ("1", "true", "yes"),
             max_content_chars=int(os.getenv("MANUS_MAX_CONTENT_CHARS", "20000")),
             min_content_chars=int(os.getenv("MANUS_MIN_CONTENT_CHARS", "100")),
             sources_path=sources_path,

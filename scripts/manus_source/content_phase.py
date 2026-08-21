@@ -4,6 +4,8 @@
     python scripts/manus_source/content_phase.py --date 2026-08-16
 
 前置：runner.py 已把三组发现结果写入 work/manus/<date>/raw/。
+正文提供方：默认本地脚本爬虫（MANUS_CONTENT_MODE=script，crawler.py，需 trafilatura）；
+            可选 Manus 正文任务（MANUS_CONTENT_MODE=manus）。
 产出：work/manus/<date>/raw/content-batch-*.json（含正文，运行时目录，不入库）
       work/manus/diagnostics/<date>/（去正文诊断，可上传 Artifact）
 """
@@ -12,9 +14,11 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from manus_source.client import ManusClient  # noqa: E402
 from manus_source.config import Settings, load_sources  # noqa: E402
-from manus_source.pipeline import ContentPipeline  # noqa: E402
+from manus_source.pipeline import (  # noqa: E402
+    ContentPipeline, ManusContentProvider, ScriptContentProvider,
+)
+from manus_source.crawler import DEFAULT_USER_AGENT  # noqa: E402
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
@@ -30,17 +34,33 @@ def main(argv: list[str] | None = None) -> int:
     groups_cfg = load_sources(settings.sources_path)
     discoveries = build_manus_feed.load_discoveries(
         settings.work_dir / args.date / "raw", args.date, groups_cfg)
+    prompt_text = settings.content_prompt_path.read_text(encoding="utf-8")
 
-    client = ManusClient(
-        api_key=settings.manus_api_key,
-        agent_profile=settings.manus_agent_profile,
-        poll_seconds=settings.poll_seconds,
-        timeout_seconds=settings.timeout_seconds,
-        register_grace_seconds=settings.register_grace_seconds,
-    )
+    if settings.content_mode == "manus":
+        from manus_source.client import ManusClient  # noqa: E402
+        client = ManusClient(
+            api_key=settings.manus_api_key,
+            agent_profile=settings.manus_agent_profile,
+            poll_seconds=settings.poll_seconds,
+            timeout_seconds=settings.timeout_seconds,
+            register_grace_seconds=settings.register_grace_seconds,
+        )
+        provider = ManusContentProvider(client, prompt_text, args.date)
+    else:
+        provider = ScriptContentProvider(
+            args.date,
+            concurrency=settings.crawl_concurrency,
+            max_content_chars=settings.max_content_chars,
+            min_content_chars=settings.min_content_chars,
+            timeout_seconds=settings.crawl_timeout_seconds,
+            retries=settings.crawl_retries,
+            request_delay_seconds=settings.crawl_request_delay_seconds,
+            user_agent=settings.crawl_user_agent or DEFAULT_USER_AGENT,
+            jina_fallback=settings.crawl_jina_fallback,
+        )
     pipeline = ContentPipeline(
-        client,
-        settings.content_prompt_path.read_text(encoding="utf-8"),
+        provider,
+        prompt_text,
         args.date,
         settings.work_dir,
         batch_size=settings.content_batch_size,

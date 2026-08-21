@@ -73,12 +73,15 @@ jobs:
       - name: 契约自检（离线）
         run: python3 -m unittest tests.test_manus_contract -v
 
+      - name: 安装正文提取依赖（trafilatura）
+        run: pip install trafilatura
+
       - name: 阶段 A：Manus URL 发现
         env:
           MANUS_API_KEY: ${{ secrets.MANUS_API_KEY }}
         run: python3 scripts/manus_source/runner.py --date "${{ steps.params.outputs.date }}" --groups ${{ steps.params.outputs.groups }}
 
-      - name: 阶段 B：Manus 正文提取（按批，断点续跑）
+      - name: 阶段 B：本地脚本爬取正文（按批，断点续跑）
         env:
           MANUS_API_KEY: ${{ secrets.MANUS_API_KEY }}
         run: python3 scripts/manus_source/content_phase.py --date "${{ steps.params.outputs.date }}"
