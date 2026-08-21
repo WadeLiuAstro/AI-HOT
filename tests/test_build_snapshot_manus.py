@@ -172,6 +172,7 @@ class TestEndToEndWithMockedAPI(unittest.TestCase):
         argv = sys.argv
         sys.argv = ["build_snapshot.py",
                     "--out", os.path.join(self.tmp, "index.html"),
+                    "--snapshot-json", os.path.join(self.tmp, "snapshot.json"),
                     "--template", os.path.join(PROJECT_ROOT, "templates", "index.template.html"),
                     "--history-template", os.path.join(PROJECT_ROOT, "templates", "history.template.html"),
                     "--history-dir", os.path.join(self.tmp, "history"),
