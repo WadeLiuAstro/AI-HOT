@@ -337,17 +337,16 @@ def day_nav_entry(day: dict) -> dict:
     }
 
 
-def tag_finalized_days(archive_dir: str, all_days: dict[str, dict], tx: dict, cache_path: str) -> bool:
-    """对已定稿日的归档条目批量打标签并写回 classification 字段。
+def tag_archive_days(archive_dir: str, all_days: dict[str, dict], tx: dict, cache_path: str) -> bool:
+    """对归档条目（含未定稿的当天条目）批量打标签并写回 classification 字段。
 
-    只在定稿后打标（条目已是终态，符合冻结语义）；含补写扫描：
-    历史定稿日若因 key 缺失/故障未打标，后续轮次自动补齐。
+    含补写扫描：历史日期若因 key 缺失/故障未打标，后续轮次自动补齐。
     受控例外：仅追加分类字段，不改条目本体。返回是否有新写回。
+    当天条目被下轮 upsert 整条覆盖后 classification 会丢失，但每轮构建都会
+    重跑打标（缓存命中，零 LLM 成本），自愈。
     """
     pending: list[dict] = []
     for day in all_days.values():
-        if not day.get("finalized"):
-            continue
         for it in day.get("items") or []:
             if not it.get("classification"):
                 pending.append(it)
@@ -356,8 +355,6 @@ def tag_finalized_days(archive_dir: str, all_days: dict[str, dict], tx: dict, ca
     results = tag_news.tag_items(pending, tx, cache_path)
     changed = 0
     for date_str, day in all_days.items():
-        if not day.get("finalized"):
-            continue
         dirty = False
         for it in day.get("items") or []:
             if it.get("classification"):
@@ -793,7 +790,7 @@ def main() -> int:
     if tx and not args.no_tags:
         try:
             if os.environ.get(tx["model"]["api_key_env"]):
-                if tag_finalized_days(args.archive_dir, all_days, tx, args.tag_cache):
+                if tag_archive_days(args.archive_dir, all_days, tx, args.tag_cache):
                     # 分类已写回归档文件，重载使后续视图/历史页/周期刊都带上标签
                     for date_str in list(all_days):
                         day = _load_day_file(_day_file_path(args.archive_dir, date_str))

@@ -1,4 +1,4 @@
-// 精选视图：按时间戳倒序的精选新闻流 + 分类 Tab 筛选 + 搜索 + 当前热点入口
+// 精选视图：按时间戳倒序的精选新闻流 + 新 6 类 Tab + 维度标签筛选 + 搜索 + 当前热点入口
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -10,19 +10,24 @@ import {
   fmtMonthDay,
   fmtWeekday,
   heatOf,
-  SECTIONS,
-  SECTION_SHORT,
 } from "../../_lib/format";
+import { categoryOf, matchDims, TAXONOMY_CATEGORIES } from "../../_lib/taxonomy";
 import { useApp } from "../providers/AppDataProvider";
 import { ArticleCard } from "../ArticleCard";
 import { CategoryTabs, type TabOption } from "../CategoryTabs";
 import { DateGroup } from "../DateGroup";
 import { ArrowRightIcon } from "../icons";
 import { SearchToolbar, type SourceFilter } from "../SearchToolbar";
+import { TagFilterBar, type DimSelection } from "../TagFilterBar";
 import { matchItem, sourceKindOf } from "../../_lib/source";
 
 /** 跨导航切换保留筛选状态（模块级缓存） */
-const persisted: { cat: string; q: string; src: SourceFilter } = { cat: "all", q: "", src: "all" };
+const persisted: { cat: string; q: string; src: SourceFilter; dimSel: DimSelection } = {
+  cat: "all",
+  q: "",
+  src: "all",
+  dimSel: {},
+};
 
 export function FeaturedView() {
   const { setView } = useApp();
@@ -33,6 +38,7 @@ export function FeaturedView() {
   const [cat, setCat] = useState(persisted.cat);
   const [q, setQ] = useState(persisted.q);
   const [src, setSrc] = useState<SourceFilter>(persisted.src);
+  const [dimSel, setDimSel] = useState<DimSelection>(persisted.dimSel);
   const [today, setToday] = useState("");
 
   useEffect(() => {
@@ -64,22 +70,35 @@ export function FeaturedView() {
     };
   }, []);
 
-  /** 分类 Tab：全部 + 数据中实际出现的版块（固定顺序、短名） */
+  /** 分类 Tab：全部 + 新 6 类（固定顺序，计数基于 categoryOf） */
   const tabOptions = useMemo<TabOption[]>(() => {
     const counter = new Map<string, number>();
-    for (const it of pool) counter.set(it.category || "行业动态", (counter.get(it.category || "行业动态") || 0) + 1);
+    for (const it of pool) {
+      const key = categoryOf(it);
+      counter.set(key, (counter.get(key) || 0) + 1);
+    }
     const opts: TabOption[] = [{ key: "all", label: "全部", count: pool.length }];
-    for (const s of SECTIONS) {
-      const n = counter.get(s);
-      if (n) opts.push({ key: s, label: SECTION_SHORT[s] || s, count: n });
+    for (const c of TAXONOMY_CATEGORIES) {
+      const n = counter.get(c.id);
+      if (n) opts.push({ key: c.id, label: c.label, count: n });
     }
     return opts;
   }, [pool]);
 
-  /** 过滤 + 按北京日期分组（时间戳倒序） */
+  /** 当前类别的维度标签筛选（「全部」或无维度类别不显示） */
+  const activeDims = useMemo(() => {
+    if (cat === "all") return [];
+    return TAXONOMY_CATEGORIES.find((c) => c.id === cat)?.dims ?? [];
+  }, [cat]);
+
+  /** 每日最多 15 条精选 */
+  const MAX_FEATURED_PER_DAY = 15;
+
+  /** 过滤（类别 → 维度标签 → 来源 → 搜索）+ 按北京日期分组（时间戳倒序，每日上限 15 条） */
   const groups = useMemo(() => {
     const filtered = pool.filter((it) => {
-      if (cat !== "all" && it.category !== cat) return false;
+      if (cat !== "all" && categoryOf(it) !== cat) return false;
+      if (!matchDims(it, dimSel)) return false;
       if (src !== "all" && sourceKindOf(it) !== src) return false;
       if (!matchItem(it, q)) return false;
       return true;
@@ -88,11 +107,14 @@ export function FeaturedView() {
     for (const it of filtered) {
       const key = bjDayKey(it.publishedAt) || "unknown";
       const arr = map.get(key);
-      if (arr) arr.push(it);
-      else map.set(key, [it]);
+      if (arr) {
+        if (arr.length < MAX_FEATURED_PER_DAY) arr.push(it);
+      } else {
+        map.set(key, [it]);
+      }
     }
     return [...map.entries()];
-  }, [pool, cat, q, src]);
+  }, [pool, cat, q, src, dimSel]);
 
   const totalShown = groups.reduce((n, [, items]) => n + items.length, 0);
 
@@ -102,7 +124,7 @@ export function FeaturedView() {
       <header className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-[26px] font-extrabold text-ink">精选</h1>
-          <p className="mt-1 text-[13px] text-mut">{today} · AI 筛选的今日重点</p>
+          <p className="mt-1 text-[13px] text-mut">{today} · AI 精选今日重点（每天最多 15 条）</p>
         </div>
         <div className="flex w-full max-w-[340px] items-center gap-2 sm:w-auto">
           <SearchToolbar
@@ -153,7 +175,7 @@ export function FeaturedView() {
         </div>
       )}
 
-      {/* 分类 Tab */}
+      {/* 分类 Tab + 维度标签筛选 */}
       <div className="mb-6">
         <CategoryTabs
           options={tabOptions}
@@ -161,8 +183,23 @@ export function FeaturedView() {
           onChange={(key) => {
             setCat(key);
             persisted.cat = key;
+            // 切换类别时清空上一类别的维度筛选（维度语义随类别变化）
+            setDimSel({});
+            persisted.dimSel = {};
           }}
         />
+        {activeDims.length > 0 && (
+          <div className="mt-3">
+            <TagFilterBar
+              dims={activeDims}
+              selection={dimSel}
+              onChange={(next) => {
+                setDimSel(next);
+                persisted.dimSel = next;
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* 内容区 */}

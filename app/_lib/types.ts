@@ -2,11 +2,11 @@
 
 export type ViewKey = "featured" | "hot" | "all" | "daily" | "settings";
 
-/** AI 两级分类（tag_news 打标签产物，展示结构） */
+/** AI 两级分类（tag_news 打标签产物，展示结构；dims 与 to_display 输出对齐） */
 export interface Classification {
   cat: string;
   catLabel: string;
-  dims?: { key: string; value: string }[];
+  dims?: { label: string; value: string }[];
 }
 
 /** 新闻条目（快照与 aihot API 合并后的统一结构） */

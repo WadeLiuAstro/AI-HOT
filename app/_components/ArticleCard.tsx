@@ -1,12 +1,14 @@
 // 新闻条目卡片（精选 / 全部动态共用，对齐官网卡片层级：时间·来源·标签 → 标题 → 摘要 → 评分）
 import type { NewsItem } from "../_lib/types";
-import { fmtClock, itemUrl, SECTION_COLORS } from "../_lib/format";
+import { fmtClock, itemUrl } from "../_lib/format";
+import { categoryOf, TAXONOMY_CATEGORY_COLORS, TAXONOMY_LABELS } from "../_lib/taxonomy";
 import { ScoreBadge, SectionTag } from "./ScoreBadge";
 import { BookmarkIcon } from "./icons";
 
 export function ArticleCard({ item, showSection = true }: { item: NewsItem; showSection?: boolean }) {
   const wx = item.sourceType === "wechat" || String(item.source || "").startsWith("公众号：");
-  const color = SECTION_COLORS[item.category || ""] || "#94a3b8";
+  const catId = categoryOf(item);
+  const color = TAXONOMY_CATEGORY_COLORS[catId] || "#94a3b8";
   return (
     <article className="ah-card ah-card-hover p-5">
       {/* 元信息行 */}
@@ -28,7 +30,7 @@ export function ArticleCard({ item, showSection = true }: { item: NewsItem; show
             <span aria-hidden>★</span> 精选
           </span>
         )}
-        {showSection && item.category && <SectionTag label={item.category} color={color} />}
+        {showSection && item.category && <SectionTag label={TAXONOMY_LABELS[catId] || catId} color={color} />}
         <span className="ml-auto flex items-center gap-2">
           <ScoreBadge score={item.score} />
           <BookmarkIcon className="size-4 text-mut-2" />

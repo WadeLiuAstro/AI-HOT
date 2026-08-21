@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ items: [], live: false }, { status: 200 });
   }
 
-  let items: NewsItem[] = pool.filter((it) => it.selected !== false);
+  let items: NewsItem[] = pool.filter((it) => it.selected === true);
   items = items.map((it) => ({
     ...it,
     id: `aihot:${it.id}`,

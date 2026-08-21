@@ -1,25 +1,33 @@
 // 全部 AI 动态视图：aihot 实时流 + 快照（含 Manus 公众号爬取）合并信息流
-// 支持：AI 分类标签筛选 + 来源筛选（一手信源/资讯/推文/公众号）+ 按来源/标题/摘要搜索
+// 支持：新 6 类分类 Tab + 维度标签筛选 + 来源筛选（一手信源/资讯/推文/公众号）+ 按来源/标题/摘要搜索
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import type { NewsItem } from "../../_lib/types";
 import { loadAll, loadSnapshot, mergePools, poolFromSnapshot } from "../../_lib/api";
 import { bjDayKey, fmtMonthDay, fmtWeekday } from "../../_lib/format";
+import { categoryOf, matchDims, TAXONOMY_CATEGORIES } from "../../_lib/taxonomy";
 import { matchItem, sourceKindOf } from "../../_lib/source";
 import { ArticleCard } from "../ArticleCard";
+import { CategoryTabs, type TabOption } from "../CategoryTabs";
 import { DateGroup } from "../DateGroup";
 import { SearchToolbar, type SourceFilter } from "../SearchToolbar";
+import { TagFilterBar, type DimSelection } from "../TagFilterBar";
 
 /** 跨导航切换保留筛选状态（模块级缓存） */
-const persisted: { tag: string; q: string; src: SourceFilter } = { tag: "all", q: "", src: "all" };
+const persisted: { tag: string; q: string; src: SourceFilter; dimSel: DimSelection } = {
+  tag: "all",
+  q: "",
+  src: "all",
+  dimSel: {},
+};
 
 export function AllAIView() {
   const [items, setItems] = useState<NewsItem[]>([]);
-  const [tags, setTags] = useState<{ tag: string; count: number }[]>([]);
   const [tag, setTag] = useState(persisted.tag);
   const [q, setQ] = useState(persisted.q);
   const [src, setSrc] = useState<SourceFilter>(persisted.src);
+  const [dimSel, setDimSel] = useState<DimSelection>(persisted.dimSel);
   const [loading, setLoading] = useState(true);
   const [live, setLive] = useState(true);
 
@@ -38,17 +46,6 @@ export function AllAIView() {
       }
       if (cancelled) return;
       setItems(merged);
-      // 分类标签统计基于合并后条目重算（manus 中文版块与 aihot 归一化后同一空间）
-      const counter = new Map<string, number>();
-      for (const it of merged) {
-        const key = it.category || "行业动态";
-        counter.set(key, (counter.get(key) || 0) + 1);
-      }
-      setTags(
-        [...counter.entries()]
-          .map(([k, n]) => ({ tag: k, count: n }))
-          .sort((a, b) => b.count - a.count),
-      );
       setLoading(false);
     })();
     return () => {
@@ -56,15 +53,37 @@ export function AllAIView() {
     };
   }, []);
 
+  /** 分类 Tab：全部 + 新 6 类（固定顺序，计数基于 categoryOf） */
+  const tabOptions = useMemo<TabOption[]>(() => {
+    const counter = new Map<string, number>();
+    for (const it of items) {
+      const key = categoryOf(it);
+      counter.set(key, (counter.get(key) || 0) + 1);
+    }
+    const opts: TabOption[] = [{ key: "all", label: "全部", count: items.length }];
+    for (const c of TAXONOMY_CATEGORIES) {
+      const n = counter.get(c.id);
+      if (n) opts.push({ key: c.id, label: c.label, count: n });
+    }
+    return opts;
+  }, [items]);
+
+  /** 当前类别的维度标签筛选（「全部」或无维度类别不显示） */
+  const activeDims = useMemo(() => {
+    if (tag === "all") return [];
+    return TAXONOMY_CATEGORIES.find((c) => c.id === tag)?.dims ?? [];
+  }, [tag]);
+
   const filtered = useMemo(
     () =>
       items.filter((it) => {
-        if (tag !== "all" && it.category !== tag) return false;
+        if (tag !== "all" && categoryOf(it) !== tag) return false;
+        if (!matchDims(it, dimSel)) return false;
         if (src !== "all" && sourceKindOf(it) !== src) return false;
         if (!matchItem(it, q)) return false;
         return true;
       }),
-    [items, tag, q, src],
+    [items, tag, q, src, dimSel],
   );
 
   const groups = useMemo(() => {
@@ -99,39 +118,31 @@ export function AllAIView() {
         />
       </header>
 
-      {/* 标签筛选（AI 两级分类体系的一级标签） */}
-      <div className="mb-5 flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={() => {
-            setTag("all");
-            persisted.tag = "all";
+      {/* 分类 Tab + 维度标签筛选 */}
+      <div className="mb-6">
+        <CategoryTabs
+          options={tabOptions}
+          active={tag}
+          onChange={(key) => {
+            setTag(key);
+            persisted.tag = key;
+            // 切换类别时清空上一类别的维度筛选（维度语义随类别变化）
+            setDimSel({});
+            persisted.dimSel = {};
           }}
-          className={`rounded-full border px-3 py-1 text-[12.5px] transition-colors ${
-            tag === "all"
-              ? "border-brand bg-brand text-white"
-              : "border-line bg-surface text-ink-2 hover:border-brand/50"
-          }`}
-        >
-          全部 {items.length}
-        </button>
-        {tags.map((t) => (
-          <button
-            key={t.tag}
-            type="button"
-            onClick={() => {
-              setTag(t.tag);
-              persisted.tag = t.tag;
-            }}
-            className={`rounded-full border px-3 py-1 text-[12.5px] transition-colors ${
-              tag === t.tag
-                ? "border-brand bg-brand text-white"
-                : "border-line bg-surface text-ink-2 hover:border-brand/50"
-            }`}
-          >
-            {t.tag} {t.count}
-          </button>
-        ))}
+        />
+        {activeDims.length > 0 && (
+          <div className="mt-3">
+            <TagFilterBar
+              dims={activeDims}
+              selection={dimSel}
+              onChange={(next) => {
+                setDimSel(next);
+                persisted.dimSel = next;
+              }}
+            />
+          </div>
+        )}
       </div>
 
       <p className="mb-5 text-[12px] text-mut-2">
@@ -147,7 +158,7 @@ export function AllAIView() {
         </div>
       ) : groups.length === 0 ? (
         <p className="ah-card p-8 text-center text-[13px] text-mut">
-          无匹配内容，试试切换标签、来源筛选或清空搜索词。
+          无匹配内容，试试切换分类、标签、来源筛选或清空搜索词。
         </p>
       ) : (
         groups.map(([dayKey, list]) => (

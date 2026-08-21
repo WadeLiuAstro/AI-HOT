@@ -223,5 +223,52 @@ class TestEndToEndWithMockedAPI(unittest.TestCase):
         self.assertTrue(data["daily"]["total"] > 0)  # 仅 aihot 数据也能发布
 
 
+class TestTagArchiveDays(unittest.TestCase):
+    """tag_archive_days：当天（未定稿）条目也打标写回，历史定稿日照常补齐。"""
+
+    def _write_day(self, archive_dir: str, date_str: str, finalized: bool, ids: list[str]):
+        os.makedirs(archive_dir, exist_ok=True)
+        day = {"date": date_str, "finalized": finalized, "finalizedAt": None,
+               "updatedAt": None, "items": [
+                   {"id": i, "title": f"t-{i}", "summary": "s",
+                    "publishedAt": f"{date_str}T12:00:00+08:00"}
+                   for i in ids]}
+        build_snapshot._save_day_file(
+            build_snapshot._day_file_path(archive_dir, date_str), day)
+
+    def test_unfinalized_day_also_tagged(self):
+        tmp = make_temp_dir("tag-")
+        archive = os.path.join(tmp, "archive")
+        self._write_day(archive, "2026-08-20", False, ["a1", "a2"])  # 当天未定稿
+        self._write_day(archive, "2026-08-19", True, ["b1"])          # 历史定稿
+        all_days = {
+            ds: build_snapshot._load_day_file(build_snapshot._day_file_path(archive, ds))
+            for ds in ("2026-08-19", "2026-08-20")
+        }
+
+        def fake_tag_items(items, tx, cache_path):
+            return {build_snapshot.tag_news.item_key(it):
+                    {"category": "general", "tags": {}, "autoFallback": False,
+                     "autoFilled": []}
+                    for it in items}
+
+        orig = build_snapshot.tag_news.tag_items
+        build_snapshot.tag_news.tag_items = fake_tag_items
+        try:
+            changed = build_snapshot.tag_archive_days(
+                archive, all_days, {"categories": []},
+                os.path.join(tmp, "cache.json"))
+        finally:
+            build_snapshot.tag_news.tag_items = orig
+        self.assertTrue(changed)
+        for day in all_days.values():  # 内存中已写回
+            for it in day["items"]:
+                self.assertEqual(it["classification"]["category"], "general")
+        for date_str in all_days:  # 归档文件已落盘
+            d = build_snapshot._load_day_file(
+                build_snapshot._day_file_path(archive, date_str))
+            self.assertTrue(all(it.get("classification") for it in d["items"]))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
