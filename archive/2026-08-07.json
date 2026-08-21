@@ -20,6 +20,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsj1zu9421ynronknsiz6vgw"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -38,6 +47,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsiys4dz1yqironkuitnfi7t"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -56,6 +71,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsixbbry1x0qronkhbbjukhr"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -74,6 +98,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsiujxlq1u0zronkvvklblwk"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -85,7 +118,13 @@
    "id": "wechat:9289e65243d3",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "小红书技术"
+   "mpName": "小红书技术",
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsiry2eo1r4tronkt9qv2twu",
@@ -103,6 +142,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsiry2eo1r4tronkt9qv2twu"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]

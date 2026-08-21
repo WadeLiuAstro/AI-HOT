@@ -3,7 +3,7 @@
  "weekEnd": "2026-08-17",
  "volLabel": "八月第2周",
  "finalized": true,
- "generatedAt": "2026-08-18T09:29:10.759042+00:00",
+ "generatedAt": "2026-08-21T10:08:41.375262+00:00",
  "aiReport": null,
  "items": [
   {
@@ -22,6 +22,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnfpcwf05ecrohfuzbjwyar"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -40,6 +49,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnbc14r0aezron58wsytu43"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -58,6 +73,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnbzkyr01qjrohfmjqlmjk5"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -76,6 +97,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsn68brx03q2ron5vwp3pwta"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -94,6 +124,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsn2u3mt067ero8opidmwvz7"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -112,6 +151,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsn3w3ln012wror1xk5nrmcw"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -130,6 +178,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsn32xab06ehro8ou4tskajr"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "meta"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -148,6 +205,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnkpjin0c2nrohfczauf2t2"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -166,6 +232,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsmpwjyh0b0drohfw1hpbbzh"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -184,6 +259,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsmlho8005dmrohfoz27j6em"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -202,6 +286,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsmizpgb02yerohf3bh8jesi"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -220,6 +310,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsmjglqx034prohfslczvkpb"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -238,6 +337,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsodc28j0n07rofw30v8pe9v"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -256,6 +361,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso6wigb0d1profw2f6djg98"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -274,6 +385,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnejv4i042qrohff64pz0jh"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -292,6 +412,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsmhbu4w0338ronxh92vej2u"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -310,6 +439,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsmf2q0t030sroadf0o5jwoa"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "cn"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -328,6 +466,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsm5mk1109hdroy9apis4bb7"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "other",
+     "company": "anthropic"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -346,6 +493,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnix1by08d3rohfftiex1xp"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -364,6 +517,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsostkpq05iurohd30b8ubmy"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -375,7 +537,16 @@
    "id": "wechat:be85015a52ae",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "卡尔的AI沃茨"
+   "mpName": "卡尔的AI沃茨",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmspk9ofu02cbrojej28w43eh",
@@ -393,6 +564,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmspk9ofu02cbrojej28w43eh"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -411,6 +591,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsopyoum028vrohd4dgeksz9"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -429,6 +615,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsopyoum028urohdhqzve6ba"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -441,7 +636,16 @@
    "id": "wechat:60df9ebfd04e",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "昆仑万维"
+   "mpName": "昆仑万维",
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsoolxde07isrop2eb5rrtvq",
@@ -459,6 +663,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoolxde07isrop2eb5rrtvq"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -477,6 +690,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsokd2b00viorofwaq9wrsv1"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -495,6 +714,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsogatbh0qdgrofwzm7gdk0a"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -507,7 +735,16 @@
    "id": "wechat:ba28136366b9",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "昆仑万维"
+   "mpName": "昆仑万维",
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "title": "机器之心对话罗平|机器人是具身大模型的「用户」:超维动力如何打通从人类经验到机器人行动?",
@@ -519,7 +756,16 @@
    "id": "wechat:a0b90b61e393",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "机器之心"
+   "mpName": "机器之心",
+   "classification": {
+    "category": "interview",
+    "tags": {
+     "industry": "ai_model",
+     "interviewee": "founder_ceo"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmso95agg0ig3rofwaqvy9crw",
@@ -537,6 +783,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso95agg0ig3rofwaqvy9crw"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -548,7 +803,16 @@
    "id": "wechat:016e67abe0ec",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "智谱AI"
+   "mpName": "智谱AI",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmso8nqa70eq4rofw24w1wlwt",
@@ -566,6 +830,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso8nqa70eq4rofw24w1wlwt"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -584,6 +854,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso7i0al0dlsrofwivmpsjh1"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -602,6 +878,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso58oqr0b7trofwl3dcmz7y"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_model",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -620,6 +905,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnx040k01glrofwfqxdc8h5"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_social",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -638,6 +932,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoylk4i02drro3yt4l3vhyn"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -656,6 +956,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnxf57501y5rofw32tota54"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -674,6 +980,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnrwnsb0i1erohfuhfjc4q6"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -685,7 +1000,13 @@
    "id": "wechat:8f1d2226051e",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "卡尔的AI沃茨"
+   "mpName": "卡尔的AI沃茨",
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsq5saxh051mro2e90h10exo",
@@ -703,6 +1024,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsq5saxh051mro2e90h10exo"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -721,6 +1048,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsq1hwsb02norobuzbw8cdcc"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -733,7 +1069,16 @@
    "id": "wechat:a7df804ccf26",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "AI科技评论"
+   "mpName": "AI科技评论",
+   "classification": {
+    "category": "interview",
+    "tags": {
+     "industry": "ai_other",
+     "interviewee": "founder_ceo"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmspr6h6s01hero4hjcdf95mw",
@@ -751,6 +1096,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmspr6h6s01hero4hjcdf95mw"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -769,6 +1123,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmspo193n05q2rojeue8j2k5a"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -780,7 +1140,13 @@
    "id": "wechat:87f4945948ec",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "数字生命卡兹克"
+   "mpName": "数字生命卡兹克",
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmspc30un0e4xrorts1kax9zg",
@@ -798,6 +1164,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmspc30un0e4xrorts1kax9zg"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -816,6 +1188,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqf39o0015groxvnc7oiwop"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -834,6 +1215,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqabu0f001krouc6sfhic2d"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -852,6 +1242,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsq9h6gs01x5ronde8fdla7e"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -870,6 +1269,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsp3o23e04vnrortt7twvx4v"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -888,6 +1296,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsp2lgxo03xjrortthctedzu"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -906,6 +1323,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsp1lufu03a9rortoc0ci36q"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -924,6 +1350,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsp0g9v20242rort4zh7mzx0"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -942,6 +1374,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsp0j1ph027prortm21absbh"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -960,6 +1401,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoydypn029yro3yvsi036au"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -978,6 +1425,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoxh6oa0a3drohdskp7cb9u"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "google"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -996,6 +1452,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoxbh180a00rohdooafsmzp"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1014,6 +1476,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsox86zv09u6rohdqr80wg0x"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1032,6 +1500,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsowxh6d09rrrohdkhpckhpi"
+   },
+   "classification": {
+    "category": "interview",
+    "tags": {
+     "industry": "ai_model",
+     "interviewee": "tech"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1044,7 +1521,16 @@
    "id": "wechat:6ef2bcf0754b",
    "category": "AI泛娱乐新闻",
    "sourceType": "wechat",
-   "mpName": "昆仑万维"
+   "mpName": "昆仑万维",
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "cn"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsqj4ly004izroxvzl349s3r",
@@ -1062,6 +1548,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqj4ly004izroxvzl349s3r"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1080,6 +1575,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqe6mat01bsroli3hw71nz7"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1098,6 +1599,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsow47ob08oarohd6vhpqrwt"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1116,6 +1626,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrlvwfp05gdro46mbfqtsgm"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1134,6 +1653,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrjqqfg02z0ro469zple5jl"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1152,6 +1680,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsruj6ik02dfrozeclkuve05"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1170,6 +1707,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrfaw5c0xo2roz2s8b4p2sv"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1188,6 +1734,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsruetoy027hrozeecu4ixrc"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1200,7 +1755,13 @@
    "id": "wechat:9ebc54de0ede",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "MiniMax 招聘"
+   "mpName": "MiniMax 招聘",
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsrcljcc0uanroz24r5ebcz9",
@@ -1218,6 +1779,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrcljcc0uanroz24r5ebcz9"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1230,7 +1800,13 @@
    "id": "wechat:9f68d6da67c6",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "量子位"
+   "mpName": "量子位",
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsr160kg0dk0roz2mb20yxwk",
@@ -1248,6 +1824,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsr160kg0dk0roz2mb20yxwk"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1259,7 +1844,16 @@
    "id": "wechat:5d1f73619dc3",
    "category": "产品发布/更新",
    "sourceType": "wechat",
-   "mpName": "数字生命卡兹克"
+   "mpName": "数字生命卡兹克",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "title": "这个封装了我3年实测经验的AI提示词案例网站，今天正式免费开放",
@@ -1270,7 +1864,16 @@
    "id": "wechat:31b81b9e5721",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "卡尔的AI沃茨"
+   "mpName": "卡尔的AI沃茨",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsqu0nr604oeroz2rh6b6mqt",
@@ -1288,6 +1891,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqu0nr604oeroz2rh6b6mqt"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1306,6 +1915,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqq3bc001snro7vo8picfbp"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1324,6 +1942,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqgeo2e02cvroxvpnycl2zi"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1342,6 +1966,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsqbnb8j01nrroosmwa5r6mj"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1360,6 +1993,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrramim02jero0nte55cfgi"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1378,6 +2020,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssir12d047oroffnpn5pcx1"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1389,7 +2040,16 @@
    "id": "wechat:c8d6b1143337",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "智谱AI"
+   "mpName": "智谱AI",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmssi38vn03o9rofffr0z8lyb",
@@ -1407,6 +2067,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssi38vn03o9rofffr0z8lyb"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1425,6 +2094,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssf79uf05rwrod09r9ocb2w"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1443,6 +2118,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmss6lsb701tsroib0kxz9q8q"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1461,6 +2142,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmss20h5g02uxroh6q6r1nqu9"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1479,6 +2166,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrscwfn03f7ro0n7qijclds"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1497,6 +2193,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrramim02jero0nte55cfgi"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1515,6 +2220,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrtfqyv04btro0nle3m5b20"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1533,6 +2247,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst3j53e03ncro068tgsr4xn"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1551,6 +2274,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst2gs6d02lmro06sb7as7av"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "openai"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1569,6 +2301,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst3joqo03pwro0658o4g1m3"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1587,6 +2328,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssv94cg0h4mroffsb9e7a88"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1605,6 +2355,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst4z2qp05boro06ce7kxtgd"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1623,6 +2379,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmstc3u8j02xhro0xf5o1ouas"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "anthropic"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1641,6 +2406,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsuaf2hr05zgroe0y1e7275v"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1659,6 +2430,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst9yj3c05utrodz443l0odv"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1677,6 +2457,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsvptx2m061frovmjoavsi0l"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -1695,6 +2481,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsuto7hk0912rouhodiiywlk"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]

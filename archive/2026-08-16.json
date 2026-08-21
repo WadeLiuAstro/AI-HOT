@@ -20,6 +20,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsvptx2m061frovmjoavsi0l"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -38,6 +44,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsuto7hk0912rouhodiiywlk"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]

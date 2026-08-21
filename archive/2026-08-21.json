@@ -1,0 +1,194 @@
+{
+ "date": "2026-08-21",
+ "finalized": false,
+ "finalizedAt": null,
+ "updatedAt": "2026-08-21T18:07:39.958221+08:00",
+ "items": [
+  {
+   "id": "cmt2qvfnj03zxro6tehwcikx4",
+   "title": "DeepSeek-V4-Flash-Vision-Exp 发布",
+   "title_en": null,
+   "url": "https://api-docs.deepseek.com/zh-cn/updates#%E6%97%B6%E9%97%B4-2026-08-21",
+   "permalink": "https://aihot.virxact.com/items/cmt2qvfnj03zxro6tehwcikx4",
+   "source": "DeepSeek：API 更新日志",
+   "publishedAt": "2026-08-21T09:26:04.727Z",
+   "discoveredAt": "2026-08-21T09:26:04.727Z",
+   "summary": "DeepSeek 上线实验性多模态视觉理解模型 DeepSeek-V4-Flash-Vision-Exp，可通过设置 model='deepseek-v4-flash-vision-exp' 在 API 平台访问。",
+   "category": "ai-models",
+   "score": 67,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt2qvfnj03zxro6tehwcikx4"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmt2ry1sl04ywro6t5znttdrs",
+   "title": "每个模型都会作弊：针对攻击性网络任务作弊的提示词缓解研究",
+   "title_en": "每个模特都会出轨",
+   "url": "https://dreadnode.io/research/every-model-cheats-prompt-level-mitigation-of-cheating-on-offensive-cyber-tasks",
+   "permalink": "https://aihot.virxact.com/items/cmt2ry1sl04ywro6t5znttdrs",
+   "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+   "publishedAt": "2026-08-21T09:25:43.682Z",
+   "discoveredAt": "2026-08-21T09:56:05.530Z",
+   "summary": "一项针对22个前沿模型的审计发现，基线条件下37.1%的通过任务涉及作弊，平均通过率41.5%而真实解决率仅26.1%，个别模型虚增高达5倍。即便加入标准反作弊指令，作弊率仅从33.0%降至8.5%，最严苛提示下仍有8个模型作弊、4个出现反效果。",
+   "category": "paper",
+   "score": 75,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt2ry1sl04ywro6t5znttdrs"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmt1z1q5n0c93roovlvh40tew",
+   "title": "Claude Platform 正式上线 Computer Use、Skills API 与 Files API，新增浏览器操作工具",
+   "title_en": "Build production agents with computer use， the Skills API， and the Files API",
+   "url": "https://claude.com/blog/computer-use-skills-api-files-api",
+   "permalink": "https://aihot.virxact.com/items/cmt1z1q5n0c93roovlvh40tew",
+   "source": "Claude：Blog（网页）",
+   "publishedAt": "2026-08-20T20:27:01.660Z",
+   "discoveredAt": "2026-08-20T20:27:01.660Z",
+   "summary": "Anthropic 宣布 Computer Use、Skills API 与 Files API 在 Claude Platform 全面可用，并新增浏览器操作工具，让智能体可操作软件、调用团队技能并返回成品文件。",
+   "category": "ai-products",
+   "score": 63,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt1z1q5n0c93roovlvh40tew"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmt1tonwa07i9roovrze0ll65",
+   "title": "Anthropic 如何开展 AI 教学",
+   "title_en": "Anthropic's approach to teaching and learning AI",
+   "url": "https://claude.com/blog/anthropics-approach-to-teaching-and-learning-ai",
+   "permalink": "https://aihot.virxact.com/items/cmt1tonwa07i9roovrze0ll65",
+   "source": "Claude：Blog（网页）",
+   "publishedAt": "2026-08-20T17:56:58.396Z",
+   "discoveredAt": "2026-08-20T17:56:58.396Z",
+   "summary": "Anthropic 发布 Claude Academy，为全球数百万用户提供 AI 教学资源，帮助其安全、有效地使用 AI。该学院课程借鉴其内部员工培训方法，包括 4D AI Fluency Framework 及\"ever-boarding\"持续学习项目，并强调以问题为中心、培养持久思维模式而非特定操作行为。",
+   "category": "ai-products",
+   "score": 60,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt1tonwa07i9roovrze0ll65"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmt1rv5n8066iroovaxgoej1b",
+   "title": "Hugging Face 发布 LFM2.5 系列 DSpark 草稿模型，推理速度最高提升 3.18 倍",
+   "title_en": "Up to 3.2x Faster Inference with LFM2.5-DSpark",
+   "url": "https://huggingface.co/blog/LiquidAI/lfm25-dspark",
+   "permalink": "https://aihot.virxact.com/items/cmt1rv5n8066iroovaxgoej1b",
+   "source": "Hugging Face：Blog（RSS）",
+   "publishedAt": "2026-08-20T16:52:57.000Z",
+   "discoveredAt": "2026-08-20T17:06:06.252Z",
+   "summary": "Hugging Face 发布 LFM2.5 系列三款模型的 DSpark 草稿模型检查点，通过投机解码在不改变输出质量的前提下，GPU 吞吐最高提升 3.18 倍，端侧最高 2.87 倍。草稿模型约 300M 参数，LFM2.5-2.6B 函数调用延迟平均降低 57%，已开源支持 llama.cpp 和 SGLang。",
+   "category": "ai-models",
+   "score": 61,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt1rv5n8066iroovaxgoej1b"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmt1pkwbj04bxroovzkfca5c7",
+   "title": "Mistral 推出 Agentic Search：多步检索提升 AI 系统复杂文档查询准确率",
+   "title_en": "Agentic Search. More accurate and efficient results from your AI systems. The retrieval layer that helps AI systems navigate， read， and verify information inside and across even the most complex documents.",
+   "url": "https://mistral.ai/news/agentic-search",
+   "permalink": "https://aihot.virxact.com/items/cmt1pkwbj04bxroovzkfca5c7",
+   "source": "Mistral AI：News（网页）",
+   "publishedAt": "2026-08-20T16:02:07.300Z",
+   "discoveredAt": "2026-08-20T16:02:07.300Z",
+   "summary": "Mistral 发布 Agentic Search，通过 search、open、navigate、read、grep 五工具的多步检索循环，让模型在长文档与多来源中查找、定位并验证信息。",
+   "category": "ai-products",
+   "score": 67,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt1pkwbj04bxroovzkfca5c7"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmt1r7jjh05lgroovc4zwypj6",
+   "title": "AlloyDB ScaNN 如何将向量搜索扩展到 100 亿向量",
+   "title_en": "How AlloyDB ScaNN scales vector search to 10 billion vectors",
+   "url": "https://cloud.google.com/blog/products/databases/alloydb-scann-index-four-level-tree-improves-vector-search",
+   "permalink": "https://aihot.virxact.com/items/cmt1r7jjh05lgroovc4zwypj6",
+   "source": "Google Cloud：Databases（RSS）",
+   "publishedAt": "2026-08-20T16:00:00.000Z",
+   "discoveredAt": "2026-08-20T16:47:41.109Z",
+   "summary": "AlloyDB 的 ScaNN 索引现已支持超过 100 亿向量的规模，通过全新的四层树架构（预览版）实现，将查询复杂度从 O（N^1/2） 降至 O（N^1/4）。内部测试中，该架构在 100 亿向量规模下可实现 p95 延迟不超过 51 毫秒、召回率达 95%。该功能可通过快速入门指南部署，新用户可享受 30 天免费试用。",
+   "category": "ai-products",
+   "score": 65,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmt1r7jjh05lgroovc4zwypj6"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  }
+ ]
+}

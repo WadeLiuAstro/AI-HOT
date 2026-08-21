@@ -1,8 +1,8 @@
 {
  "date": "2026-08-17",
- "finalized": false,
- "finalizedAt": null,
- "updatedAt": "2026-08-18T17:29:09.548264+08:00",
+ "finalized": true,
+ "finalizedAt": "2026-08-21T18:07:39.958221+08:00",
+ "updatedAt": "2026-08-21T18:07:39.958221+08:00",
  "items": [
   {
    "id": "cmswesk6a0r2hrovml2edcl2c",
@@ -20,6 +20,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmswesk6a0r2hrovml2edcl2c"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -38,6 +47,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsx8zij405t2rommm4gwgzjh"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -56,6 +71,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsx9jvre05y6romms3bo1umb"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -74,6 +98,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsx9jy2a05yerommy1e0jc6t"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "cn"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -92,6 +125,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsy8afig0mvmroz0gb3hz0iq"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -110,6 +152,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsx9696t05u7rommdoa60l4p"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "openai"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -128,6 +179,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsx7ffrz049uromm6en3if02"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]

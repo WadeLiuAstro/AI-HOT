@@ -20,6 +20,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssir12d047oroffnpn5pcx1"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -31,7 +40,16 @@
    "id": "wechat:c8d6b1143337",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "智谱AI"
+   "mpName": "智谱AI",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmssi38vn03o9rofffr0z8lyb",
@@ -49,6 +67,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssi38vn03o9rofffr0z8lyb"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -67,6 +94,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssf79uf05rwrod09r9ocb2w"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -85,6 +118,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmss6lsb701tsroib0kxz9q8q"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -103,6 +142,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmss20h5g02uxroh6q6r1nqu9"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -121,6 +166,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrscwfn03f7ro0n7qijclds"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -139,6 +193,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrramim02jero0nte55cfgi"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -157,6 +220,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsrtfqyv04btro0nle3m5b20"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -175,6 +247,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst3j53e03ncro068tgsr4xn"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -193,6 +274,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst2gs6d02lmro06sb7as7av"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "openai"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -211,6 +301,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst3joqo03pwro0658o4g1m3"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -229,6 +328,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmssv94cg0h4mroffsb9e7a88"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -247,6 +355,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmst4z2qp05boro06ce7kxtgd"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -265,6 +379,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmstc3u8j02xhro0xf5o1ouas"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "anthropic"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]

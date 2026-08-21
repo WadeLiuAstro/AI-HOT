@@ -20,6 +20,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsostkpq05iurohd30b8ubmy"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -31,7 +40,16 @@
    "id": "wechat:be85015a52ae",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "卡尔的AI沃茨"
+   "mpName": "卡尔的AI沃茨",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmspk9ofu02cbrojej28w43eh",
@@ -49,6 +67,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmspk9ofu02cbrojej28w43eh"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -67,6 +94,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsopyoum028vrohd4dgeksz9"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -85,6 +118,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsopyoum028urohdhqzve6ba"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -97,7 +139,16 @@
    "id": "wechat:60df9ebfd04e",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "昆仑万维"
+   "mpName": "昆仑万维",
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmsoolxde07isrop2eb5rrtvq",
@@ -115,6 +166,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoolxde07isrop2eb5rrtvq"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -133,6 +193,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsokd2b00viorofwaq9wrsv1"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -151,6 +217,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsogatbh0qdgrofwzm7gdk0a"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -163,7 +238,16 @@
    "id": "wechat:ba28136366b9",
    "category": "技巧与观点",
    "sourceType": "wechat",
-   "mpName": "昆仑万维"
+   "mpName": "昆仑万维",
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "title": "机器之心对话罗平|机器人是具身大模型的「用户」:超维动力如何打通从人类经验到机器人行动?",
@@ -175,7 +259,16 @@
    "id": "wechat:a0b90b61e393",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "机器之心"
+   "mpName": "机器之心",
+   "classification": {
+    "category": "interview",
+    "tags": {
+     "industry": "ai_model",
+     "interviewee": "founder_ceo"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmso95agg0ig3rofwaqvy9crw",
@@ -193,6 +286,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso95agg0ig3rofwaqvy9crw"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -204,7 +306,16 @@
    "id": "wechat:016e67abe0ec",
    "category": "模型发布/更新",
    "sourceType": "wechat",
-   "mpName": "智谱AI"
+   "mpName": "智谱AI",
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
   },
   {
    "id": "cmso8nqa70eq4rofw24w1wlwt",
@@ -222,6 +333,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso8nqa70eq4rofw24w1wlwt"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -240,6 +357,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso7i0al0dlsrofwivmpsjh1"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -258,6 +381,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmso58oqr0b7trofwl3dcmz7y"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_model",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -276,6 +408,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnx040k01glrofwfqxdc8h5"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_social",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -294,6 +435,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsoylk4i02drro3yt4l3vhyn"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -312,6 +459,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnxf57501y5rofw32tota54"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -330,6 +483,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsnrwnsb0i1erohfuhfjc4q6"
+   },
+   "classification": {
+    "category": "financing",
+    "tags": {
+     "industry": "ai_other",
+     "region": "us"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]

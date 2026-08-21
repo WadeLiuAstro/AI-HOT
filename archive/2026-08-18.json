@@ -1,8 +1,8 @@
 {
  "date": "2026-08-18",
- "finalized": false,
- "finalizedAt": null,
- "updatedAt": "2026-08-18T17:29:09.548264+08:00",
+ "finalized": true,
+ "finalizedAt": "2026-08-21T18:07:39.958221+08:00",
+ "updatedAt": "2026-08-21T18:07:39.958221+08:00",
  "items": [
   {
    "id": "cmsxwd7a40coxroz06g25sfaf",
@@ -20,6 +20,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsxwd7a40coxroz06g25sfaf"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -38,6 +44,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsxv0p3v0bntroz0227a6b3j"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -56,6 +71,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsxsvb5s0a4troz0z2q2nu3h"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_other",
+     "issuer": "startup"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -74,6 +98,15 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsxld6es03o8roz0jblf3ii9"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "business_line",
+     "company": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -92,6 +125,12 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsxkakju0300roz0zx6cvdeu"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   },
   {
@@ -110,6 +149,165 @@
    "attribution": {
     "source": "AIHOT",
     "canonical": "https://aihot.virxact.com/items/cmsycmgww0rkrroz0nfma0z05"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmsz0hbsg05l0ro204080cotv",
+   "title": "OpenAI 在\"关键网络能力\"时代放缓模型开发节奏",
+   "title_en": "Pacing model development in an era of cyber-critical capabilities",
+   "url": "https://openai.com/index/pacing-model-development-cyber-capabilities",
+   "permalink": "https://aihot.virxact.com/items/cmsz0hbsg05l0ro204080cotv",
+   "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+   "publishedAt": "2026-08-18T11:00:00.000Z",
+   "discoveredAt": "2026-08-18T18:43:58.689Z",
+   "summary": "OpenAI 因 OpenAI-Hugging Face 事件及即将推出的 Astra 模型可能达到《预备框架》下的\"关键网络安全能力\"阈值，暂时放缓了模型扩展速度，包括暂停最新部署模型的强化学习训练两周，并搁置最大规模前沿 RL 运行。公司已加强研究环境安全，要求对 Astra 及网络相关负载实施最严格防护，并扩展思维链监控，采用多阶段激活分类器检测机制。",
+   "category": "tip",
+   "score": 65,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsz0hbsg05l0ro204080cotv"
+   },
+   "classification": {
+    "category": "bigtech",
+    "tags": {
+     "change_type": "other",
+     "company": "openai"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmsykcnkt0yh1roz0a9h404r5",
+   "title": "OpenAI 推出 ChatGPT for Teens：面向青少年的学习体验与更强安全保护",
+   "title_en": "Introducing ChatGPT for Teens： Built for learning， backed by protections",
+   "url": "https://openai.com/index/chatgpt-for-teens",
+   "permalink": "https://aihot.virxact.com/items/cmsykcnkt0yh1roz0a9h404r5",
+   "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+   "publishedAt": "2026-08-18T11:00:00.000Z",
+   "discoveredAt": "2026-08-18T11:12:25.733Z",
+   "summary": "OpenAI 发布 ChatGPT for Teens，为 13-17 岁用户自动启用，内置更强安全保护与家长控制。新增 Study Mode、负责任作业提醒、测验与学习可视化，以及可设定默认开启时段的 Study Hours，引导青少年分步解题而非直接给答案。OpenAI 同时宣布与 CodeAI 合作，帮助青少年理解、质疑并创造性地使用 AI。",
+   "category": "ai-products",
+   "score": 60,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsykcnkt0yh1roz0a9h404r5"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "bigcorp"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmszieman0euzrodptihyllom",
+   "title": "StartupBench：面向市场验证端到端工作流的通用智能体基准测试",
+   "title_en": "StartupBench： Benchmarking General-Purpose Agents on Market-Validated End-to-End Workflows",
+   "url": "https://arxiv.org/abs/2608.17800",
+   "permalink": "https://aihot.virxact.com/items/cmszieman0euzrodptihyllom",
+   "source": "HuggingFace Daily Papers（社区热门论文）",
+   "publishedAt": "2026-08-18T00:00:00.000Z",
+   "discoveredAt": "2026-08-19T03:05:46.360Z",
+   "summary": "StartupBench 是一个基于市场验证的 AI 初创公司产品构建的端到端智能体基准，从真实采用的产品工作流中提炼任务，而非研究者预设任务。在统一智能体框架下，最强模型也仅能完成约 30% 的任务，复杂指令遵循和领域专业知识是主要失败来源。该基准揭示了当前通用智能体在真实用户任务上的能力边界。",
+   "category": "paper",
+   "score": 72,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmszieman0euzrodptihyllom"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmsyqip4o14umroz0ch5iv0iv",
+   "title": "Sentence Transformers v6.0 新增 MultiVectorEncoder，支持 ColBERT 风格多向量模型",
+   "title_en": "Multi-Vector （Late Interaction） Embedding Models with Sentence Transformers",
+   "url": "https://huggingface.co/blog/multi-vector-encoder",
+   "permalink": "https://aihot.virxact.com/items/cmsyqip4o14umroz0ch5iv0iv",
+   "source": "Hugging Face：Blog（RSS）",
+   "publishedAt": "2026-08-18T00:00:00.000Z",
+   "discoveredAt": "2026-08-18T14:05:05.620Z",
+   "summary": "Sentence Transformers v6.0 新增第四种模型类型 MultiVectorEncoder，可直接加载 PyLate、Stanford-NLP ColBERT 及 colpali-engine 检查点，用于 ColBERT 式晚期交互检索。",
+   "category": "ai-products",
+   "score": 75,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsyqip4o14umroz0ch5iv0iv"
+   },
+   "classification": {
+    "category": "release",
+    "tags": {
+     "industry": "ai_model",
+     "issuer": "other"
+    },
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmsz8gh3n06e4rodpl8l2syek",
+   "title": "Claude 如何加速蛋白质设计与分析化学研究",
+   "title_en": "How Claude is accelerating protein design and analytical chemistry",
+   "url": "https://www.anthropic.com/research/Claude-accelerates-protein-design",
+   "permalink": "https://aihot.virxact.com/items/cmsz8gh3n06e4rodpl8l2syek",
+   "source": "Anthropic：Research（发表成果 · 网页）",
+   "publishedAt": "2026-08-17T16:00:00.000Z",
+   "discoveredAt": "2026-08-18T22:27:16.191Z",
+   "summary": "Anthropic 公布两项实验：Claude（Mythos Preview 和 Opus 4.8）针对 15 个靶点设计蛋白质结合剂，成功 14 个，命中率达 22.6%-35.1%。",
+   "category": "paper",
+   "score": 73,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsz8gh3n06e4rodpl8l2syek"
+   },
+   "classification": {
+    "category": "paper",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
+   }
+  },
+  {
+   "id": "cmsz1zjiy013pro3f1e0aafra",
+   "title": "Claude Tag 如何担任 Anthropic CI/CD 故障的一线响应者",
+   "title_en": "Claude on call： How Claude Tag serves as Anthropic's first responder for CI/CD failures",
+   "url": "https://claude.com/blog/ai-ci-cd-on-call",
+   "permalink": "https://aihot.virxact.com/items/cmsz1zjiy013pro3f1e0aafra",
+   "source": "Claude：Blog（网页）",
+   "publishedAt": "2026-08-17T16:00:00.000Z",
+   "discoveredAt": "2026-08-18T19:26:08.389Z",
+   "summary": "Anthropic 的 CI 工程师用 Claude Tag 构建了值班智能体，作为 CI/CD 故障的一线响应者。Claude 在事故发生后中位 14 分钟发布首份基于证据的分析，最快案例中 3 分钟内验证修复并确认错误率恢复基线。该方案通过 Slack 频道、Datadog 或 Grafana 工具访问及 GitHub 技能文件实现，Anthropic 已发布通用设置套件供其他团队部署。",
+   "category": "tip",
+   "score": 63,
+   "selected": true,
+   "attribution": {
+    "source": "AIHOT",
+    "canonical": "https://aihot.virxact.com/items/cmsz1zjiy013pro3f1e0aafra"
+   },
+   "classification": {
+    "category": "general",
+    "tags": {},
+    "autoFallback": false,
+    "autoFilled": []
    }
   }
  ]
