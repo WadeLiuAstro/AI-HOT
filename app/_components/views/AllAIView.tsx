@@ -1,40 +1,70 @@
-// 全部 AI 动态视图（优先级最低模块）：全量信息流 + AI 分类标签筛选
-// 标签来自上游分类归一化；LLM 深度打标接入后此视图直接复用同一数据结构
+// 全部 AI 动态视图：aihot 实时流 + 快照（含 Manus 公众号爬取）合并信息流
+// 支持：AI 分类标签筛选 + 来源筛选（一手信源/资讯/推文/公众号）+ 按来源/标题/摘要搜索
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import type { NewsItem } from "../../_lib/types";
-import { loadAll } from "../../_lib/api";
+import { loadAll, loadSnapshot, mergePools, poolFromSnapshot } from "../../_lib/api";
 import { bjDayKey, fmtMonthDay, fmtWeekday } from "../../_lib/format";
+import { matchItem, sourceKindOf } from "../../_lib/source";
 import { ArticleCard } from "../ArticleCard";
 import { DateGroup } from "../DateGroup";
+import { SearchToolbar, type SourceFilter } from "../SearchToolbar";
+
+/** 跨导航切换保留筛选状态（模块级缓存） */
+const persisted: { tag: string; q: string; src: SourceFilter } = { tag: "all", q: "", src: "all" };
 
 export function AllAIView() {
   const [items, setItems] = useState<NewsItem[]>([]);
   const [tags, setTags] = useState<{ tag: string; count: number }[]>([]);
-  const [tag, setTag] = useState("all");
+  const [tag, setTag] = useState(persisted.tag);
+  const [q, setQ] = useState(persisted.q);
+  const [src, setSrc] = useState<SourceFilter>(persisted.src);
   const [loading, setLoading] = useState(true);
   const [live, setLive] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
-    loadAll().then((r) => {
+    (async () => {
+      // 快照池（含 Manus 公众号条目）+ aihot 实时流合并
+      const snap = await loadSnapshot();
+      const base = snap ? poolFromSnapshot(snap) : [];
+      const all = await loadAll();
       if (cancelled) return;
-      if (r) {
-        setItems(r.items);
-        setTags(r.tags);
-        setLive(r.live);
+      let merged: NewsItem[] = base;
+      if (all && all.items.length) {
+        merged = base.length ? mergePools(base, all.items) : all.items;
+        setLive(all.live);
       }
+      if (cancelled) return;
+      setItems(merged);
+      // 分类标签统计基于合并后条目重算（manus 中文版块与 aihot 归一化后同一空间）
+      const counter = new Map<string, number>();
+      for (const it of merged) {
+        const key = it.category || "行业动态";
+        counter.set(key, (counter.get(key) || 0) + 1);
+      }
+      setTags(
+        [...counter.entries()]
+          .map(([k, n]) => ({ tag: k, count: n }))
+          .sort((a, b) => b.count - a.count),
+      );
       setLoading(false);
-    });
+    })();
     return () => {
       cancelled = true;
     };
   }, []);
 
   const filtered = useMemo(
-    () => (tag === "all" ? items : items.filter((it) => it.category === tag)),
-    [items, tag],
+    () =>
+      items.filter((it) => {
+        if (tag !== "all" && it.category !== tag) return false;
+        if (src !== "all" && sourceKindOf(it) !== src) return false;
+        if (!matchItem(it, q)) return false;
+        return true;
+      }),
+    [items, tag, q, src],
   );
 
   const groups = useMemo(() => {
@@ -50,16 +80,33 @@ export function AllAIView() {
 
   return (
     <div>
-      <header className="mb-6">
-        <h1 className="text-[26px] font-extrabold text-ink">全部 AI 动态</h1>
-        <p className="mt-1 text-[13px] text-mut">AI 相关资讯全量信息流 · 自动分类与打标签</p>
+      <header className="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-[26px] font-extrabold text-ink">全部 AI 动态</h1>
+          <p className="mt-1 text-[13px] text-mut">AI 相关资讯全量信息流 · 自动分类与打标签</p>
+        </div>
+        <SearchToolbar
+          q={q}
+          onQChange={(v) => {
+            setQ(v);
+            persisted.q = v;
+          }}
+          src={src}
+          onSrcChange={(v) => {
+            setSrc(v);
+            persisted.src = v;
+          }}
+        />
       </header>
 
       {/* 标签筛选（AI 两级分类体系的一级标签） */}
       <div className="mb-5 flex flex-wrap items-center gap-2">
         <button
           type="button"
-          onClick={() => setTag("all")}
+          onClick={() => {
+            setTag("all");
+            persisted.tag = "all";
+          }}
           className={`rounded-full border px-3 py-1 text-[12.5px] transition-colors ${
             tag === "all"
               ? "border-brand bg-brand text-white"
@@ -72,7 +119,10 @@ export function AllAIView() {
           <button
             key={t.tag}
             type="button"
-            onClick={() => setTag(t.tag)}
+            onClick={() => {
+              setTag(t.tag);
+              persisted.tag = t.tag;
+            }}
             className={`rounded-full border px-3 py-1 text-[12.5px] transition-colors ${
               tag === t.tag
                 ? "border-brand bg-brand text-white"
@@ -85,8 +135,8 @@ export function AllAIView() {
       </div>
 
       <p className="mb-5 text-[12px] text-mut-2">
-        分类与标签由 AI 自动打标（两级分类体系 · 定稿后批量写入）；LLM 深度标签接入中。
-        {!live && " 实时接口暂不可用，当前无数据。"}
+        数据来源：AI HOT 开放 API + Manus 公众号爬取 · 时间为北京时间 · 摘要由 AI 生成，点击标题核对原文。
+        {!live && " 实时接口暂不可用，当前仅展示快照数据。"}
       </p>
 
       {loading ? (
@@ -96,7 +146,9 @@ export function AllAIView() {
           ))}
         </div>
       ) : groups.length === 0 ? (
-        <p className="ah-card p-8 text-center text-[13px] text-mut">暂无动态数据。</p>
+        <p className="ah-card p-8 text-center text-[13px] text-mut">
+          无匹配内容，试试切换标签、来源筛选或清空搜索词。
+        </p>
       ) : (
         groups.map(([dayKey, list]) => (
           <DateGroup

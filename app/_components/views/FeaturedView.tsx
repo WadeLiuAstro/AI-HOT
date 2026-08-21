@@ -17,10 +17,12 @@ import { useApp } from "../providers/AppDataProvider";
 import { ArticleCard } from "../ArticleCard";
 import { CategoryTabs, type TabOption } from "../CategoryTabs";
 import { DateGroup } from "../DateGroup";
-import { ArrowRightIcon, SearchIcon } from "../icons";
+import { ArrowRightIcon } from "../icons";
+import { SearchToolbar, type SourceFilter } from "../SearchToolbar";
+import { matchItem, sourceKindOf } from "../../_lib/source";
 
 /** 跨导航切换保留筛选状态（模块级缓存） */
-const persisted: { cat: string; q: string } = { cat: "all", q: "" };
+const persisted: { cat: string; q: string; src: SourceFilter } = { cat: "all", q: "", src: "all" };
 
 export function FeaturedView() {
   const { setView } = useApp();
@@ -30,6 +32,7 @@ export function FeaturedView() {
   const [hotTop, setHotTop] = useState<HotTopic[]>([]);
   const [cat, setCat] = useState(persisted.cat);
   const [q, setQ] = useState(persisted.q);
+  const [src, setSrc] = useState<SourceFilter>(persisted.src);
   const [today, setToday] = useState("");
 
   useEffect(() => {
@@ -75,10 +78,10 @@ export function FeaturedView() {
 
   /** 过滤 + 按北京日期分组（时间戳倒序） */
   const groups = useMemo(() => {
-    const kw = q.trim().toLowerCase();
     const filtered = pool.filter((it) => {
       if (cat !== "all" && it.category !== cat) return false;
-      if (kw && !(`${it.title} ${it.summary || ""}`).toLowerCase().includes(kw)) return false;
+      if (src !== "all" && sourceKindOf(it) !== src) return false;
+      if (!matchItem(it, q)) return false;
       return true;
     });
     const map = new Map<string, NewsItem[]>();
@@ -89,7 +92,7 @@ export function FeaturedView() {
       else map.set(key, [it]);
     }
     return [...map.entries()];
-  }, [pool, cat, q]);
+  }, [pool, cat, q, src]);
 
   const totalShown = groups.reduce((n, [, items]) => n + items.length, 0);
 
@@ -102,24 +105,18 @@ export function FeaturedView() {
           <p className="mt-1 text-[13px] text-mut">{today} · AI 筛选的今日重点</p>
         </div>
         <div className="flex w-full max-w-[340px] items-center gap-2 sm:w-auto">
-          <label className="relative flex-1">
-            <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-mut-2" />
-            <input
-              value={q}
-              onChange={(e) => {
-                setQ(e.target.value);
-                persisted.q = e.target.value;
-              }}
-              placeholder="搜索标题、摘要…"
-              className="w-full rounded-lg border border-line bg-surface py-2 pr-3 pl-9 text-[13px] text-ink outline-none placeholder:text-mut-2 focus:border-brand focus:ring-2 focus:ring-brand/15"
-            />
-          </label>
-          <button
-            type="button"
-            className="rounded-lg bg-brand px-4 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-brand-strong"
-          >
-            搜索
-          </button>
+          <SearchToolbar
+            q={q}
+            onQChange={(v) => {
+              setQ(v);
+              persisted.q = v;
+            }}
+            src={src}
+            onSrcChange={(v) => {
+              setSrc(v);
+              persisted.src = v;
+            }}
+          />
         </div>
       </header>
 
@@ -177,7 +174,7 @@ export function FeaturedView() {
         </div>
       ) : totalShown === 0 ? (
         <p className="ah-card p-8 text-center text-[13px] text-mut">
-          无匹配内容{!liveOk && "（实时接口不可用，且快照为空）"}，试试切换分类或清空搜索词。
+          无匹配内容{!liveOk && "（实时接口不可用，且快照为空）"}，试试切换分类、来源筛选或清空搜索词。
         </p>
       ) : (
         groups.map(([dayKey, items]) => (
