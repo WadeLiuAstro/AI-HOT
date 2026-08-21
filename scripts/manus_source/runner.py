@@ -49,6 +49,10 @@ def run_discovery(client: ManusClient, group: str, target_date: str, prompt_text
     )
     print(f"[{group}] Manus task created: {task.task_url}", flush=True)
     payload = client.wait_for_structured_result(task.task_id)
+    # schema_version 是本地契约版本号，Manus 平台只是通用执行器、不理解其语义
+    # （见 docs/2026-08-20-manus-pipeline-smoke-issues.md 问题 1）：不依赖 Manus
+    # 回显，落盘校验前本地权威补充；校验端保持强制不变。
+    payload["schema_version"] = contracts.DISCOVERY_SCHEMA_VERSION
     contracts.validate_discovery(payload, group, target_date, expected_accounts)
     return payload
 
